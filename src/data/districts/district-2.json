@@ -74,24 +74,24 @@
     "snapshots": [
       {
         "vintage": "ACS 2017-2021",
-        "pull_date": "2023-01-01",
-        "source": "U.S. Census Bureau ACS 5-Year",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (backfill_2021.py)",
         "esri_estimates": null,
         "data": {
-          "total_population": null,
-          "total_households": null,
-          "pct_family_households": null,
-          "median_hh_income_est": null,
-          "median_gross_rent_est": null,
-          "median_home_value_est": null,
-          "unemployment_rate": null,
-          "pct_nh_white": null,
-          "pct_nh_black": null,
-          "pct_hispanic": null,
-          "pct_nh_asian": null,
-          "pct_nh_american_indian": null,
-          "pct_other": null,
-          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+          "total_population": 141668,
+          "total_households": 60903,
+          "pct_family_households": 59.7,
+          "median_hh_income_est": 92915,
+          "median_gross_rent_est": 1285,
+          "median_home_value_est": 271084,
+          "unemployment_rate": 2.9,
+          "pct_nh_white": 72.7,
+          "pct_nh_black": 7.0,
+          "pct_hispanic": 5.8,
+          "pct_nh_asian": 10.4,
+          "pct_nh_american_indian": 0.2,
+          "pct_other": 3.9,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       },
       {
@@ -126,7 +126,7 @@
           "pct_nh_asian": 10.0,
           "pct_nh_american_indian": 0.1,
           "pct_other": 4.5,
-          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       }
     ]

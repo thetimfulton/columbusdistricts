@@ -42,7 +42,7 @@
       "description": "Columbus's oldest park, with playground, tennis courts, basketball court, and pond in Victorian Village."
     },
     {
-      "name": "Columbus Museum of Art \u2014 The Pizzuti",
+      "name": "Columbus Museum of Art — The Pizzuti",
       "url": "https://www.columbusmuseum.org/the-pizzuti/",
       "description": "Short North satellite gallery featuring contemporary art exhibitions and the Caribbean-inspired Bar Room."
     },
@@ -82,24 +82,24 @@
     "snapshots": [
       {
         "vintage": "ACS 2017-2021",
-        "pull_date": "2023-01-01",
-        "source": "U.S. Census Bureau ACS 5-Year",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (backfill_2021.py)",
         "esri_estimates": null,
         "data": {
-          "total_population": null,
-          "total_households": null,
-          "pct_family_households": null,
-          "median_hh_income_est": null,
-          "median_gross_rent_est": null,
-          "median_home_value_est": null,
-          "unemployment_rate": null,
-          "pct_nh_white": null,
-          "pct_nh_black": null,
-          "pct_hispanic": null,
-          "pct_nh_asian": null,
-          "pct_nh_american_indian": null,
-          "pct_other": null,
-          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+          "total_population": 101222,
+          "total_households": 41406,
+          "pct_family_households": 38.1,
+          "median_hh_income_est": 71719,
+          "median_gross_rent_est": 1119,
+          "median_home_value_est": 264992,
+          "unemployment_rate": 5.0,
+          "pct_nh_white": 77.3,
+          "pct_nh_black": 5.5,
+          "pct_hispanic": 4.0,
+          "pct_nh_asian": 9.3,
+          "pct_nh_american_indian": 0.1,
+          "pct_other": 3.8,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       },
       {
@@ -134,7 +134,7 @@
           "pct_nh_asian": 9.7,
           "pct_nh_american_indian": 0.0,
           "pct_other": 4.5,
-          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       }
     ]

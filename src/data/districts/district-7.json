@@ -74,7 +74,7 @@
       "name": "South Side Area Commission",
       "url": "https://www.cbusareacommissions.org/southside",
       "meetingSchedule": "Third Tuesday of each month, 6:30 PM",
-      "meetingLocation": "Columbus Metropolitan Library \u2014 Parsons Branch, 1113 Parsons Ave."
+      "meetingLocation": "Columbus Metropolitan Library — Parsons Branch, 1113 Parsons Ave."
     }
   ],
   "demographics": {
@@ -82,24 +82,24 @@
     "snapshots": [
       {
         "vintage": "ACS 2017-2021",
-        "pull_date": "2023-01-01",
-        "source": "U.S. Census Bureau ACS 5-Year",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (backfill_2021.py)",
         "esri_estimates": null,
         "data": {
-          "total_population": null,
-          "total_households": null,
-          "pct_family_households": null,
-          "median_hh_income_est": null,
-          "median_gross_rent_est": null,
-          "median_home_value_est": null,
-          "unemployment_rate": null,
-          "pct_nh_white": null,
-          "pct_nh_black": null,
-          "pct_hispanic": null,
-          "pct_nh_asian": null,
-          "pct_nh_american_indian": null,
-          "pct_other": null,
-          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+          "total_population": 103973,
+          "total_households": 49503,
+          "pct_family_households": 38.3,
+          "median_hh_income_est": 62456,
+          "median_gross_rent_est": 1077,
+          "median_home_value_est": 256046,
+          "unemployment_rate": 5.0,
+          "pct_nh_white": 62.3,
+          "pct_nh_black": 25.6,
+          "pct_hispanic": 4.9,
+          "pct_nh_asian": 2.3,
+          "pct_nh_american_indian": 0.1,
+          "pct_other": 4.8,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       },
       {
@@ -134,7 +134,7 @@
           "pct_nh_asian": 2.6,
           "pct_nh_american_indian": 0.1,
           "pct_other": 5.6,
-          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       }
     ]
