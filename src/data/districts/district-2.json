@@ -1,0 +1,148 @@
+{
+  "number": 2,
+  "slug": "district-two",
+  "geographicSummary": "District Two stretches from the Clintonville and Beechwold neighborhoods south of Route 161 up through the northeast edge of the city toward the Westerville and New Albany borders. It has the highest median household income among the nine districts and borders several affluent suburban communities.",
+  "councilMember": {
+    "name": "Nancy Day-Achauer",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Nancy-Day-Achauer",
+    "committees": [
+      "Neighborhoods, Recreation & Parks (Chair)",
+      "Public Service & Transportation (Vice Chair)"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2027,
+    "nextElection": 2027,
+    "contactEmail": "jadilley@columbus.gov",
+    "contactPhone": "(614) 645-5292"
+  },
+  "neighborhoods": [
+    "Clintonville",
+    "Beechwold",
+    "Sharon Heights",
+    "Forest Park East",
+    "Minerva Park (partial)",
+    "Northland (partial)"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "Columbus Park of Roses (Whetstone Park)",
+      "url": "https://parkofroses.org/",
+      "description": "13-acre public rose garden with over 350 varieties, heritage garden, herb garden, and perennial plantings."
+    },
+    {
+      "name": "Studio 35 Cinema & Drafthouse",
+      "url": "https://studio35.com/",
+      "description": "Independent art house theater with two screens, full bar, and in-house pizza kitchen in Clintonville."
+    },
+    {
+      "name": "Clintonville Farmers Market",
+      "url": "https://www.clintonvillefarmersmarket.com/",
+      "description": "Seasonal weekly farmers market featuring local produce, baked goods, and community gathering space."
+    },
+    {
+      "name": "Olentangy River Trail",
+      "url": "https://www.metroparks.net/",
+      "description": "Multi-use trail for hiking and biking along the Olentangy River corridor through the district."
+    },
+    {
+      "name": "Whetstone Library",
+      "url": "https://www.columbuslibrary.org/",
+      "description": "Columbus Metropolitan Library branch in Clintonville, a frequent venue for area commission meetings."
+    },
+    {
+      "name": "Blendon Woods Metro Park",
+      "url": "https://www.metroparks.net/parks-and-trails/blendon-woods/",
+      "description": "653-acre park on the district's eastern edge with forests, wetlands, nature center, and Walden Waterfowl Refuge."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "Clintonville Area Commission",
+      "url": "https://www.cbusareacommissions.org/clintonville",
+      "meetingSchedule": "First Thursday of each month, 7:00 PM",
+      "meetingLocation": "Whetstone Library, 3909 N. High St."
+    },
+    {
+      "name": "Northeast Area Commission",
+      "url": "https://www.cbusareacommissions.org/northeast",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 154709,
+          "median_hh_income": 87069,
+          "median_gross_rent": 1037,
+          "median_home_value": 293291,
+          "unemployment_rate": 2.8,
+          "pct_nh_white": 67.9,
+          "pct_nh_black": 7.0,
+          "pct_nh_asian": 11.9,
+          "pct_nh_american_indian": 0.2,
+          "pct_hispanic": 7.6
+        },
+        "data": {
+          "total_population": 143899,
+          "total_households": 62246,
+          "pct_family_households": 58.0,
+          "median_hh_income_est": 103977,
+          "median_gross_rent_est": 1459,
+          "median_home_value_est": 331161,
+          "unemployment_rate": 3.0,
+          "pct_nh_white": 70.4,
+          "pct_nh_black": 7.7,
+          "pct_hispanic": 7.3,
+          "pct_nh_asian": 10.0,
+          "pct_nh_american_indian": 0.1,
+          "pct_other": 4.5,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

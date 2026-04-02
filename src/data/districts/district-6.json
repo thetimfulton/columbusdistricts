@@ -1,0 +1,154 @@
+{
+  "number": 6,
+  "slug": "district-six",
+  "geographicSummary": "District Six covers the West and Far West sides of Columbus, stretching from the West Broad Street corridor out toward Prairie Township, Galloway, and the Columbus border with Grove City. The district has the highest percentage of family households among the nine districts and a significant Hispanic population.",
+  "councilMember": {
+    "name": "Melissa Green",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Melissa-Green",
+    "committees": [
+      "Health, Human Services & Equity (Chair)",
+      "Workforce, Education & Labor (Vice Chair)"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2027,
+    "nextElection": 2027,
+    "contactEmail": "hegerken@columbus.gov",
+    "contactPhone": "(614) 645-0076"
+  },
+  "neighborhoods": [
+    "Galloway",
+    "Lincoln Village",
+    "Prairie Township (partial)",
+    "West Broad",
+    "Georgesville (partial)",
+    "Westland"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "Battelle Darby Creek Metro Park",
+      "url": "https://www.metroparks.net/parks-and-trails/battelle-darby-creek/",
+      "description": "7,358-acre park with forests, prairies, wetlands, reintroduced bison herds, nature center, and Osprey Lake."
+    },
+    {
+      "name": "Prairie Township Community Center",
+      "url": "https://www.prairietownship.org/",
+      "description": "Community facility with indoor track, swimming pool, fitness center, and gymnasiums."
+    },
+    {
+      "name": "Galloway Road Parkland",
+      "url": "https://columbusrecparks.com/",
+      "description": "123-acre conservation area with walking trails and natural habitat preservation."
+    },
+    {
+      "name": "Westland Library",
+      "url": "https://www.columbuslibrary.org/",
+      "description": "Columbus Metropolitan Library branch serving the Westland community with programs and meeting rooms."
+    },
+    {
+      "name": "5th by Northwest Area",
+      "url": "https://www.cbusareacommissions.org/5thxnorthwest",
+      "description": "Neighborhood centered around West 5th Avenue with local businesses and community identity."
+    },
+    {
+      "name": "Cypress Park",
+      "url": "https://columbusrecparks.com/",
+      "description": "Neighborhood park with soccer fields, baseball diamond, and playground facilities."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "5th by Northwest Area Commission",
+      "url": "https://www.cbusareacommissions.org/5thxnorthwest",
+      "meetingSchedule": "First Tuesday of each month, 7:00 PM",
+      "meetingLocation": "Cityview Church, 1150 W. 5th Ave."
+    },
+    {
+      "name": "Westland Area Commission",
+      "url": "https://www.cbusareacommissions.org/westland",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "West Scioto Area Commission",
+      "url": "https://www.cbusareacommissions.org/westscioto",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 118178,
+          "median_hh_income": 55653,
+          "median_gross_rent": 906,
+          "median_home_value": 174879,
+          "unemployment_rate": 5.3,
+          "pct_nh_white": 58.6,
+          "pct_nh_black": 15.0,
+          "pct_nh_asian": 2.0,
+          "pct_nh_american_indian": 0.1,
+          "pct_hispanic": 16.2
+        },
+        "data": {
+          "total_population": 113932,
+          "total_households": 44904,
+          "pct_family_households": 61.6,
+          "median_hh_income_est": 68829,
+          "median_gross_rent_est": 1242,
+          "median_home_value_est": 177938,
+          "unemployment_rate": 5.9,
+          "pct_nh_white": 61.2,
+          "pct_nh_black": 16.3,
+          "pct_hispanic": 13.6,
+          "pct_nh_asian": 2.2,
+          "pct_nh_american_indian": 0.0,
+          "pct_other": 6.7,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

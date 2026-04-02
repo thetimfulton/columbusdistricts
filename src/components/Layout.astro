@@ -1,0 +1,123 @@
+---
+/**
+ * Layout.astro — Site-wide shell for Columbus Districts
+ * Nav: Home | About | Districts (dropdown 1-9) | All Districts | Data | How It Works | Elections
+ * Footer: Civic links, data sources, project info, last-reviewed date
+ */
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Columbus City Council district information — demographics, representatives, elections, and civic resources." } = Astro.props;
+
+import '../styles/global.css';
+
+const districts = [
+  { number: 1, slug: "district-one", label: "District 1" },
+  { number: 2, slug: "district-two", label: "District 2" },
+  { number: 3, slug: "district-three", label: "District 3" },
+  { number: 4, slug: "district-four", label: "District 4" },
+  { number: 5, slug: "district-five", label: "District 5" },
+  { number: 6, slug: "district-six", label: "District 6" },
+  { number: 7, slug: "district-seven", label: "District 7" },
+  { number: 8, slug: "district-eight", label: "District 8" },
+  { number: 9, slug: "district-nine", label: "District 9" },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title} | Columbus Districts</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+</head>
+<body>
+  <div class="site-wrapper">
+    <!-- Header / Navigation -->
+    <header class="site-header">
+      <nav class="nav-container" aria-label="Main navigation">
+        <div class="site-logo">
+          <a href="/">Columbus Districts</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+        <ul class="nav-links" role="menubar">
+          <li role="none"><a href="/" role="menuitem">Home</a></li>
+          <li role="none"><a href="/about/" role="menuitem">About</a></li>
+          <li class="nav-dropdown" role="none">
+            <button class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false" role="menuitem">Districts</button>
+            <ul class="nav-dropdown-menu" role="menu">
+              {districts.map((d) => (
+                <li role="none">
+                  <a href={`/districts/${d.slug}/`} role="menuitem">{d.label}</a>
+                </li>
+              ))}
+            </ul>
+          </li>
+          <li role="none"><a href="/all-districts/" role="menuitem">All Districts</a></li>
+          <li role="none"><a href="/data/" role="menuitem">Data</a></li>
+          <li role="none"><a href="/how-it-works/" role="menuitem">How It Works</a></li>
+          <li role="none"><a href="/elections/" role="menuitem">Elections</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Civic Resources</h4>
+          <ul>
+            <li><a href="https://www.columbus.gov/Government/City-Council/Directory" target="_blank" rel="noopener">Columbus City Council Directory</a></li>
+            <li><a href="https://www.columbus.gov/Government/City-Council" target="_blank" rel="noopener">City Council Meeting Calendar</a></li>
+            <li><a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener">Find Your District (ArcGIS)</a></li>
+            <li><a href="https://www.columbus.gov/Government/City-Council/Council-Residential-Districts" target="_blank" rel="noopener">Official District Map</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Elections &amp; Data</h4>
+          <ul>
+            <li><a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a></li>
+            <li><a href="https://www.ohiosos.gov" target="_blank" rel="noopener">Ohio Voter Registration</a></li>
+            <li><a href="/data/">District Data &amp; Methodology</a></li>
+            <li><a href="/elections/">Election Results Archive</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>About This Site</h4>
+          <ul>
+            <li><a href="/about/">About Columbus Districts</a></li>
+            <li><a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a></li>
+            <li><a href="https://www.columbusunderground.com" target="_blank" rel="noopener">Columbus Underground</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; {new Date().getFullYear()} The Confluence Cast. All rights reserved.</span>
+        <span>Last reviewed: April 2026</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        navLinks.classList.toggle('open');
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+---
+/**
+ * [district].astro — Dynamic route for all 9 district pages.
+ * Reads from /src/data/districts/district-N.json via getStaticPaths().
+ * Generates all 9 pages at build time.
+ */
+import Layout from '../../components/Layout.astro';
+import CouncilMemberCard from '../../components/CouncilMemberCard.astro';
+import DemographicsBlock from '../../components/DemographicsBlock.astro';
+import CrimeBlock from '../../components/CrimeBlock.astro';
+import AreaCommission from '../../components/AreaCommission.astro';
+import SuggestEditForm from '../../components/SuggestEditForm.astro';
+
+// Import all district JSON files
+import district1 from '../../data/districts/district-1.json';
+import district2 from '../../data/districts/district-2.json';
+import district3 from '../../data/districts/district-3.json';
+import district4 from '../../data/districts/district-4.json';
+import district5 from '../../data/districts/district-5.json';
+import district6 from '../../data/districts/district-6.json';
+import district7 from '../../data/districts/district-7.json';
+import district8 from '../../data/districts/district-8.json';
+import district9 from '../../data/districts/district-9.json';
+
+const allDistricts = [district1, district2, district3, district4, district5, district6, district7, district8, district9];
+
+export function getStaticPaths() {
+  const districts = [district1, district2, district3, district4, district5, district6, district7, district8, district9];
+  return districts.map((d) => ({
+    params: { district: d.slug },
+    props: { district: d },
+  }));
+}
+
+const { district } = Astro.props;
+
+const numberWords = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+const districtName = `District ${numberWords[district.number]}`;
+const pageTitle = `District ${district.number}`;
+---
+<Layout title={pageTitle} description={`Columbus City Council ${districtName} — council member, demographics, neighborhoods, and civic resources.`}>
+
+  {/* 1. District Header */}
+  <header class="district-header">
+    <h1>{districtName}</h1>
+    <p class="district-number">District {district.number} of 9</p>
+    {district.geographicSummary && (
+      <p class="district-geo">{district.geographicSummary}</p>
+    )}
+  </header>
+
+  {/* 2. Council Member Card */}
+  {district.councilMember.name && (
+    <CouncilMemberCard councilMember={district.councilMember} />
+  )}
+
+  {/* 3. Neighborhoods */}
+  {district.neighborhoods.length > 0 && (
+    <section class="district-neighborhoods">
+      <h2>Neighborhoods</h2>
+      <ul class="neighborhood-list">
+        {district.neighborhoods.map((n: string) => <li>{n}</li>)}
+      </ul>
+    </section>
+  )}
+
+  {/* 4. Points of Interest */}
+  {district.pointsOfInterest.length > 0 && (
+    <section class="district-pois">
+      <h2>Points of Interest</h2>
+      <ul class="poi-list">
+        {district.pointsOfInterest.map((poi: any) => (
+          <li class="poi-item">
+            <a href={poi.url} target="_blank" rel="noopener" class="poi-name">{poi.name}</a>
+            {poi.description && <span class="poi-desc"> — {poi.description}</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {/* 5. Area Commissions */}
+  <AreaCommission areaCommissions={district.areaCommissions} />
+
+  {/* 6. Demographics */}
+  <DemographicsBlock demographics={district.demographics} />
+
+  {/* 7. Crime Risk */}
+  <CrimeBlock crimeRisk={district.crimeRisk} />
+
+  {/* 8. Suggest an Edit */}
+  <SuggestEditForm district={district.number} />
+
+</Layout>
+
+<style>
+  .district-header {
+    margin-bottom: 2rem;
+  }
+
+  .district-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .district-number {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .district-geo {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  /* Neighborhoods */
+  .district-neighborhoods {
+    margin-bottom: 2rem;
+  }
+
+  .district-neighborhoods h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .neighborhood-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+  }
+
+  .neighborhood-list li {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    padding: 0.3rem 0.65rem;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-light);
+    border-radius: 3px;
+  }
+
+  /* Points of Interest */
+  .district-pois {
+    margin-bottom: 2rem;
+  }
+
+  .district-pois h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .poi-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .poi-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .poi-item:last-child {
+    border-bottom: none;
+  }
+
+  .poi-name {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .poi-name:hover {
+    text-decoration: underline;
+  }
+
+  .poi-desc {
+    color: var(--color-text-secondary);
+  }
+</style>

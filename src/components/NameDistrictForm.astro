@@ -1,0 +1,104 @@
+---
+/**
+ * NameDistrictForm.astro — Netlify Form for naming the districts
+ * Used on the /name-the-districts/ page.
+ * District is passed as a prop and submitted as a hidden field.
+ */
+interface Props {
+  district: number;
+}
+
+const { district } = Astro.props;
+---
+<div class="name-district-form">
+  <form
+    name="name-the-district"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    action="/name-the-districts/thanks/"
+  >
+    <input type="hidden" name="form-name" value="name-the-district" />
+    <input type="hidden" name="district" value={String(district)} />
+    <p class="hidden" aria-hidden="true">
+      <label>Don't fill this out: <input name="bot-field" /></label>
+    </p>
+    <div class="form-field">
+      <label for={`name-name-${district}`}>Your name</label>
+      <input type="text" id={`name-name-${district}`} name="name" required />
+    </div>
+    <div class="form-field">
+      <label for={`name-email-${district}`}>Email address</label>
+      <input type="email" id={`name-email-${district}`} name="email" required />
+    </div>
+    <div class="form-field">
+      <label for={`name-suggestion-${district}`}>Suggested name for District {district}</label>
+      <input type="text" id={`name-suggestion-${district}`} name="suggested-name" required />
+    </div>
+    <div class="form-field">
+      <label for={`name-reason-${district}`}>Why this name? (optional)</label>
+      <textarea id={`name-reason-${district}`} name="reason" rows="3"></textarea>
+    </div>
+    <button type="submit" class="form-submit">Submit Name</button>
+  </form>
+</div>
+
+<style>
+  .hidden {
+    display: none;
+  }
+
+  .form-field {
+    margin-bottom: 1rem;
+  }
+
+  .form-field label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: var(--color-text);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    max-width: 480px;
+    padding: 0.5rem 0.65rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+  }
+
+  .form-field textarea {
+    resize: vertical;
+  }
+
+  .form-submit {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--color-accent);
+    border: none;
+    padding: 0.55rem 1.4rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .form-submit:hover {
+    background: var(--color-accent-hover);
+  }
+</style>

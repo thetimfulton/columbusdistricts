@@ -1,0 +1,1319 @@
+[
+  {
+    "district": 1,
+    "demographics": {
+      "population": {
+        "acs_2023": 97923,
+        "esri_estimate": 102038,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 59840,
+          "count_esri": 60928,
+          "pct_acs": 61.1,
+          "pct_esri": 59.7
+        },
+        "nh_black": {
+          "count_acs": 18141,
+          "count_esri": 17872,
+          "pct_acs": 18.5,
+          "pct_esri": 17.5
+        },
+        "nh_asian": {
+          "count_acs": 6787,
+          "count_esri": 10492,
+          "pct_acs": 6.9,
+          "pct_esri": 10.3
+        },
+        "nh_american_indian": {
+          "count_acs": 51,
+          "count_esri": 214,
+          "pct_acs": 0.1
+        },
+        "hispanic": {
+          "count_acs": 7509,
+          "count_esri": 7117,
+          "pct_acs": 7.7,
+          "pct_esri": 7.0
+        }
+      },
+      "households": {
+        "total_acs": 42052,
+        "total_esri": 43863,
+        "family_acs": 23999,
+        "nonfamily_acs": 18052,
+        "pct_family_acs": 57.1
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 97449,
+        "esri_estimate": 76986,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1378,
+        "esri_estimate": 996,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 305195,
+        "esri_estimate": 260211,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 3.8,
+        "esri_estimate": 2.8
+      }
+    },
+    "variances": {
+      "NH Asian": {
+        "variance_pct": -35.3,
+        "acs": 6787.0,
+        "esri": 10492.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -76.2,
+        "acs": 51.0,
+        "esri": 214.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 5.5,
+        "acs": 7509.0,
+        "esri": 7117.0,
+        "flagged": true
+      },
+      "% NH Black": {
+        "variance_pct": 5.7,
+        "acs": 18.5,
+        "esri": 17.5,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": -33.0,
+        "acs": 6.9,
+        "esri": 10.3,
+        "flagged": true
+      },
+      "% Hispanic": {
+        "variance_pct": 10.0,
+        "acs": 7.7,
+        "esri": 7.0,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 26.6,
+        "acs": 97449.0,
+        "esri": 76986.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 38.4,
+        "acs": 1378.0,
+        "esri": 996.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": 17.3,
+        "acs": 305195.0,
+        "esri": 260211.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 36.7,
+        "acs": 3.8,
+        "esri": 2.8,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 2,
+    "demographics": {
+      "population": {
+        "acs_2023": 143899,
+        "esri_estimate": 103970,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 101369,
+          "count_esri": 69948,
+          "pct_acs": 70.4,
+          "pct_esri": 67.3
+        },
+        "nh_black": {
+          "count_acs": 11101,
+          "count_esri": 11480,
+          "pct_acs": 7.7,
+          "pct_esri": 11.0
+        },
+        "nh_asian": {
+          "count_acs": 14376,
+          "count_esri": 9438,
+          "pct_acs": 10.0,
+          "pct_esri": 9.1
+        },
+        "nh_american_indian": {
+          "count_acs": 138,
+          "count_esri": 93,
+          "pct_acs": 0.1
+        },
+        "hispanic": {
+          "count_acs": 10439,
+          "count_esri": 7130,
+          "pct_acs": 7.3,
+          "pct_esri": 6.9
+        }
+      },
+      "households": {
+        "total_acs": 62246,
+        "total_esri": 45500,
+        "family_acs": 36117,
+        "nonfamily_acs": 26130,
+        "pct_family_acs": 58.0
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 103977,
+        "esri_estimate": 77594,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1459,
+        "esri_estimate": 1037,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 331161,
+        "esri_estimate": 242219,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 3.0,
+        "esri_estimate": 1.9
+      }
+    },
+    "variances": {
+      "Total Population": {
+        "variance_pct": 38.4,
+        "acs": 143899.0,
+        "esri": 103970.0,
+        "flagged": true
+      },
+      "Total Households": {
+        "variance_pct": 36.8,
+        "acs": 62246.0,
+        "esri": 45500.0,
+        "flagged": true
+      },
+      "NH White": {
+        "variance_pct": 44.9,
+        "acs": 101369.0,
+        "esri": 69948.0,
+        "flagged": true
+      },
+      "NH Asian": {
+        "variance_pct": 52.3,
+        "acs": 14376.0,
+        "esri": 9438.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": 48.4,
+        "acs": 138.0,
+        "esri": 93.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 46.4,
+        "acs": 10439.0,
+        "esri": 7130.0,
+        "flagged": true
+      },
+      "% NH Black": {
+        "variance_pct": -30.0,
+        "acs": 7.7,
+        "esri": 11.0,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": 9.9,
+        "acs": 10.0,
+        "esri": 9.1,
+        "flagged": true
+      },
+      "% Hispanic": {
+        "variance_pct": 5.8,
+        "acs": 7.3,
+        "esri": 6.9,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 34.0,
+        "acs": 103977.0,
+        "esri": 77594.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 40.7,
+        "acs": 1459.0,
+        "esri": 1037.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": 36.7,
+        "acs": 331161.0,
+        "esri": 242219.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 55.4,
+        "acs": 3.0,
+        "esri": 1.9,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 3,
+    "demographics": {
+      "population": {
+        "acs_2023": 100809,
+        "esri_estimate": 107654,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 76406,
+          "count_esri": 67651,
+          "pct_acs": 75.8,
+          "pct_esri": 62.8
+        },
+        "nh_black": {
+          "count_acs": 5552,
+          "count_esri": 8354,
+          "pct_acs": 5.5,
+          "pct_esri": 7.8
+        },
+        "nh_asian": {
+          "count_acs": 9739,
+          "count_esri": 24075,
+          "pct_acs": 9.7,
+          "pct_esri": 22.4
+        },
+        "nh_american_indian": {
+          "count_acs": 46,
+          "count_esri": 88,
+          "pct_acs": 0.0
+        },
+        "hispanic": {
+          "count_acs": 4520,
+          "count_esri": 3828,
+          "pct_acs": 4.5,
+          "pct_esri": 3.6
+        }
+      },
+      "households": {
+        "total_acs": 42613,
+        "total_esri": 44542,
+        "family_acs": 15799,
+        "nonfamily_acs": 26814,
+        "pct_family_acs": 37.1
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 77715,
+        "esri_estimate": 56952,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1255,
+        "esri_estimate": 965,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 327556,
+        "esri_estimate": 275185,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 4.8,
+        "esri_estimate": 4.4
+      }
+    },
+    "variances": {
+      "Total Population": {
+        "variance_pct": -6.4,
+        "acs": 100809.0,
+        "esri": 107654.0,
+        "flagged": true
+      },
+      "NH White": {
+        "variance_pct": 12.9,
+        "acs": 76406.0,
+        "esri": 67651.0,
+        "flagged": true
+      },
+      "NH Black": {
+        "variance_pct": -33.5,
+        "acs": 5552.0,
+        "esri": 8354.0,
+        "flagged": true
+      },
+      "NH Asian": {
+        "variance_pct": -59.5,
+        "acs": 9739.0,
+        "esri": 24075.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -47.7,
+        "acs": 46.0,
+        "esri": 88.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 18.1,
+        "acs": 4520.0,
+        "esri": 3828.0,
+        "flagged": true
+      },
+      "% NH White": {
+        "variance_pct": 20.7,
+        "acs": 75.8,
+        "esri": 62.8,
+        "flagged": true
+      },
+      "% NH Black": {
+        "variance_pct": -29.5,
+        "acs": 5.5,
+        "esri": 7.8,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": -56.7,
+        "acs": 9.7,
+        "esri": 22.4,
+        "flagged": true
+      },
+      "% Hispanic": {
+        "variance_pct": 25.0,
+        "acs": 4.5,
+        "esri": 3.6,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 36.5,
+        "acs": 77715.0,
+        "esri": 56952.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 30.1,
+        "acs": 1255.0,
+        "esri": 965.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": 19.0,
+        "acs": 327556.0,
+        "esri": 275185.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 9.6,
+        "acs": 4.8,
+        "esri": 4.4,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 4,
+    "demographics": {
+      "population": {
+        "acs_2023": 105383,
+        "esri_estimate": 93655,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 37070,
+          "count_esri": 34286,
+          "pct_acs": 35.2,
+          "pct_esri": 36.6
+        },
+        "nh_black": {
+          "count_acs": 46014,
+          "count_esri": 40535,
+          "pct_acs": 43.7,
+          "pct_esri": 43.3
+        },
+        "nh_asian": {
+          "count_acs": 4042,
+          "count_esri": 5390,
+          "pct_acs": 3.8,
+          "pct_esri": 5.8
+        },
+        "nh_american_indian": {
+          "count_acs": 61,
+          "count_esri": 186,
+          "pct_acs": 0.1
+        },
+        "hispanic": {
+          "count_acs": 12165,
+          "count_esri": 7946,
+          "pct_acs": 11.5,
+          "pct_esri": 8.5
+        }
+      },
+      "households": {
+        "total_acs": 41266,
+        "total_esri": 38283,
+        "family_acs": 23601,
+        "nonfamily_acs": 17665,
+        "pct_family_acs": 57.2
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 55860,
+        "esri_estimate": 42048,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1099,
+        "esri_estimate": 796,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 166228,
+        "esri_estimate": 189577,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 8.8,
+        "esri_estimate": 7.7
+      }
+    },
+    "variances": {
+      "Total Population": {
+        "variance_pct": 12.5,
+        "acs": 105383.0,
+        "esri": 93655.0,
+        "flagged": true
+      },
+      "Total Households": {
+        "variance_pct": 7.8,
+        "acs": 41266.0,
+        "esri": 38283.0,
+        "flagged": true
+      },
+      "NH White": {
+        "variance_pct": 8.1,
+        "acs": 37070.0,
+        "esri": 34286.0,
+        "flagged": true
+      },
+      "NH Black": {
+        "variance_pct": 13.5,
+        "acs": 46014.0,
+        "esri": 40535.0,
+        "flagged": true
+      },
+      "NH Asian": {
+        "variance_pct": -25.0,
+        "acs": 4042.0,
+        "esri": 5390.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -67.2,
+        "acs": 61.0,
+        "esri": 186.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 53.1,
+        "acs": 12165.0,
+        "esri": 7946.0,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": -34.5,
+        "acs": 3.8,
+        "esri": 5.8,
+        "flagged": true
+      },
+      "% Hispanic": {
+        "variance_pct": 35.3,
+        "acs": 11.5,
+        "esri": 8.5,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 32.8,
+        "acs": 55860.0,
+        "esri": 42048.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 38.1,
+        "acs": 1099.0,
+        "esri": 796.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": -12.3,
+        "acs": 166228.0,
+        "esri": 189577.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 14.6,
+        "acs": 8.8,
+        "esri": 7.7,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 5,
+    "demographics": {
+      "population": {
+        "acs_2023": 122385,
+        "esri_estimate": 100382,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 56101,
+          "count_esri": 45969,
+          "pct_acs": 45.8,
+          "pct_esri": 45.8
+        },
+        "nh_black": {
+          "count_acs": 43487,
+          "count_esri": 36788,
+          "pct_acs": 35.5,
+          "pct_esri": 36.6
+        },
+        "nh_asian": {
+          "count_acs": 7191,
+          "count_esri": 7013,
+          "pct_acs": 5.9,
+          "pct_esri": 7.0
+        },
+        "nh_american_indian": {
+          "count_acs": 37,
+          "count_esri": 140,
+          "pct_acs": 0.0
+        },
+        "hispanic": {
+          "count_acs": 8409,
+          "count_esri": 5497,
+          "pct_acs": 6.9,
+          "pct_esri": 5.5
+        }
+      },
+      "households": {
+        "total_acs": 50566,
+        "total_esri": 43000,
+        "family_acs": 28852,
+        "nonfamily_acs": 21714,
+        "pct_family_acs": 57.1
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 84298,
+        "esri_estimate": 68513,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1364,
+        "esri_estimate": 978,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 278912,
+        "esri_estimate": 231192,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 3.9,
+        "esri_estimate": 3.4
+      }
+    },
+    "variances": {
+      "Total Population": {
+        "variance_pct": 21.9,
+        "acs": 122385.0,
+        "esri": 100382.0,
+        "flagged": true
+      },
+      "Total Households": {
+        "variance_pct": 17.6,
+        "acs": 50566.0,
+        "esri": 43000.0,
+        "flagged": true
+      },
+      "NH White": {
+        "variance_pct": 22.0,
+        "acs": 56101.0,
+        "esri": 45969.0,
+        "flagged": true
+      },
+      "NH Black": {
+        "variance_pct": 18.2,
+        "acs": 43487.0,
+        "esri": 36788.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -73.6,
+        "acs": 37.0,
+        "esri": 140.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 53.0,
+        "acs": 8409.0,
+        "esri": 5497.0,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": -15.7,
+        "acs": 5.9,
+        "esri": 7.0,
+        "flagged": true
+      },
+      "% Hispanic": {
+        "variance_pct": 25.5,
+        "acs": 6.9,
+        "esri": 5.5,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 23.0,
+        "acs": 84298.0,
+        "esri": 68513.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 39.5,
+        "acs": 1364.0,
+        "esri": 978.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": 20.6,
+        "acs": 278912.0,
+        "esri": 231192.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 16.1,
+        "acs": 3.9,
+        "esri": 3.4,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 6,
+    "demographics": {
+      "population": {
+        "acs_2023": 113932,
+        "esri_estimate": 99914,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 69721,
+          "count_esri": 56408,
+          "pct_acs": 61.2,
+          "pct_esri": 56.5
+        },
+        "nh_black": {
+          "count_acs": 18613,
+          "count_esri": 20870,
+          "pct_acs": 16.3,
+          "pct_esri": 20.9
+        },
+        "nh_asian": {
+          "count_acs": 2457,
+          "count_esri": 3277,
+          "pct_acs": 2.2,
+          "pct_esri": 3.3
+        },
+        "nh_american_indian": {
+          "count_acs": 38,
+          "count_esri": 231,
+          "pct_acs": 0.0
+        },
+        "hispanic": {
+          "count_acs": 15503,
+          "count_esri": 11944,
+          "pct_acs": 13.6,
+          "pct_esri": 12.0
+        }
+      },
+      "households": {
+        "total_acs": 44904,
+        "total_esri": 37600,
+        "family_acs": 27650,
+        "nonfamily_acs": 17254,
+        "pct_family_acs": 61.6
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 68829,
+        "esri_estimate": 57904,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1242,
+        "esri_estimate": 833,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 177938,
+        "esri_estimate": 197692,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 5.9,
+        "esri_estimate": 4.6
+      }
+    },
+    "variances": {
+      "Total Population": {
+        "variance_pct": 14.0,
+        "acs": 113932.0,
+        "esri": 99914.0,
+        "flagged": true
+      },
+      "Total Households": {
+        "variance_pct": 19.4,
+        "acs": 44904.0,
+        "esri": 37600.0,
+        "flagged": true
+      },
+      "NH White": {
+        "variance_pct": 23.6,
+        "acs": 69721.0,
+        "esri": 56408.0,
+        "flagged": true
+      },
+      "NH Black": {
+        "variance_pct": -10.8,
+        "acs": 18613.0,
+        "esri": 20870.0,
+        "flagged": true
+      },
+      "NH Asian": {
+        "variance_pct": -25.0,
+        "acs": 2457.0,
+        "esri": 3277.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -83.5,
+        "acs": 38.0,
+        "esri": 231.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 29.8,
+        "acs": 15503.0,
+        "esri": 11944.0,
+        "flagged": true
+      },
+      "% NH White": {
+        "variance_pct": 8.3,
+        "acs": 61.2,
+        "esri": 56.5,
+        "flagged": true
+      },
+      "% NH Black": {
+        "variance_pct": -22.0,
+        "acs": 16.3,
+        "esri": 20.9,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": -33.3,
+        "acs": 2.2,
+        "esri": 3.3,
+        "flagged": true
+      },
+      "% Hispanic": {
+        "variance_pct": 13.3,
+        "acs": 13.6,
+        "esri": 12.0,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 18.9,
+        "acs": 68829.0,
+        "esri": 57904.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 49.1,
+        "acs": 1242.0,
+        "esri": 833.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": -10.0,
+        "acs": 177938.0,
+        "esri": 197692.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 28.8,
+        "acs": 5.9,
+        "esri": 4.6,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 7,
+    "demographics": {
+      "population": {
+        "acs_2023": 105185,
+        "esri_estimate": 103864,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 64384,
+          "count_esri": 60121,
+          "pct_acs": 61.2,
+          "pct_esri": 57.9
+        },
+        "nh_black": {
+          "count_acs": 26297,
+          "count_esri": 30461,
+          "pct_acs": 25.0,
+          "pct_esri": 29.3
+        },
+        "nh_asian": {
+          "count_acs": 2727,
+          "count_esri": 3509,
+          "pct_acs": 2.6,
+          "pct_esri": 3.4
+        },
+        "nh_american_indian": {
+          "count_acs": 119,
+          "count_esri": 138,
+          "pct_acs": 0.1
+        },
+        "hispanic": {
+          "count_acs": 5816,
+          "count_esri": 5588,
+          "pct_acs": 5.5,
+          "pct_esri": 5.4
+        }
+      },
+      "households": {
+        "total_acs": 52305,
+        "total_esri": 50376,
+        "family_acs": 19330,
+        "nonfamily_acs": 32976,
+        "pct_family_acs": 37.0
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 69749,
+        "esri_estimate": 62042,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1278,
+        "esri_estimate": 967,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 353142,
+        "esri_estimate": 274364,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 4.5,
+        "esri_estimate": 3.9
+      }
+    },
+    "variances": {
+      "NH White": {
+        "variance_pct": 7.1,
+        "acs": 64384.0,
+        "esri": 60121.0,
+        "flagged": true
+      },
+      "NH Black": {
+        "variance_pct": -13.7,
+        "acs": 26297.0,
+        "esri": 30461.0,
+        "flagged": true
+      },
+      "NH Asian": {
+        "variance_pct": -22.3,
+        "acs": 2727.0,
+        "esri": 3509.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -13.8,
+        "acs": 119.0,
+        "esri": 138.0,
+        "flagged": true
+      },
+      "% NH White": {
+        "variance_pct": 5.7,
+        "acs": 61.2,
+        "esri": 57.9,
+        "flagged": true
+      },
+      "% NH Black": {
+        "variance_pct": -14.7,
+        "acs": 25.0,
+        "esri": 29.3,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": -23.5,
+        "acs": 2.6,
+        "esri": 3.4,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 12.4,
+        "acs": 69749.0,
+        "esri": 62042.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 32.2,
+        "acs": 1278.0,
+        "esri": 967.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": 28.7,
+        "acs": 353142.0,
+        "esri": 274364.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 16.9,
+        "acs": 4.5,
+        "esri": 3.9,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 8,
+    "demographics": {
+      "population": {
+        "acs_2023": 112781,
+        "esri_estimate": 99944,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 48085,
+          "count_esri": 39976,
+          "pct_acs": 42.6,
+          "pct_esri": 40.0
+        },
+        "nh_black": {
+          "count_acs": 48368,
+          "count_esri": 45316,
+          "pct_acs": 42.9,
+          "pct_esri": 45.3
+        },
+        "nh_asian": {
+          "count_acs": 1684,
+          "count_esri": 1675,
+          "pct_acs": 1.5,
+          "pct_esri": 1.7
+        },
+        "nh_american_indian": {
+          "count_acs": 121,
+          "count_esri": 200,
+          "pct_acs": 0.1
+        },
+        "hispanic": {
+          "count_acs": 7760,
+          "count_esri": 6888,
+          "pct_acs": 6.9,
+          "pct_esri": 6.9
+        }
+      },
+      "households": {
+        "total_acs": 47270,
+        "total_esri": 40636,
+        "family_acs": 27541,
+        "nonfamily_acs": 19729,
+        "pct_family_acs": 58.3
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 60377,
+        "esri_estimate": 49462,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1144,
+        "esri_estimate": 806,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 175276,
+        "esri_estimate": 198364,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 7.1,
+        "esri_estimate": 6.8
+      }
+    },
+    "variances": {
+      "Total Population": {
+        "variance_pct": 12.8,
+        "acs": 112781.0,
+        "esri": 99944.0,
+        "flagged": true
+      },
+      "Total Households": {
+        "variance_pct": 16.3,
+        "acs": 47270.0,
+        "esri": 40636.0,
+        "flagged": true
+      },
+      "NH White": {
+        "variance_pct": 20.3,
+        "acs": 48085.0,
+        "esri": 39976.0,
+        "flagged": true
+      },
+      "NH Black": {
+        "variance_pct": 6.7,
+        "acs": 48368.0,
+        "esri": 45316.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -39.5,
+        "acs": 121.0,
+        "esri": 200.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 12.7,
+        "acs": 7760.0,
+        "esri": 6888.0,
+        "flagged": true
+      },
+      "% NH White": {
+        "variance_pct": 6.5,
+        "acs": 42.6,
+        "esri": 40.0,
+        "flagged": true
+      },
+      "% NH Black": {
+        "variance_pct": -5.3,
+        "acs": 42.9,
+        "esri": 45.3,
+        "flagged": true
+      },
+      "% NH Asian": {
+        "variance_pct": -11.8,
+        "acs": 1.5,
+        "esri": 1.7,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 22.1,
+        "acs": 60377.0,
+        "esri": 49462.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 41.9,
+        "acs": 1144.0,
+        "esri": 806.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": -11.6,
+        "acs": 175276.0,
+        "esri": 198364.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 5.2,
+        "acs": 7.1,
+        "esri": 6.8,
+        "flagged": true
+      }
+    }
+  },
+  {
+    "district": 9,
+    "demographics": {
+      "population": {
+        "acs_2023": 109388,
+        "esri_estimate": 97196,
+        "source_note": "ACS = Census ACS 2023 5-Year; Esri = Esri current-year estimate"
+      },
+      "race_ethnicity": {
+        "nh_white": {
+          "count_acs": 38993,
+          "count_esri": 37458,
+          "pct_acs": 35.6,
+          "pct_esri": 38.5
+        },
+        "nh_black": {
+          "count_acs": 49948,
+          "count_esri": 43153,
+          "pct_acs": 45.7,
+          "pct_esri": 44.4
+        },
+        "nh_asian": {
+          "count_acs": 6405,
+          "count_esri": 5623,
+          "pct_acs": 5.9,
+          "pct_esri": 5.8
+        },
+        "nh_american_indian": {
+          "count_acs": 20,
+          "count_esri": 129,
+          "pct_acs": 0.0
+        },
+        "hispanic": {
+          "count_acs": 6872,
+          "count_esri": 5346,
+          "pct_acs": 6.3,
+          "pct_esri": 5.5
+        }
+      },
+      "households": {
+        "total_acs": 44373,
+        "total_esri": 40362,
+        "family_acs": 26989,
+        "nonfamily_acs": 17384,
+        "pct_family_acs": 60.8
+      }
+    },
+    "economics": {
+      "median_household_income": {
+        "acs_2023_est": 77391,
+        "esri_estimate": 60406,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_gross_rent": {
+        "acs_2023_est": 1348,
+        "esri_estimate": 874,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "median_home_value": {
+        "acs_2023_est": 230356,
+        "esri_estimate": 205968,
+        "note": "ACS value is population-weighted average of block-group medians"
+      },
+      "unemployment_rate": {
+        "acs_2023": 4.0,
+        "esri_estimate": 3.8
+      }
+    },
+    "variances": {
+      "Total Population": {
+        "variance_pct": 12.5,
+        "acs": 109388.0,
+        "esri": 97196.0,
+        "flagged": true
+      },
+      "Total Households": {
+        "variance_pct": 9.9,
+        "acs": 44373.0,
+        "esri": 40362.0,
+        "flagged": true
+      },
+      "NH Black": {
+        "variance_pct": 15.7,
+        "acs": 49948.0,
+        "esri": 43153.0,
+        "flagged": true
+      },
+      "NH Asian": {
+        "variance_pct": 13.9,
+        "acs": 6405.0,
+        "esri": 5623.0,
+        "flagged": true
+      },
+      "NH American Indian": {
+        "variance_pct": -84.5,
+        "acs": 20.0,
+        "esri": 129.0,
+        "flagged": true
+      },
+      "Hispanic": {
+        "variance_pct": 28.5,
+        "acs": 6872.0,
+        "esri": 5346.0,
+        "flagged": true
+      },
+      "% NH White": {
+        "variance_pct": -7.5,
+        "acs": 35.6,
+        "esri": 38.5,
+        "flagged": true
+      },
+      "% Hispanic": {
+        "variance_pct": 14.5,
+        "acs": 6.3,
+        "esri": 5.5,
+        "flagged": true
+      },
+      "Median HH Income": {
+        "variance_pct": 28.1,
+        "acs": 77391.0,
+        "esri": 60406.0,
+        "flagged": true
+      },
+      "Median Gross Rent": {
+        "variance_pct": 54.2,
+        "acs": 1348.0,
+        "esri": 874.0,
+        "flagged": true
+      },
+      "Median Home Value": {
+        "variance_pct": 11.8,
+        "acs": 230356.0,
+        "esri": 205968.0,
+        "flagged": true
+      },
+      "Unemployment Rate": {
+        "variance_pct": 5.5,
+        "acs": 4.0,
+        "esri": 3.8,
+        "flagged": true
+      }
+    }
+  }
+]

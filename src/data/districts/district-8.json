@@ -1,0 +1,155 @@
+{
+  "number": 8,
+  "slug": "district-eight",
+  "geographicSummary": "District Eight covers the South and Far South sides of Columbus, from the Scioto River on the west to Big Walnut Park on the east, and south toward the Obetz and Groveport borders. The district has the largest Black population among the nine districts and borders the communities of Lockbourne and Groveport.",
+  "councilMember": {
+    "name": "Lourdes Barroso de Padilla",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Lourdes-Barroso-de-Padilla",
+    "committees": [
+      "Public Service & Transportation (Chair)",
+      "Economic Development & Small Business (Vice Chair)",
+      "Health, Human Services & Equity"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2027,
+    "nextElection": 2027,
+    "contactEmail": "jicaceres@columbus.gov",
+    "contactPhone": "(614) 645-7032"
+  },
+  "neighborhoods": [
+    "South Side (partial)",
+    "Marion-Franklin",
+    "Far South",
+    "Obetz (partial)",
+    "Lockbourne (partial)",
+    "Groveport (partial)"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "Scioto Southland Community Center",
+      "url": "https://columbusrecparks.com/",
+      "description": "Modern community center with weight room, boxing room, gymnasiums, kitchen, and classrooms."
+    },
+    {
+      "name": "Marion-Franklin Recreation Center",
+      "url": "https://columbusrecparks.com/",
+      "description": "Community center serving Far South Columbus with programs, fitness facilities, and meeting spaces."
+    },
+    {
+      "name": "Rickenbacker Airport and Logistics Hub",
+      "url": "https://columbusairports.com/rickenbacker",
+      "description": "Cargo-focused airport and surrounding logistics complex, a major employment center for the district."
+    },
+    {
+      "name": "Glenwood Community Center",
+      "url": "https://columbusrecparks.com/",
+      "description": "Recreation facility with swimming, fitness programs, food pantry services, and youth activities."
+    },
+    {
+      "name": "Three Creeks Metro Park",
+      "url": "https://www.metroparks.net/parks-and-trails/three-creeks/",
+      "description": "1,067-acre park at the confluence of Alum, Big Walnut, and Blacklick Creeks with trails and wetlands."
+    },
+    {
+      "name": "Obetz Zettler Park",
+      "url": "https://www.obetz.oh.us/",
+      "description": "Park and event venue hosting the annual Obetz Zucchinifest and community recreation."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "Far South Columbus Area Commission",
+      "url": "https://cbusareacommissions.org/",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "Southeast Area Commission",
+      "url": "https://www.cbusareacommissions.org/greatersoutheast",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "South Side Area Commission",
+      "url": "https://www.cbusareacommissions.org/southside",
+      "meetingSchedule": "Third Tuesday of each month, 6:30 PM",
+      "meetingLocation": "Columbus Metropolitan Library \u2014 Parsons Branch, 1113 Parsons Ave."
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 115990,
+          "median_hh_income": 51133,
+          "median_gross_rent": 849,
+          "median_home_value": 138735,
+          "unemployment_rate": 6.8,
+          "pct_nh_white": 38.5,
+          "pct_nh_black": 44.1,
+          "pct_nh_asian": 1.6,
+          "pct_nh_american_indian": 0.2,
+          "pct_hispanic": 8.4
+        },
+        "data": {
+          "total_population": 112781,
+          "total_households": 47270,
+          "pct_family_households": 58.3,
+          "median_hh_income_est": 60377,
+          "median_gross_rent_est": 1144,
+          "median_home_value_est": 175276,
+          "unemployment_rate": 7.1,
+          "pct_nh_white": 42.6,
+          "pct_nh_black": 42.9,
+          "pct_hispanic": 6.9,
+          "pct_nh_asian": 1.5,
+          "pct_nh_american_indian": 0.1,
+          "pct_other": 6.0,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

@@ -1,0 +1,254 @@
+---
+/**
+ * elections.astro — Election history and upcoming dates.
+ * Rendered entirely from elections.json.
+ */
+import Layout from '../components/Layout.astro';
+import electionsData from '../data/elections.json';
+
+const elections = electionsData.elections.slice().reverse(); // Most recent first
+const upcoming = electionsData.upcoming;
+
+function fmtPct(v: number | null) {
+  if (v === null || v === undefined) return '';
+  return v.toFixed(1) + '%';
+}
+---
+<Layout title="Elections" description="Columbus City Council election history — 2023 and 2025 results, upcoming 2027 races, voter resources, and filing information.">
+
+  <header class="page-header">
+    <h1>Elections</h1>
+    <p class="page-intro">A running record of Columbus City Council district election results and upcoming dates. All results sourced from the Franklin County Board of Elections.</p>
+  </header>
+
+  {/* Upcoming election */}
+  <section class="election-upcoming">
+    <h2>Upcoming: {upcoming.year}</h2>
+    <p><strong>Districts on the ballot:</strong> {upcoming.districts_on_ballot.join(', ')}</p>
+    <p>{upcoming.notes}</p>
+    <p>Primary elections are typically held in May; the general election in November. Candidate filing information is available from the <a href={upcoming.filing_info_url} target="_blank" rel="noopener">Franklin County Board of Elections</a>.</p>
+  </section>
+
+  {/* Election results — most recent first */}
+  {elections.map((election: any) => (
+    <section class="election-cycle">
+      <h2>{election.year} {election.type} Election</h2>
+      <p class="election-desc">{election.description}</p>
+      {election.date && <p class="election-date">Election date: {election.date}</p>}
+      {election.term_note && <p class="election-term-note">{election.term_note}</p>}
+
+      {election.primary && (
+        <div class="election-primary-note">
+          <p><strong>Primary ({election.primary.date}):</strong> {election.primary.notes}</p>
+        </div>
+      )}
+
+      <div class="election-districts">
+        {election.districts.map((d: any) => (
+          <div class="district-result">
+            <h3>District {d.district}</h3>
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Party</th>
+                  <th class="num">Votes</th>
+                  <th class="num">%</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {d.candidates.map((c: any) => (
+                  <tr class={c.winner ? 'winner' : ''}>
+                    <td class="candidate-name">{c.name}</td>
+                    <td>{c.party || '—'}</td>
+                    <td class="num">{c.votes ? c.votes.toLocaleString('en-US') : '—'}</td>
+                    <td class="num">{fmtPct(c.pct)}</td>
+                    <td class="winner-badge">{c.winner ? '✓ Elected' : ''}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {d.notes && <p class="district-note">{d.notes}</p>}
+          </div>
+        ))}
+      </div>
+
+      <p class="election-source">Source: <a href={election.source_url} target="_blank" rel="noopener">{election.source}</a></p>
+    </section>
+  ))}
+
+  {/* Voter Resources */}
+  <section class="voter-resources">
+    <h2>Voter Resources</h2>
+    <p><strong>Register to vote:</strong> <a href="https://www.ohiosos.gov" target="_blank" rel="noopener">Ohio Secretary of State (ohiosos.gov)</a></p>
+    <p><strong>Find your district:</strong> <a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener">City of Columbus ArcGIS District Finder</a></p>
+    <p><strong>Board of Elections:</strong> <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections (boe.franklincountyohio.gov)</a></p>
+    <p><strong>Running for council:</strong> Contact the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a> for petition and filing requirements.</p>
+  </section>
+
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-intro {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .election-upcoming {
+    margin-bottom: 2.5rem;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-light);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 4px;
+    padding: 1.25rem;
+  }
+
+  .election-upcoming h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .election-upcoming p {
+    font-size: 0.92rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .election-cycle {
+    margin-bottom: 2.5rem;
+  }
+
+  .election-cycle h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .election-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.4rem;
+  }
+
+  .election-date {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .election-term-note {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .election-primary-note {
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+  }
+
+  .election-districts {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .district-result {
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    padding: 1rem;
+  }
+
+  .district-result h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-accent);
+  }
+
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+  }
+
+  .result-table th {
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    padding: 0.3rem 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .result-table th.num { text-align: right; }
+
+  .result-table td {
+    padding: 0.35rem 0.5rem;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .result-table td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .candidate-name {
+    font-weight: 500;
+  }
+
+  .winner .candidate-name {
+    font-weight: 700;
+  }
+
+  .winner-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #2d7d46;
+  }
+
+  .district-note {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+  }
+
+  .election-source {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-top: 1rem;
+  }
+
+  .voter-resources {
+    margin-bottom: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .voter-resources h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .voter-resources p {
+    font-size: 0.92rem;
+    margin-bottom: 0.5rem;
+  }
+</style>

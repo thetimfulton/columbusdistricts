@@ -1,0 +1,160 @@
+---
+/**
+ * CouncilMemberCard.astro
+ * Displays council member info from the councilMember object in each district JSON.
+ * Hides fields gracefully when contactEmail or contactPhone is null/empty.
+ */
+interface Props {
+  councilMember: {
+    name: string;
+    officialBioUrl: string;
+    committees: string[];
+    firstElected: number | null;
+    termEnds: number | null;
+    nextElection: number | null;
+    contactEmail: string;
+    contactPhone: string;
+  };
+}
+
+const { councilMember } = Astro.props;
+const hasContact = councilMember.contactEmail || councilMember.contactPhone;
+---
+<section class="council-member-card">
+  <h2>Council Member</h2>
+  <div class="cm-body">
+    <h3 class="cm-name">
+      <a href={councilMember.officialBioUrl} target="_blank" rel="noopener">{councilMember.name}</a>
+    </h3>
+
+    {councilMember.committees.length > 0 && (
+      <div class="cm-committees">
+        <span class="cm-label">Committee assignments:</span>
+        <ul>
+          {councilMember.committees.map((c) => <li>{c}</li>)}
+        </ul>
+      </div>
+    )}
+
+    <div class="cm-term">
+      {councilMember.firstElected && <span>First elected: {councilMember.firstElected}</span>}
+      {councilMember.termEnds && <span>Term ends: {councilMember.termEnds}</span>}
+      {councilMember.nextElection && <span>Next election: {councilMember.nextElection}</span>}
+    </div>
+
+    {hasContact && (
+      <div class="cm-contact">
+        {councilMember.contactEmail && (
+          <span class="cm-contact-item">
+            <span class="cm-label">Office:</span> <a href={`mailto:${councilMember.contactEmail}`}>{councilMember.contactEmail}</a>
+          </span>
+        )}
+        {councilMember.contactPhone && (
+          <span class="cm-contact-item">
+            <span class="cm-label">Phone:</span> <a href={`tel:${councilMember.contactPhone.replace(/[^+\d]/g, '')}`}>{councilMember.contactPhone}</a>
+          </span>
+        )}
+      </div>
+    )}
+
+    <a class="cm-bio-link" href={councilMember.officialBioUrl} target="_blank" rel="noopener">View official bio on columbus.gov &rarr;</a>
+  </div>
+</section>
+
+<style>
+  .council-member-card {
+    margin-bottom: 2rem;
+  }
+
+  .council-member-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .cm-body {
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    padding: 1.25rem;
+  }
+
+  .cm-name {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cm-name a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .cm-name a:hover {
+    text-decoration: underline;
+  }
+
+  .cm-label {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  .cm-committees {
+    margin-bottom: 0.75rem;
+  }
+
+  .cm-committees ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.25rem;
+  }
+
+  .cm-committees li {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    padding: 0.15rem 0;
+    color: var(--color-text);
+  }
+
+  .cm-term {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+  }
+
+  .cm-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cm-contact-item {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+  }
+
+  .cm-contact-item a {
+    color: var(--color-link);
+  }
+
+  .cm-bio-link {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .cm-bio-link:hover {
+    text-decoration: underline;
+  }
+</style>

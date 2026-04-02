@@ -1,0 +1,167 @@
+{
+  "areaCommissions": [
+    {
+      "name": "Far North Columbus Area Commission",
+      "url": "https://cbusareacommissions.org/far-north/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [1]
+    },
+    {
+      "name": "Northland Community Council",
+      "url": "https://cbusareacommissions.org/northland/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [1]
+    },
+    {
+      "name": "Northwest Civic Association",
+      "url": "https://cbusareacommissions.org/northwest/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [1, 6]
+    },
+    {
+      "name": "Clintonville Area Commission",
+      "url": "https://cbusareacommissions.org/clintonville/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [2, 3]
+    },
+    {
+      "name": "North Linden Area Commission",
+      "url": "https://cbusareacommissions.org/north-linden/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [2, 5]
+    },
+    {
+      "name": "University Area Commission",
+      "url": "https://cbusareacommissions.org/university/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [3]
+    },
+    {
+      "name": "Italian Village Commission",
+      "url": "https://cbusareacommissions.org/italian-village/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [3, 7]
+    },
+    {
+      "name": "Victorian Village Commission",
+      "url": "https://cbusareacommissions.org/victorian-village/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [3, 7]
+    },
+    {
+      "name": "Hilltop Area Commission",
+      "url": "https://cbusareacommissions.org/hilltop/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [4, 6]
+    },
+    {
+      "name": "Franklinton Area Commission",
+      "url": "https://cbusareacommissions.org/franklinton/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [4, 7]
+    },
+    {
+      "name": "Near East Area Commission",
+      "url": "https://cbusareacommissions.org/near-east/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [5, 7]
+    },
+    {
+      "name": "South Linden Area Commission",
+      "url": "https://cbusareacommissions.org/south-linden/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [5]
+    },
+    {
+      "name": "Milo-Grogan Area Commission",
+      "url": "https://cbusareacommissions.org/milo-grogan/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [5]
+    },
+    {
+      "name": "West Scioto Area Commission",
+      "url": "https://cbusareacommissions.org/west-scioto/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [6]
+    },
+    {
+      "name": "Westland Area Commission",
+      "url": "https://cbusareacommissions.org/westland/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [6]
+    },
+    {
+      "name": "Downtown Commission",
+      "url": "https://cbusareacommissions.org/downtown/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [7]
+    },
+    {
+      "name": "German Village Commission",
+      "url": "https://cbusareacommissions.org/german-village/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [7]
+    },
+    {
+      "name": "South Side Area Commission",
+      "url": "https://cbusareacommissions.org/south-side/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [7, 8]
+    },
+    {
+      "name": "Far South Columbus Area Commission",
+      "url": "https://cbusareacommissions.org/far-south/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [8]
+    },
+    {
+      "name": "Southeast Area Commission",
+      "url": "https://cbusareacommissions.org/southeast/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [8, 9]
+    },
+    {
+      "name": "Eastmoor/Walnut Ridge Area Commission",
+      "url": "https://cbusareacommissions.org/eastmoor-walnut-ridge/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [9]
+    },
+    {
+      "name": "Northeast Area Commission",
+      "url": "https://cbusareacommissions.org/northeast/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [2, 9]
+    },
+    {
+      "name": "East Columbus Area Commission",
+      "url": "https://cbusareacommissions.org/east-columbus/",
+      "meetingSchedule": null,
+      "meetingLocation": null,
+      "districts": [5, 9]
+    }
+  ],
+  "source": "https://cbusareacommissions.org/",
+  "note": "District mappings are approximate — some area commissions overlap district boundaries. Meeting schedules and locations to be confirmed against source during Phase 1.5."
+}

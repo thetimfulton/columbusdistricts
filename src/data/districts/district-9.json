@@ -1,0 +1,154 @@
+{
+  "number": 9,
+  "slug": "district-nine",
+  "geographicSummary": "District Nine covers the Far East side of Columbus, from the Whitehall and Big Walnut Park borders on the west out toward Reynoldsburg, Pickerington, and Canal Winchester. The district includes established neighborhoods like Eastmoor and Walnut Ridge and has the second-largest Black population among the nine districts.",
+  "councilMember": {
+    "name": "Shannon G. Hardin",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Shannon-G.-Hardin",
+    "committees": [
+      "Rules & Policy (Chair)",
+      "Housing, Homelessness & Building (Vice Chair)"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2027,
+    "nextElection": 2027,
+    "contactEmail": "jnclinger@columbus.gov",
+    "contactPhone": "(614) 645-6354"
+  },
+  "neighborhoods": [
+    "Eastmoor",
+    "Walnut Ridge",
+    "Berwick",
+    "Far East",
+    "Reynoldsburg (partial)",
+    "Brice (partial)"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "Blacklick Woods Metro Park",
+      "url": "https://www.metroparks.net/parks-and-trails/blacklick-woods/",
+      "description": "652-acre park with beech-maple forests, buttonbush swamp, nature center, and canopy walk."
+    },
+    {
+      "name": "Ohio Expo Center and State Fairgrounds",
+      "url": "https://www.ohioexpocenter.com/",
+      "description": "360-acre facility hosting the Ohio State Fair, 185-plus annual events, and year-round exhibitions."
+    },
+    {
+      "name": "Blacklick Creek Greenway Trail",
+      "url": "https://www.metroparks.net/",
+      "description": "13-mile multi-use trail paralleling Blacklick Creek between Reynoldsburg and Groveport."
+    },
+    {
+      "name": "Eastmoor Civic Association",
+      "url": "https://cbusareacommissions.org/",
+      "description": "Active neighborhood association organizing community events and civic engagement in Eastmoor."
+    },
+    {
+      "name": "John Glenn Columbus International Airport",
+      "url": "https://flycolumbus.com/",
+      "description": "Central Ohio's primary commercial airport, located on the district's western edge."
+    },
+    {
+      "name": "Walnut Ridge High School",
+      "url": "https://www.ccsoh.us/walnutridge",
+      "description": "Columbus City Schools secondary campus and community anchor for the Walnut Ridge neighborhood."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "Northeast Area Commission",
+      "url": "https://www.cbusareacommissions.org/northeast",
+      "meetingSchedule": "Zoning meeting at 6 PM, full commission follows",
+      "meetingLocation": "Ohio Dominican University, Peace Hall, 2600 Airport Dr."
+    },
+    {
+      "name": "Eastmoor/Walnut Ridge Area Commission",
+      "url": "https://cbusareacommissions.org/",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "Far East Area Commission",
+      "url": "https://www.cbusareacommissions.org/fareast",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 112839,
+          "median_hh_income": 63064,
+          "median_gross_rent": 973,
+          "median_home_value": 190389,
+          "unemployment_rate": 3.9,
+          "pct_nh_white": 33.7,
+          "pct_nh_black": 44.8,
+          "pct_nh_asian": 6.1,
+          "pct_nh_american_indian": 0.1,
+          "pct_hispanic": 7.5
+        },
+        "data": {
+          "total_population": 109388,
+          "total_households": 44373,
+          "pct_family_households": 60.8,
+          "median_hh_income_est": 77391,
+          "median_gross_rent_est": 1348,
+          "median_home_value_est": 230356,
+          "unemployment_rate": 4.0,
+          "pct_nh_white": 35.6,
+          "pct_nh_black": 45.7,
+          "pct_hispanic": 6.3,
+          "pct_nh_asian": 5.9,
+          "pct_nh_american_indian": 0.0,
+          "pct_other": 6.5,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

@@ -1,0 +1,52 @@
+---
+import Layout from '../components/Layout.astro';
+import NameDistrictForm from '../components/NameDistrictForm.astro';
+
+const districts = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+---
+<Layout title="Name the Districts" description="Submit your idea for naming one of Columbus's nine City Council residential districts.">
+  <h1>Name the Districts</h1>
+  <p>Columbus's nine City Council residential districts are currently identified by number only. Should they have names? If so, what should they be called?</p>
+  <p>We've been collecting community suggestions since the districts were established in 2023. There is no official naming process at this time, but we're keeping this page open to gather ideas. We'll share updates here if a path forward emerges.</p>
+
+  <h2>Submit a Name</h2>
+  <p>Choose a district and suggest a name. Include a brief note on why the name fits, if you'd like.</p>
+
+  {districts.map((d) => (
+    <details class="district-form-section">
+      <summary>District {d}</summary>
+      <NameDistrictForm district={d} />
+    </details>
+  ))}
+</Layout>
+
+<style>
+  .district-form-section {
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    padding: 0;
+  }
+
+  .district-form-section summary {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .district-form-section summary:hover {
+    background: var(--color-bg-subtle);
+  }
+
+  .district-form-section[open] summary {
+    border-bottom: 1px solid var(--color-border-light);
+    background: var(--color-bg-subtle);
+  }
+
+  .district-form-section :global(.name-district-form) {
+    padding: 1rem;
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+/**
+ * SuggestEditForm.astro — Netlify Form for suggesting corrections to district data
+ * Placed at the bottom of each district page.
+ * The district number is passed as a prop and submitted as a hidden field.
+ */
+interface Props {
+  district: number;
+}
+
+const { district } = Astro.props;
+---
+<section class="suggest-edit" id="suggest-edit">
+  <h3>Suggest an Edit</h3>
+  <p>See something out of date or incorrect on this page? Let us know.</p>
+  <form
+    name="suggest-edit"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    action="/suggest-edit-thanks/"
+  >
+    <input type="hidden" name="form-name" value="suggest-edit" />
+    <input type="hidden" name="district" value={String(district)} />
+    <p class="hidden" aria-hidden="true">
+      <label>Don't fill this out: <input name="bot-field" /></label>
+    </p>
+    <div class="form-field">
+      <label for={`edit-name-${district}`}>Your name</label>
+      <input type="text" id={`edit-name-${district}`} name="name" required />
+    </div>
+    <div class="form-field">
+      <label for={`edit-email-${district}`}>Email address</label>
+      <input type="email" id={`edit-email-${district}`} name="email" required />
+    </div>
+    <div class="form-field">
+      <label for={`edit-suggestion-${district}`}>What needs updating?</label>
+      <textarea id={`edit-suggestion-${district}`} name="suggestion" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="form-submit">Submit Suggestion</button>
+  </form>
+</section>
+
+<style>
+  .suggest-edit {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .suggest-edit h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .suggest-edit p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .form-field {
+    margin-bottom: 1rem;
+  }
+
+  .form-field label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: var(--color-text);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    max-width: 480px;
+    padding: 0.5rem 0.65rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+  }
+
+  .form-field textarea {
+    resize: vertical;
+  }
+
+  .form-submit {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--color-accent);
+    border: none;
+    padding: 0.55rem 1.4rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .form-submit:hover {
+    background: var(--color-accent-hover);
+  }
+</style>

@@ -1,0 +1,68 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirect trailing slashes for clean URLs
+[[redirects]]
+  from = "/districts/district-one"
+  to = "/districts/district-one/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-two"
+  to = "/districts/district-two/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-three"
+  to = "/districts/district-three/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-four"
+  to = "/districts/district-four/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-five"
+  to = "/districts/district-five/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-six"
+  to = "/districts/district-six/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-seven"
+  to = "/districts/district-seven/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-eight"
+  to = "/districts/district-eight/"
+  status = 301
+
+[[redirects]]
+  from = "/districts/district-nine"
+  to = "/districts/district-nine/"
+  status = 301
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache static assets
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

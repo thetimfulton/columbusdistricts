@@ -1,0 +1,160 @@
+{
+  "number": 5,
+  "slug": "district-five",
+  "geographicSummary": "District Five spans the East and Northeast sides of Columbus, from the Linden and Near East neighborhoods up toward the Easton area and the Westerville and Gahanna borders. The district has significant racial diversity and includes both established residential communities and major commercial corridors.",
+  "councilMember": {
+    "name": "Nicholas J. Bankston",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Nick-Bankston",
+    "committees": [
+      "Finance & Governance (Chair)",
+      "Economic Development & Small Business (Chair)"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2027,
+    "nextElection": 2027,
+    "contactEmail": "jpdorval@columbus.gov",
+    "contactPhone": "(614) 645-2898"
+  },
+  "neighborhoods": [
+    "Linden",
+    "South Linden",
+    "Near East",
+    "Milo-Grogan",
+    "North Linden",
+    "Easton (partial)"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "Easton Town Center",
+      "url": "https://eastontowncenter.com/",
+      "description": "Major open-air shopping, dining, and entertainment destination with national retailers and a movie theater."
+    },
+    {
+      "name": "Linden Community Center",
+      "url": "https://columbusrecparks.com/community-center/linden/",
+      "description": "State-of-the-art recreation facility with gymnasium, fitness center, water park, and swimming pool."
+    },
+    {
+      "name": "Linden Park",
+      "url": "https://columbusrecparks.com/parks/linden-park/",
+      "description": "40-plus acre park with splash pad, playgrounds, sports fields, fishing pond, and picnic areas."
+    },
+    {
+      "name": "Franklin Park Conservatory and Botanical Gardens",
+      "url": "https://www.fpconservatory.org/",
+      "description": "Botanical garden and conservatory with exotic plant collections, seasonal exhibitions, and outdoor gardens."
+    },
+    {
+      "name": "Milo-Grogan Recreation Center",
+      "url": "https://columbusrecparks.com/",
+      "description": "Community recreation center offering programs, fitness facilities, and youth activities."
+    },
+    {
+      "name": "Wolfe Park",
+      "url": "https://columbusrecparks.com/",
+      "description": "Neighborhood park in the Near East area with sports facilities and community gathering spaces."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "North Linden Area Commission",
+      "url": "https://www.cbusareacommissions.org/northlinden",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "South Linden Area Commission",
+      "url": "https://www.cbusareacommissions.org/southlinden",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "Milo-Grogan Area Commission",
+      "url": "https://www.cbusareacommissions.org/milogrogan",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "Near East Area Commission",
+      "url": "https://www.cbusareacommissions.org/neareast",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 128629,
+          "median_hh_income": 68252,
+          "median_gross_rent": 965,
+          "median_home_value": 228261,
+          "unemployment_rate": 3.9,
+          "pct_nh_white": 42.9,
+          "pct_nh_black": 35.6,
+          "pct_nh_asian": 5.3,
+          "pct_nh_american_indian": 0.1,
+          "pct_hispanic": 8.4
+        },
+        "data": {
+          "total_population": 122385,
+          "total_households": 50566,
+          "pct_family_households": 57.1,
+          "median_hh_income_est": 84298,
+          "median_gross_rent_est": 1364,
+          "median_home_value_est": 278912,
+          "unemployment_rate": 3.9,
+          "pct_nh_white": 45.8,
+          "pct_nh_black": 35.5,
+          "pct_hispanic": 6.9,
+          "pct_nh_asian": 5.9,
+          "pct_nh_american_indian": 0.0,
+          "pct_other": 5.9,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

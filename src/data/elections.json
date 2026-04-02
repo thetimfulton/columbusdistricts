@@ -1,0 +1,138 @@
+{
+  "elections": [
+    {
+      "year": 2023,
+      "type": "General",
+      "date": "2023-11-07",
+      "description": "First Columbus City Council district elections under the 2018 charter amendment. All nine seats filled simultaneously. All Columbus voters voted in all nine races.",
+      "source": "Franklin County Board of Elections",
+      "source_url": "https://boe.franklincountyohio.gov",
+      "districts": [
+        {
+          "district": 1,
+          "candidates": [
+            {"name": "Chris Wyche", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed"
+        },
+        {
+          "district": 2,
+          "candidates": [
+            {"name": "Nancy Day-Achauer", "party": "Democratic", "votes": null, "pct": 72.0, "winner": true},
+            {"name": "Luis Gil", "party": "Democratic", "votes": null, "pct": 28.0, "winner": false}
+          ],
+          "notes": null
+        },
+        {
+          "district": 3,
+          "candidates": [
+            {"name": "Rob Dorans", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed"
+        },
+        {
+          "district": 4,
+          "candidates": [
+            {"name": "Emmanuel Remy", "party": "Democratic", "votes": null, "pct": null, "winner": true},
+            {"name": "Adrienne Hood", "party": "Democratic", "votes": null, "pct": null, "winner": false}
+          ],
+          "notes": "Exact vote totals to be confirmed from Franklin County BOE records"
+        },
+        {
+          "district": 5,
+          "candidates": [
+            {"name": "Nick Bankston", "party": "Democratic", "votes": null, "pct": 69.2, "winner": true},
+            {"name": "Farxaan Jeyte", "party": "Democratic", "votes": null, "pct": 30.8, "winner": false}
+          ],
+          "notes": null
+        },
+        {
+          "district": 6,
+          "candidates": [
+            {"name": "Melissa Green", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed"
+        },
+        {
+          "district": 7,
+          "candidates": [
+            {"name": "Shayla Favor", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed. Favor drew a 2-year term in the January 2024 lot; did not seek re-election in 2025."
+        },
+        {
+          "district": 8,
+          "candidates": [
+            {"name": "Lourdes Barroso de Padilla", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed"
+        },
+        {
+          "district": 9,
+          "candidates": [
+            {"name": "Shannon Hardin", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed. Elected Council President. Previously served on council under the at-large system."
+        }
+      ],
+      "term_note": "In January 2024, council members drew lots to determine initial term lengths. Districts 1, 3, 4, 7 drew 2-year terms (up for re-election in 2025). Districts 2, 5, 6, 8, 9 drew 4-year terms (up in 2027). All future terms are 4 years."
+    },
+    {
+      "year": 2025,
+      "type": "General",
+      "date": "2025-11-04",
+      "description": "Second district election cycle. Districts 1, 3, 4, and 7 on ballot — the four members who drew 2-year terms in the January 2024 lot drawing.",
+      "source": "Franklin County Board of Elections",
+      "source_url": "https://boe.franklincountyohio.gov",
+      "primary": {
+        "date": "2025-05-06",
+        "notes": "Primary canceled for Districts 1, 3, and 4 — only one candidate filed in each. District 7 had a contested primary.",
+        "district_7_primary": [
+          {"name": "Tiara Ross", "party": "Democratic", "votes": null, "pct": null, "winner": true},
+          {"name": "Jesse Vogel", "party": "Democratic", "votes": null, "pct": null, "winner": true},
+          {"name": "Kate Curry-Da-Souza", "party": "Democratic", "votes": null, "pct": null, "winner": false}
+        ]
+      },
+      "districts": [
+        {
+          "district": 1,
+          "candidates": [
+            {"name": "Chris Wyche", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed. Wyche re-elected to a 4-year term ending 2029."
+        },
+        {
+          "district": 3,
+          "candidates": [
+            {"name": "Rob Dorans", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed. Dorans re-elected to a 4-year term ending 2029. Serves as President Pro Tem."
+        },
+        {
+          "district": 4,
+          "candidates": [
+            {"name": "Emmanuel Remy", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+          ],
+          "notes": "Unopposed. Remy re-elected to a 4-year term ending 2029."
+        },
+        {
+          "district": 7,
+          "candidates": [
+            {"name": "Tiara Ross", "party": "Democratic", "votes": null, "pct": 50.8, "winner": true},
+            {"name": "Jesse Vogel", "party": "Democratic", "votes": null, "pct": 49.2, "winner": false}
+          ],
+          "notes": "Ross won the open seat vacated by Shayla Favor. Elected to a 4-year term ending 2029."
+        }
+      ]
+    }
+  ],
+  "upcoming": {
+    "year": 2027,
+    "type": "General",
+    "districts_on_ballot": [2, 5, 6, 8, 9],
+    "notes": "Districts 2, 5, 6, 8, 9 — members who drew 4-year terms in January 2024. All future terms are 4 years, staggered.",
+    "filing_info_url": "https://boe.franklincountyohio.gov",
+    "primary_typically": "May",
+    "general_typically": "November"
+  }
+}

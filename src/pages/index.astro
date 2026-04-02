@@ -1,0 +1,220 @@
+---
+/**
+ * index.astro — Columbus Districts homepage.
+ * Hero copy, district card grid, and primary CTAs.
+ */
+import Layout from '../components/Layout.astro';
+import DistrictCard from '../components/DistrictCard.astro';
+
+import d1 from '../data/districts/district-1.json';
+import d2 from '../data/districts/district-2.json';
+import d3 from '../data/districts/district-3.json';
+import d4 from '../data/districts/district-4.json';
+import d5 from '../data/districts/district-5.json';
+import d6 from '../data/districts/district-6.json';
+import d7 from '../data/districts/district-7.json';
+import d8 from '../data/districts/district-8.json';
+import d9 from '../data/districts/district-9.json';
+
+const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
+---
+<Layout title="Home" description="Columbus City Council represents more than 900,000 residents across nine districts. Find yours, meet your council member, and explore district demographics.">
+
+  {/* Hero */}
+  <section class="hero">
+    <h1>Columbus Districts</h1>
+    <p class="hero-lead">Columbus City Council represents more than 900,000 residents across nine districts. Find yours, meet your council member, and learn how to get involved.</p>
+    <p class="hero-sub">Columbus Districts is an independent civic resource from <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a> and <a href="https://www.columbusunderground.com" target="_blank" rel="noopener">Columbus Underground</a>.</p>
+
+    <div class="hero-ctas">
+      <a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener" class="cta-primary">Find Your District</a>
+      <a href="/how-it-works/" class="cta-secondary">How does the council work?</a>
+    </div>
+  </section>
+
+  {/* District Grid */}
+  <section class="district-grid-section">
+    <h2 class="section-heading">All Nine Districts</h2>
+    <div class="district-grid">
+      {allDistricts.map((d) => (
+        <DistrictCard district={d} />
+      ))}
+    </div>
+    <p class="grid-footnote">Population figures from ACS 2019-2023 5-Year Estimates. <a href="/data/">View methodology and data sources.</a></p>
+  </section>
+
+  {/* Quick Links */}
+  <section class="quick-links">
+    <div class="quick-link-card">
+      <h3><a href="/all-districts/">Compare All Districts</a></h3>
+      <p>Side-by-side demographics, income, and election data for all nine districts.</p>
+    </div>
+    <div class="quick-link-card">
+      <h3><a href="/elections/">Elections</a></h3>
+      <p>Results from 2023 and 2025, plus what to know about the 2027 cycle.</p>
+    </div>
+    <div class="quick-link-card">
+      <h3><a href="/data/">Data &amp; Methodology</a></h3>
+      <p>Longitudinal trends, ACS vs. Esri comparison, and full source documentation.</p>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* Hero */
+  .hero {
+    margin-bottom: 2.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-lead {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    max-width: 700px;
+  }
+
+  .hero-sub {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-sub a {
+    color: var(--color-accent);
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-primary {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--color-accent);
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .cta-primary:hover {
+    background: var(--color-accent-hover);
+    color: #fff;
+  }
+
+  .cta-secondary {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: transparent;
+    padding: 0.6rem 1.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .cta-secondary:hover {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  /* District Grid */
+  .district-grid-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-heading {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .district-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .grid-footnote {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+  }
+
+  .grid-footnote a {
+    color: var(--color-accent);
+    font-size: 0.78rem;
+  }
+
+  /* Quick Links */
+  .quick-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .quick-link-card {
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    background: var(--color-bg-subtle);
+  }
+
+  .quick-link-card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .quick-link-card h3 a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .quick-link-card h3 a:hover {
+    text-decoration: underline;
+  }
+
+  .quick-link-card p {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 1.7rem;
+    }
+
+    .district-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .quick-links {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-ctas {
+      flex-direction: column;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+      text-align: center;
+    }
+  }
+</style>

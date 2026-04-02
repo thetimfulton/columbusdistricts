@@ -1,0 +1,148 @@
+{
+  "number": 4,
+  "slug": "district-four",
+  "geographicSummary": "District Four covers much of the West Side and Southwest Columbus, including the Hilltop, portions of Franklinton, and areas along West Broad Street. Its northern boundary runs roughly along Route 161 and East Dublin-Granville Road, with I-670 West to the south and Route 3/Cleveland Avenue to the west. The district has the lowest median household income and highest poverty rate among the nine districts.",
+  "councilMember": {
+    "name": "Emmanuel V. Remy",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Emmanuel-V.-Remy",
+    "committees": [
+      "Public Safety & Criminal Justice (Chair)",
+      "Public Utilities & Sustainability (Vice Chair)"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2029,
+    "nextElection": 2029,
+    "contactEmail": "pdmejia@columbus.gov",
+    "contactPhone": "(614) 645-7565"
+  },
+  "neighborhoods": [
+    "Hilltop",
+    "Westgate",
+    "West Side",
+    "Lincoln Village",
+    "Franklinton (partial)",
+    "Georgesville"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "National Veterans Memorial and Museum",
+      "url": "https://nationalvmm.org/",
+      "description": "53,000-square-foot museum on the Scioto River honoring veterans' experiences with immersive exhibits and a memorial grove."
+    },
+    {
+      "name": "Scioto Mile",
+      "url": "https://www.sciotomile.com/",
+      "description": "175-plus acres of riverfront parks, trails, and fountains along the Scioto River downtown."
+    },
+    {
+      "name": "Camp Chase Confederate Cemetery",
+      "url": "https://www.nps.gov/places/camp-chase-confederate-cemetery.htm",
+      "description": "Historic Civil War cemetery where over 2,000 Confederate prisoners of war are buried."
+    },
+    {
+      "name": "Westgate Community Center",
+      "url": "https://columbusrecparks.com/",
+      "description": "Columbus Recreation and Parks community center serving the Westgate neighborhood with programs and facilities."
+    },
+    {
+      "name": "Hilltop Branch Library",
+      "url": "https://www.columbuslibrary.org/",
+      "description": "Columbus Metropolitan Library branch serving the Hilltop neighborhood."
+    },
+    {
+      "name": "Dodge Park",
+      "url": "https://columbusrecparks.com/",
+      "description": "Large community park on the West Side with sports fields, playground, and splash pad."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "Greater Hilltop Area Commission",
+      "url": "https://www.cbusareacommissions.org/greaterhilltop",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "Franklinton Area Commission",
+      "url": "https://www.cbusareacommissions.org/franklinton",
+      "meetingSchedule": "Second Tuesday of each month, 6:00 PM",
+      "meetingLocation": "Healthy Living Center, 777 W. State St."
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 107685,
+          "median_hh_income": 45527,
+          "median_gross_rent": 801,
+          "median_home_value": 126523,
+          "unemployment_rate": 8.3,
+          "pct_nh_white": 31.3,
+          "pct_nh_black": 44.4,
+          "pct_nh_asian": 3.6,
+          "pct_nh_american_indian": 0.1,
+          "pct_hispanic": 13.4
+        },
+        "data": {
+          "total_population": 105383,
+          "total_households": 41266,
+          "pct_family_households": 57.2,
+          "median_hh_income_est": 55860,
+          "median_gross_rent_est": 1099,
+          "median_home_value_est": 166228,
+          "unemployment_rate": 8.8,
+          "pct_nh_white": 35.2,
+          "pct_nh_black": 43.7,
+          "pct_hispanic": 11.5,
+          "pct_nh_asian": 3.8,
+          "pct_nh_american_indian": 0.1,
+          "pct_other": 5.7,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

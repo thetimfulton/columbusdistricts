@@ -1,0 +1,112 @@
+---
+/**
+ * about.astro — About Columbus Districts
+ * FAQ-style page covering the site's purpose, the council structure,
+ * data sourcing, and project credits.
+ */
+import Layout from '../components/Layout.astro';
+---
+<Layout title="About" description="About Columbus Districts — an independent civic resource covering Columbus Ohio's nine City Council residential districts.">
+
+  <header class="page-header">
+    <h1>About Columbus Districts</h1>
+    <p class="page-intro">Columbus Districts is an independent civic resource covering the nine residential districts of the Columbus City Council. The site is a project of <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a> and <a href="https://www.columbusunderground.com" target="_blank" rel="noopener">Columbus Underground</a>.</p>
+  </header>
+
+  <section class="faq-section">
+
+    <div class="faq-item">
+      <h2>What is this site?</h2>
+      <p>Columbus Districts provides a single reference point for anyone who wants to understand how the Columbus City Council's district system works, who represents each district, and how districts compare on demographics, housing, income, and elections. Every data point links back to its source, and the full methodology is documented on the <a href="/data/">Data & Methodology</a> page.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>Why does Columbus have residential districts?</h2>
+      <p>In November 2018, Columbus voters approved a charter amendment changing the composition of City Council from seven at-large members to a hybrid system: five members elected from residential districts and four elected at-large. The first district elections were held in 2023, and the system has now completed two full election cycles (2023 and 2025). The hybrid model was designed to give neighborhoods more direct representation on Council while retaining at-large seats to represent the city as a whole.</p>
+      <p>For a full explanation of how the hybrid system works — including term structure, lot-drawing for staggered terms, and council powers — see <a href="/how-it-works/">How It Works</a>.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>Where does the data come from?</h2>
+      <p>The primary demographic data on this site comes from the <strong>American Community Survey (ACS) 2019-2023 5-Year Estimates</strong>, published by the U.S. Census Bureau. Because Columbus's council districts do not align with any standard Census geography, district-level figures are produced by aggregating ACS data from the block-group level using population-weighted methods.</p>
+      <p>Where available, <strong>Esri current-year estimates</strong> are shown alongside ACS figures as a supplemental comparison. Esri's projections start from the 2020 Census and incorporate building permits and IRS migration data.</p>
+      <p>The site uses a <strong>snapshot/vintage system</strong> that stores demographic data from each ACS release as a separate snapshot. This makes it possible to compare districts across time as new ACS vintages are published. The current active vintage is ACS 2019-2023; earlier vintages will be backfilled as the data pipeline matures.</p>
+      <p>For full details on methodology, data sources, known anomalies, and the data pipeline, see the <a href="/data/">Data & Methodology</a> page.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>How are election results sourced?</h2>
+      <p>Election results come from the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a>, cross-referenced with reporting from local outlets and <a href="https://ballotpedia.org" target="_blank" rel="noopener">Ballotpedia</a>. Certified vote totals are added as they become available; unofficial results are labeled accordingly.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>Who maintains this site?</h2>
+      <p>Columbus Districts is maintained by <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a> in partnership with <a href="https://www.columbusunderground.com" target="_blank" rel="noopener">Columbus Underground</a>. It is an independent project and is not affiliated with the City of Columbus, Columbus City Council, or any political campaign.</p>
+    </div>
+
+    <div class="faq-item">
+      <h2>I found an error. How do I report it?</h2>
+      <p>Every district page has a <strong>Suggest an Edit</strong> form at the bottom. You can also reach the team through <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a>. Corrections to demographic data, election results, council member information, and area commission details are all welcome.</p>
+    </div>
+
+  </section>
+
+  <p class="last-reviewed">Last reviewed: April 2026</p>
+
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-intro {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  .page-intro a {
+    color: var(--color-accent);
+  }
+
+  .faq-section {
+    margin-bottom: 2rem;
+  }
+
+  .faq-item {
+    margin-bottom: 2rem;
+  }
+
+  .faq-item h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .faq-item p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+
+  .faq-item a {
+    color: var(--color-accent);
+  }
+
+  .faq-item strong {
+    color: var(--color-text);
+  }
+
+  .last-reviewed {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-light);
+  }
+</style>

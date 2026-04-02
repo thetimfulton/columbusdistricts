@@ -1,0 +1,156 @@
+{
+  "number": 3,
+  "slug": "district-three",
+  "geographicSummary": "District Three encompasses the University District around Ohio State University, the Short North Arts District, Victorian Village, and extends north toward Worthington and west toward the Upper Arlington border. Its income and poverty levels are close to the city average, and it has a large student population that shapes its demographic profile.",
+  "councilMember": {
+    "name": "Rob Dorans",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Rob-Dorans",
+    "committees": [
+      "Zoning (Chair)",
+      "Workforce, Education & Labor (Chair)",
+      "Rules & Policy (Vice Chair)",
+      "Finance & Governance (Vice Chair)"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2029,
+    "nextElection": 2029,
+    "contactEmail": "radorans@columbus.gov",
+    "contactPhone": "(614) 645-7994"
+  },
+  "neighborhoods": [
+    "University District",
+    "Short North",
+    "Victorian Village",
+    "Harrison West",
+    "Italian Village (partial)",
+    "Worthington (partial)"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "Short North Arts District",
+      "url": "https://www.shortnorth.org/",
+      "description": "Nationally recognized arts and entertainment corridor along High Street with galleries, restaurants, and boutiques."
+    },
+    {
+      "name": "Wexner Center for the Arts",
+      "url": "https://wexarts.org/",
+      "description": "Ohio State University's multidisciplinary contemporary arts center with free gallery admission."
+    },
+    {
+      "name": "Goodale Park",
+      "url": "https://columbusrecparks.com/parks/goodale-park/",
+      "description": "Columbus's oldest park, with playground, tennis courts, basketball court, and pond in Victorian Village."
+    },
+    {
+      "name": "Columbus Museum of Art \u2014 The Pizzuti",
+      "url": "https://www.columbusmuseum.org/the-pizzuti/",
+      "description": "Short North satellite gallery featuring contemporary art exhibitions and the Caribbean-inspired Bar Room."
+    },
+    {
+      "name": "Newport Music Hall",
+      "url": "https://www.promowestlive.com/newport-music-hall/",
+      "description": "America's longest continuously running rock club, located near the Ohio State campus on High Street."
+    },
+    {
+      "name": "Ohio State University Campus",
+      "url": "https://www.osu.edu/",
+      "description": "Main campus of the state's flagship public university, one of the largest in the nation by enrollment."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "University Area Commission",
+      "url": "https://www.cbusareacommissions.org/university",
+      "meetingSchedule": "Third Wednesday of each month, 6:30 PM",
+      "meetingLocation": "Northwood & High Building, 2231 N. High St."
+    },
+    {
+      "name": "Victorian Village Commission",
+      "url": "https://cbusareacommissions.org/",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "Italian Village Commission",
+      "url": "https://cbusareacommissions.org/",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 107489,
+          "median_hh_income": 60413,
+          "median_gross_rent": 932,
+          "median_home_value": 262095,
+          "unemployment_rate": 4.0,
+          "pct_nh_white": 70.0,
+          "pct_nh_black": 7.8,
+          "pct_nh_asian": 22.4,
+          "pct_nh_american_indian": 0.2,
+          "pct_hispanic": 4.5
+        },
+        "data": {
+          "total_population": 100809,
+          "total_households": 42613,
+          "pct_family_households": 37.1,
+          "median_hh_income_est": 77715,
+          "median_gross_rent_est": 1255,
+          "median_home_value_est": 327556,
+          "unemployment_rate": 4.8,
+          "pct_nh_white": 75.8,
+          "pct_nh_black": 5.5,
+          "pct_hispanic": 4.5,
+          "pct_nh_asian": 9.7,
+          "pct_nh_american_indian": 0.0,
+          "pct_other": 4.5,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "number": 7,
+  "slug": "district-seven",
+  "geographicSummary": "District Seven is the central heart of Columbus, encompassing Downtown, German Village, Merion Village, the Brewery District, portions of Italian Village, and Franklinton. The district extends south toward I-270 and Grove City. Its racial diversity and income levels closely mirror the city average.",
+  "councilMember": {
+    "name": "Tiara N. Ross",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Tiara-Ross",
+    "committees": [
+      "Housing, Homelessness & Building (Chair)",
+      "Public Safety & Criminal Justice (Vice Chair)"
+    ],
+    "firstElected": 2025,
+    "termEnds": 2029,
+    "nextElection": 2029,
+    "contactEmail": "mdwiley@columbus.gov",
+    "contactPhone": "(614) 645-6546"
+  },
+  "neighborhoods": [
+    "Downtown",
+    "German Village",
+    "Merion Village",
+    "Brewery District",
+    "Franklinton (partial)",
+    "Italian Village (partial)",
+    "Hungarian Village",
+    "Schumacher Place"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "The Book Loft of German Village",
+      "url": "https://www.bookloft.com/",
+      "description": "32-room independent bookstore housed in pre-Civil War buildings with over 500,000 books in stock."
+    },
+    {
+      "name": "Schiller Park",
+      "url": "https://columbusrecparks.com/parks/schiller-park/",
+      "description": "23.6-acre park in German Village with gazebo, gardens, fishing pond, and free summer Shakespeare performances."
+    },
+    {
+      "name": "Scioto Audubon Metro Park",
+      "url": "https://www.metroparks.net/parks-and-trails/scioto-audubon/",
+      "description": "119-acre park along the Scioto River with nature center, climbing wall, and birding trails."
+    },
+    {
+      "name": "German Village Historic District",
+      "url": "https://germanvillage.com/",
+      "description": "Nationally recognized historic neighborhood with 19th-century brick architecture, shops, and restaurants."
+    },
+    {
+      "name": "COSI (Center of Science and Industry)",
+      "url": "https://cosi.org/",
+      "description": "Major science museum on the Scioto Mile with interactive exhibits, planetarium, and outdoor learning spaces."
+    },
+    {
+      "name": "Columbus Commons",
+      "url": "https://columbuscommons.org/",
+      "description": "Downtown urban park built on the former City Center Mall site with gardens, playground, and seasonal events."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "Franklinton Area Commission",
+      "url": "https://www.cbusareacommissions.org/franklinton",
+      "meetingSchedule": "Second Tuesday of each month, 6:00 PM",
+      "meetingLocation": "Healthy Living Center, 777 W. State St."
+    },
+    {
+      "name": "German Village Commission",
+      "url": "https://cbusareacommissions.org/",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "South Side Area Commission",
+      "url": "https://www.cbusareacommissions.org/southside",
+      "meetingSchedule": "Third Tuesday of each month, 6:30 PM",
+      "meetingLocation": "Columbus Metropolitan Library \u2014 Parsons Branch, 1113 Parsons Ave."
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 108587,
+          "median_hh_income": 54427,
+          "median_gross_rent": 946,
+          "median_home_value": 321424,
+          "unemployment_rate": 3.6,
+          "pct_nh_white": 60.1,
+          "pct_nh_black": 25.0,
+          "pct_nh_asian": 3.0,
+          "pct_nh_american_indian": 0.2,
+          "pct_hispanic": 5.6
+        },
+        "data": {
+          "total_population": 105185,
+          "total_households": 52305,
+          "pct_family_households": 37.0,
+          "median_hh_income_est": 69749,
+          "median_gross_rent_est": 1278,
+          "median_home_value_est": 353142,
+          "unemployment_rate": 4.5,
+          "pct_nh_white": 61.2,
+          "pct_nh_black": 25.0,
+          "pct_hispanic": 5.5,
+          "pct_nh_asian": 2.6,
+          "pct_nh_american_indian": 0.1,
+          "pct_other": 5.6,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}

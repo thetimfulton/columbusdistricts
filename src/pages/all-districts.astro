@@ -1,0 +1,192 @@
+---
+/**
+ * all-districts.astro — Side-by-side district comparison.
+ * Reads all 9 district JSON files at build time.
+ * Pulls demographic data from the current_vintage snapshot.
+ */
+import Layout from '../components/Layout.astro';
+
+import d1 from '../data/districts/district-1.json';
+import d2 from '../data/districts/district-2.json';
+import d3 from '../data/districts/district-3.json';
+import d4 from '../data/districts/district-4.json';
+import d5 from '../data/districts/district-5.json';
+import d6 from '../data/districts/district-6.json';
+import d7 from '../data/districts/district-7.json';
+import d8 from '../data/districts/district-8.json';
+import d9 from '../data/districts/district-9.json';
+
+const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
+
+// Extract current snapshot data for each district
+const rows = allDistricts.map((d) => {
+  const snap = d.demographics.snapshots.find(
+    (s: any) => s.vintage === d.demographics.current_vintage
+  );
+  const data = snap?.data || {};
+  return {
+    number: d.number,
+    slug: d.slug,
+    member: d.councilMember.name,
+    population: data.total_population,
+    income: data.median_hh_income_est,
+    rent: data.median_gross_rent_est,
+    unemployment: data.unemployment_rate,
+    pctWhite: data.pct_nh_white,
+    pctBlack: data.pct_nh_black,
+    pctHispanic: data.pct_hispanic,
+    nextElection: d.councilMember.nextElection,
+  };
+});
+
+// City-wide averages (approximate, summed from district data)
+const totalPop = rows.reduce((s, r) => s + (r.population || 0), 0);
+const avgIncome = Math.round(rows.reduce((s, r) => s + (r.income || 0), 0) / 9);
+const avgRent = Math.round(rows.reduce((s, r) => s + (r.rent || 0), 0) / 9);
+const avgUnemployment = +(rows.reduce((s, r) => s + (r.unemployment || 0), 0) / 9).toFixed(1);
+
+function fmtNum(v: number | null) { return v ? v.toLocaleString('en-US') : '—'; }
+function fmtDollar(v: number | null) { return v ? '$' + v.toLocaleString('en-US') : '—'; }
+function fmtPct(v: number | null) { return v !== null && v !== undefined ? v.toFixed(1) + '%' : '—'; }
+---
+<Layout title="All Districts" description="Compare all nine Columbus City Council districts across demographics, economics, and civic representation.">
+
+  <header class="page-header">
+    <h1>All Districts</h1>
+    <p class="page-intro">Compare all nine Columbus City Council districts across key demographic and civic metrics. All demographic figures are from the {d1.demographics.current_vintage} vintage.</p>
+  </header>
+
+  <div class="table-wrapper">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>District</th>
+          <th>Council Member</th>
+          <th class="num">Population</th>
+          <th class="num">Median Income</th>
+          <th class="num">Median Rent</th>
+          <th class="num">Unemployment</th>
+          <th class="num">% White</th>
+          <th class="num">% Black</th>
+          <th class="num">% Hispanic</th>
+          <th class="num">Next Election</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <td><a href={`/districts/${r.slug}/`}>District {r.number}</a></td>
+            <td>{r.member || '—'}</td>
+            <td class="num">{fmtNum(r.population)}</td>
+            <td class="num">{fmtDollar(r.income)}</td>
+            <td class="num">{fmtDollar(r.rent)}</td>
+            <td class="num">{fmtPct(r.unemployment)}</td>
+            <td class="num">{fmtPct(r.pctWhite)}</td>
+            <td class="num">{fmtPct(r.pctBlack)}</td>
+            <td class="num">{fmtPct(r.pctHispanic)}</td>
+            <td class="num">{r.nextElection || '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+      <tfoot>
+        <tr class="city-avg">
+          <td colspan="2"><strong>City-wide (approx.)</strong></td>
+          <td class="num">{fmtNum(totalPop)}</td>
+          <td class="num">{fmtDollar(avgIncome)}</td>
+          <td class="num">{fmtDollar(avgRent)}</td>
+          <td class="num">{fmtPct(avgUnemployment)}</td>
+          <td class="num" colspan="3">—</td>
+          <td class="num">—</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <p class="table-note">Source: U.S. Census Bureau {d1.demographics.current_vintage} 5-Year Estimates via Census API. City-wide figures are approximate averages of district-level data. Median income, rent, and home value are population-weighted averages of block-group medians. See <a href="/data/">Data &amp; Methodology</a> for details.</p>
+
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-intro {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .comparison-table th {
+    background: var(--color-bg-subtle);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    padding: 0.6rem 0.65rem;
+    text-align: left;
+    border-bottom: 2px solid var(--color-border);
+    position: sticky;
+    top: 0;
+  }
+
+  .comparison-table th.num {
+    text-align: right;
+  }
+
+  .comparison-table td {
+    padding: 0.55rem 0.65rem;
+    border-bottom: 1px solid var(--color-border-light);
+    color: var(--color-text);
+  }
+
+  .comparison-table td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .comparison-table td a {
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .comparison-table td a:hover {
+    text-decoration: underline;
+  }
+
+  .comparison-table tbody tr:hover {
+    background: var(--color-bg-subtle);
+  }
+
+  .city-avg {
+    background: var(--color-bg-subtle);
+    border-top: 2px solid var(--color-border);
+  }
+
+  .city-avg td {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .table-note {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+</style>

@@ -1,0 +1,150 @@
+---
+/**
+ * CrimeBlock.astro
+ * Renders crime risk percentages relative to city average.
+ * Values below city average (negative) render green; above (positive) render red.
+ * Handles null values gracefully — shows "data not available" message.
+ */
+interface Props {
+  crimeRisk: {
+    totalCrime: number | null;
+    personalCrime: number | null;
+    murder: number | null;
+    rape: number | null;
+    robbery: number | null;
+    assault: number | null;
+    propertyCrime: number | null;
+    burglary: number | null;
+    larceny: number | null;
+    motorVehicleTheft: number | null;
+    dataSource: string;
+    pull_date: string | null;
+  };
+}
+
+const { crimeRisk } = Astro.props;
+
+const categories = [
+  { key: 'totalCrime', label: 'Total Crime' },
+  { key: 'personalCrime', label: 'Personal Crime' },
+  { key: 'murder', label: 'Murder' },
+  { key: 'rape', label: 'Rape' },
+  { key: 'robbery', label: 'Robbery' },
+  { key: 'assault', label: 'Assault' },
+  { key: 'propertyCrime', label: 'Property Crime' },
+  { key: 'burglary', label: 'Burglary' },
+  { key: 'larceny', label: 'Larceny' },
+  { key: 'motorVehicleTheft', label: 'Motor Vehicle Theft' },
+];
+
+const hasData = categories.some(c => crimeRisk[c.key as keyof typeof crimeRisk] !== null);
+
+function formatValue(val: number | null): string {
+  if (val === null || val === undefined) return '—';
+  return (val > 0 ? '+' : '') + val + '%';
+}
+
+function getClass(val: number | null): string {
+  if (val === null || val === undefined) return '';
+  return val < 0 ? 'crime-below' : val > 0 ? 'crime-above' : '';
+}
+---
+<section class="crime-block">
+  <h2>Crime Risk</h2>
+  {hasData ? (
+    <>
+      <p class="crime-intro">Percentage relative to Columbus city average. Negative values indicate below-average risk.</p>
+      <div class="crime-grid">
+        {categories.map(({ key, label }) => {
+          const val = crimeRisk[key as keyof typeof crimeRisk] as number | null;
+          return (
+            <div class={`crime-item ${getClass(val)}`}>
+              <span class="crime-label">{label}</span>
+              <span class="crime-value">{formatValue(val)}</span>
+            </div>
+          );
+        })}
+      </div>
+      <p class="crime-source">
+        Source: {crimeRisk.dataSource}
+        {crimeRisk.pull_date && <span> · Data pulled {crimeRisk.pull_date}</span>}
+      </p>
+    </>
+  ) : (
+    <p class="crime-unavailable">Crime risk data is not yet available for this district. This section will be updated when current data is obtained from Applied Geographic Solutions.</p>
+  )}
+</section>
+
+<style>
+  .crime-block {
+    margin-bottom: 2rem;
+  }
+
+  .crime-block h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .crime-intro {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .crime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .crime-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 3px;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-light);
+  }
+
+  .crime-label {
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .crime-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .crime-below .crime-value {
+    color: #2d7d46;
+  }
+
+  .crime-above .crime-value {
+    color: #c0392b;
+  }
+
+  .crime-source {
+    margin-top: 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+
+  .crime-unavailable {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .crime-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

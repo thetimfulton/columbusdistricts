@@ -1,0 +1,808 @@
+---
+/**
+ * data.astro — Data Trends & Methodology page.
+ * Dynamically generates trend comparison tables from all 9 district JSON
+ * snapshots at build time; includes full methodology section.
+ */
+import Layout from '../components/Layout.astro';
+
+import d1 from '../data/districts/district-1.json';
+import d2 from '../data/districts/district-2.json';
+import d3 from '../data/districts/district-3.json';
+import d4 from '../data/districts/district-4.json';
+import d5 from '../data/districts/district-5.json';
+import d6 from '../data/districts/district-6.json';
+import d7 from '../data/districts/district-7.json';
+import d8 from '../data/districts/district-8.json';
+import d9 from '../data/districts/district-9.json';
+
+const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
+
+/* ------------------------------------------------------------------ */
+/*  Build the trend data structure (3D.1)                              */
+/*  For each metric, build: { vintage: { D1: value, D2: value, … } }  */
+/* ------------------------------------------------------------------ */
+
+// Collect all vintages present across any district (chronological order)
+const vintageSet = new Set<string>();
+allDistricts.forEach((d) => {
+  d.demographics.snapshots.forEach((s: any) => {
+    if (s.data && Object.values(s.data).some((v: any) => v !== null)) {
+      vintageSet.add(s.vintage);
+    }
+  });
+});
+const vintages = Array.from(vintageSet).sort(); // chronological
+
+// Helper: extract a metric value from a district's snapshot
+function getMetric(district: any, vintage: string, metric: string): number | null {
+  const snap = district.demographics.snapshots.find((s: any) => s.vintage === vintage);
+  if (!snap || !snap.data) return null;
+  return snap.data[metric] ?? null;
+}
+
+// Helper: extract an Esri metric value
+function getEsriMetric(district: any, vintage: string, metric: string): number | null {
+  const snap = district.demographics.snapshots.find((s: any) => s.vintage === vintage);
+  if (!snap || !snap.esri_estimates) return null;
+  return snap.esri_estimates[metric] ?? null;
+}
+
+// Build trend rows for a metric
+type TrendRow = { vintage: string; values: (number | null)[] };
+function buildTrend(metric: string): TrendRow[] {
+  return vintages.map((v) => ({
+    vintage: v,
+    values: allDistricts.map((d) => getMetric(d, v, metric)),
+  }));
+}
+
+// Build Esri trend rows for a metric
+function buildEsriTrend(metric: string): TrendRow[] {
+  return vintages.map((v) => ({
+    vintage: v,
+    values: allDistricts.map((d) => getEsriMetric(d, v, metric)),
+  }));
+}
+
+// Compute change row (most recent minus previous)
+function changeRow(rows: TrendRow[]): (number | null)[] {
+  if (rows.length < 2) return allDistricts.map(() => null);
+  const prev = rows[rows.length - 2].values;
+  const curr = rows[rows.length - 1].values;
+  return curr.map((c, i) => {
+    if (c === null || prev[i] === null) return null;
+    return c - prev[i];
+  });
+}
+
+/* Build all trend sets */
+const popTrend = buildTrend('total_population');
+const hhTrend = buildTrend('total_households');
+
+const pctWhiteTrend = buildTrend('pct_nh_white');
+const pctBlackTrend = buildTrend('pct_nh_black');
+const pctHispanicTrend = buildTrend('pct_hispanic');
+const pctAsianTrend = buildTrend('pct_nh_asian');
+
+const incomeTrend = buildTrend('median_hh_income_est');
+const incomeEsri = buildEsriTrend('median_hh_income');
+const rentTrend = buildTrend('median_gross_rent_est');
+const rentEsri = buildEsriTrend('median_gross_rent');
+const homeValueTrend = buildTrend('median_home_value_est');
+const homeValueEsri = buildEsriTrend('median_home_value');
+const unempTrend = buildTrend('unemployment_rate');
+const unempEsri = buildEsriTrend('unemployment_rate');
+
+/* Formatting helpers */
+function fmtNum(v: number | null) { return v !== null && v !== undefined ? v.toLocaleString('en-US') : '—'; }
+function fmtDollar(v: number | null) { return v !== null && v !== undefined ? '$' + v.toLocaleString('en-US') : '—'; }
+function fmtPct(v: number | null) { return v !== null && v !== undefined ? v.toFixed(1) + '%' : '—'; }
+function fmtChange(v: number | null, fmt: 'num' | 'dollar' | 'pct') {
+  if (v === null || v === undefined) return '—';
+  const sign = v > 0 ? '+' : '';
+  if (fmt === 'dollar') return sign + '$' + Math.round(v).toLocaleString('en-US');
+  if (fmt === 'pct') return sign + v.toFixed(1) + ' pp';
+  return sign + v.toLocaleString('en-US');
+}
+
+/* Vintage history table data */
+const vintageHistory = [
+  { vintage: 'ACS 2017-2021', pullDate: 'Jan 2023', source: 'U.S. Census Bureau ACS 5-Year', variables: 'Population, households, income, rent, home value, unemployment, race/ethnicity', status: 'Placeholder (data not yet populated)' },
+  { vintage: 'ACS 2019-2023', pullDate: 'Apr 2, 2026', source: 'U.S. Census Bureau ACS 5-Year via Census API', variables: 'Population, households, income, rent, home value, unemployment, race/ethnicity', status: 'Active — current vintage' },
+  { vintage: 'Esri Current-Year', pullDate: 'Apr 2, 2026', source: 'Esri current-year estimates (Comparisons.xlsx)', variables: 'Population, income, rent, home value, unemployment, race/ethnicity', status: 'Supplemental comparison' },
+];
+---
+<Layout title="Data & Methodology" description="Columbus district demographic trends across ACS vintages, methodology documentation, data sources, and the research pipeline behind Columbus Districts.">
+
+  <header class="page-header">
+    <h1>Data & Methodology</h1>
+    <p class="page-intro">Longitudinal demographic data for all nine Columbus City Council districts, plus full documentation of the methodology, sources, and data pipeline behind this site.</p>
+    <nav class="page-toc" aria-label="On this page">
+      <ul>
+        <li><a href="#population-trends">Population & Households</a></li>
+        <li><a href="#race-trends">Racial Composition</a></li>
+        <li><a href="#economic-trends">Economic Indicators</a></li>
+        <li><a href="#methodology">Methodology</a></li>
+        <li><a href="#sources">Data Sources</a></li>
+        <li><a href="#pipeline">Data Pipeline</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  {/* ================================================================ */}
+  {/* SECTION: Population & Household Trends (3D.2)                    */}
+  {/* ================================================================ */}
+  <section id="population-trends" class="data-section">
+    <h2>Population & Households</h2>
+    <p class="section-intro">Total population and household counts for each district across available ACS vintages. Figures are block-group weighted aggregations from Census data.</p>
+
+    <div class="table-wrapper">
+      <h3>Total Population</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {popTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage}</td>
+              {row.values.map((v) => <td class="num">{fmtNum(v)}</td>)}
+            </tr>
+          ))}
+          {popTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">Change</td>
+              {changeRow(popTrend).map((v) => <td class="num">{fmtChange(v, 'num')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrapper">
+      <h3>Total Households</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {hhTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage}</td>
+              {row.values.map((v) => <td class="num">{fmtNum(v)}</td>)}
+            </tr>
+          ))}
+          {hhTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">Change</td>
+              {changeRow(hhTrend).map((v) => <td class="num">{fmtChange(v, 'num')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {/* ================================================================ */}
+  {/* SECTION: Racial & Ethnic Composition Trends (3D.3)               */}
+  {/* ================================================================ */}
+  <section id="race-trends" class="data-section">
+    <h2>Racial & Ethnic Composition</h2>
+    <p class="section-intro">Racial and ethnic percentages across ACS vintages. All figures use Census Bureau ACS B03002 classification (Hispanic origin by race). Percentages reflect ACS definitions and may differ from Esri current-year estimates due to classification methodology. See <a href="#methodology">Methodology</a> for details.</p>
+
+    <div class="table-wrapper">
+      <h3>% Non-Hispanic White</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {pctWhiteTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage}</td>
+              {row.values.map((v) => <td class="num">{fmtPct(v)}</td>)}
+            </tr>
+          ))}
+          {pctWhiteTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">Change</td>
+              {changeRow(pctWhiteTrend).map((v) => <td class="num">{fmtChange(v, 'pct')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrapper">
+      <h3>% Non-Hispanic Black</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {pctBlackTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage}</td>
+              {row.values.map((v) => <td class="num">{fmtPct(v)}</td>)}
+            </tr>
+          ))}
+          {pctBlackTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">Change</td>
+              {changeRow(pctBlackTrend).map((v) => <td class="num">{fmtChange(v, 'pct')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrapper">
+      <h3>% Hispanic</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {pctHispanicTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage}</td>
+              {row.values.map((v) => <td class="num">{fmtPct(v)}</td>)}
+            </tr>
+          ))}
+          {pctHispanicTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">Change</td>
+              {changeRow(pctHispanicTrend).map((v) => <td class="num">{fmtChange(v, 'pct')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrapper">
+      <h3>% Non-Hispanic Asian</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {pctAsianTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage}</td>
+              {row.values.map((v) => <td class="num">{fmtPct(v)}</td>)}
+            </tr>
+          ))}
+          {pctAsianTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">Change</td>
+              {changeRow(pctAsianTrend).map((v) => <td class="num">{fmtChange(v, 'pct')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {/* ================================================================ */}
+  {/* SECTION: Economic Indicator Trends (3D.4)                        */}
+  {/* ================================================================ */}
+  <section id="economic-trends" class="data-section">
+    <h2>Economic Indicators</h2>
+    <p class="section-intro">Key economic metrics across ACS vintages, with Esri current-year estimates shown for comparison where available. ACS median figures are population-weighted averages of block-group medians — see <a href="#methodology">Methodology</a> below.</p>
+
+    {/* Median Household Income */}
+    <div class="table-wrapper">
+      <h3>Median Household Income</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Source / Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {incomeTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage} (ACS)</td>
+              {row.values.map((v) => <td class="num">{fmtDollar(v)}</td>)}
+            </tr>
+          ))}
+          {incomeEsri.map((row) =>
+            row.values.some((v) => v !== null) && (
+              <tr class="esri-row">
+                <td class="vintage-label">Esri Current-Year</td>
+                {row.values.map((v) => <td class="num">{fmtDollar(v)}</td>)}
+              </tr>
+            )
+          )}
+          {incomeTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">ACS Change</td>
+              {changeRow(incomeTrend).map((v) => <td class="num">{fmtChange(v, 'dollar')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <p class="table-note">ACS median figures are population-weighted averages of block-group medians — approximations, not true district medians.</p>
+    </div>
+
+    {/* Median Gross Rent */}
+    <div class="table-wrapper">
+      <h3>Median Gross Rent</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Source / Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rentTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage} (ACS)</td>
+              {row.values.map((v) => <td class="num">{fmtDollar(v)}</td>)}
+            </tr>
+          ))}
+          {rentEsri.map((row) =>
+            row.values.some((v) => v !== null) && (
+              <tr class="esri-row">
+                <td class="vintage-label">Esri Current-Year</td>
+                {row.values.map((v) => <td class="num">{fmtDollar(v)}</td>)}
+              </tr>
+            )
+          )}
+          {rentTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">ACS Change</td>
+              {changeRow(rentTrend).map((v) => <td class="num">{fmtChange(v, 'dollar')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <p class="table-note">ACS median figures are population-weighted averages of block-group medians — approximations, not true district medians.</p>
+    </div>
+
+    {/* Median Home Value */}
+    <div class="table-wrapper">
+      <h3>Median Home Value</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Source / Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {homeValueTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage} (ACS)</td>
+              {row.values.map((v) => <td class="num">{fmtDollar(v)}</td>)}
+            </tr>
+          ))}
+          {homeValueEsri.map((row) =>
+            row.values.some((v) => v !== null) && (
+              <tr class="esri-row">
+                <td class="vintage-label">Esri Current-Year</td>
+                {row.values.map((v) => <td class="num">{fmtDollar(v)}</td>)}
+              </tr>
+            )
+          )}
+          {homeValueTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">ACS Change</td>
+              {changeRow(homeValueTrend).map((v) => <td class="num">{fmtChange(v, 'dollar')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <p class="table-note">ACS median figures are population-weighted averages of block-group medians — approximations, not true district medians.</p>
+    </div>
+
+    {/* Unemployment Rate */}
+    <div class="table-wrapper">
+      <h3>Unemployment Rate</h3>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>Source / Vintage</th>
+            {allDistricts.map((d) => <th class="num">D{d.number}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {unempTrend.map((row) => (
+            <tr>
+              <td class="vintage-label">{row.vintage} (ACS)</td>
+              {row.values.map((v) => <td class="num">{fmtPct(v)}</td>)}
+            </tr>
+          ))}
+          {unempEsri.map((row) =>
+            row.values.some((v) => v !== null) && (
+              <tr class="esri-row">
+                <td class="vintage-label">Esri Current-Year</td>
+                {row.values.map((v) => <td class="num">{fmtPct(v)}</td>)}
+              </tr>
+            )
+          )}
+          {unempTrend.length >= 2 && (
+            <tr class="change-row">
+              <td class="vintage-label">ACS Change</td>
+              {changeRow(unempTrend).map((v) => <td class="num">{fmtChange(v, 'pct')}</td>)}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {/* ================================================================ */}
+  {/* SECTION: Methodology (3D.5)                                      */}
+  {/* ================================================================ */}
+  <section id="methodology" class="data-section methodology-section">
+    <h2>Methodology</h2>
+
+    <div class="methodology-block">
+      <h3>About the ACS 5-Year Estimates</h3>
+      <p>The primary demographic data on this site comes from the <strong>American Community Survey (ACS) 5-Year Estimates</strong>, published by the U.S. Census Bureau. A "5-year estimate" is not a snapshot of a single year — it represents a rolling average of survey data collected over five consecutive years. For example, the ACS 2019-2023 vintage reflects responses gathered between January 2019 and December 2023.</p>
+      <p>This averaging provides more reliable estimates for small geographies (like Census block groups), but it means that the figures do not precisely represent any single point in time. In a rapidly growing city like Columbus, this temporal smoothing can mask recent changes — a district that added substantial housing in 2022-2023 will show a lower population figure than its current reality, because the 5-year average includes earlier, lower-population years.</p>
+
+      <h4>Why block-group aggregation is necessary</h4>
+      <p>Columbus's nine City Council districts do not align with any standard Census geography. The Census Bureau publishes data for tracts, block groups, and blocks — none of which correspond to council district boundaries. To produce district-level demographic figures, this site aggregates ACS data from the Census block-group level up to the district level.</p>
+      <p>The aggregation works by mapping each Census block (the smallest Census geography) to its containing council district using the city's official block-to-district crosswalk (<code>CensusBlock2020_with_CouncilDistrict2023.xlsx</code>). Blocks are grouped into their parent block groups, and each block group's share within a council district is calculated based on population. District-level figures are then computed as population-weighted sums (for counts like total population) or population-weighted averages (for medians like household income).</p>
+
+      <h4>Why median figures are approximations</h4>
+      <p>When the site reports "median household income" for a district, this is a <strong>population-weighted average of block-group medians</strong> — not a true district-level median calculated from individual household data. The Census Bureau publishes median values only at the block-group level and above; there is no published median for a custom geography like a council district. The weighted-average approach is a standard and defensible approximation used by planning agencies and researchers, but it can diverge from a true median, particularly when income distributions are skewed or when block groups within a district have very different income profiles. The same caveat applies to median gross rent and median home value.</p>
+
+      <h4>Margins of error</h4>
+      <p>All ACS estimates carry margins of error (MOE). This site does not display MOEs on individual district pages to maintain readability, but users should be aware that every figure is a statistical estimate, not a precise count. At the population sizes of Columbus's districts (roughly 100,000 residents each), ACS 5-year estimates for major demographic categories are generally reliable, but smaller population subgroups (e.g., specific racial categories in smaller districts) will have larger relative margins of error. The Census Bureau publishes <a href="https://www.census.gov/programs-surveys/acs/library/handbooks/general.html" target="_blank" rel="noopener">guidance on interpreting ACS reliability</a>. To calculate a 90% confidence interval for any figure: point estimate ± margin of error.</p>
+    </div>
+
+    <div class="methodology-block">
+      <h3>ACS vs. Esri Current-Year Estimates</h3>
+      <p>Where available, this site displays <strong>Esri current-year estimates</strong> alongside ACS figures. Esri is a private geospatial analytics firm that produces forward-looking demographic projections for every Census geography in the United States. Their estimates start from the 2020 decennial Census as a baseline and update annually using building permits, U.S. Postal Service delivery counts, IRS tax-return migration data, and proprietary models.</p>
+      <p>The two data sources serve different purposes and should not be treated as interchangeable:</p>
+      <p><strong>ACS estimates</strong> are backward-looking 5-year survey averages. They are the standard for peer-reviewed research, historical comparison, and trend analysis. Use ACS figures when comparing Columbus districts to other cities, tracking change over time, or citing demographics in a formal context.</p>
+      <p><strong>Esri estimates</strong> are forward-looking current-year projections. They are useful for current-year planning and for understanding where a district stands today versus the survey average. Use Esri figures when the ACS vintage is several years old and you need a more current approximation.</p>
+      <p>It is normal and expected for ACS and Esri figures to diverge — the divergence reflects both the time lag between a 5-year average and a current-year projection, and methodological differences in how the two sources estimate demographic variables. High-growth districts (D2, D5, D6, D8, D9) tend to show the largest divergences because ACS's 5-year average has not yet fully captured recent population growth that Esri's models incorporate.</p>
+
+      <h4>Income, rent, and home value differences</h4>
+      <p>ACS figures for median household income, median gross rent, and median home value are systematically higher than Esri's estimates across all nine districts. This is a known methodological effect: ACS figures on this site are population-weighted averages of block-group medians, which tend to produce higher values than Esri's direct estimation approach. The divergence does not indicate an error in either source — it reflects how two different aggregation approaches interact with the underlying income and rent distributions.</p>
+
+      <h4>Race and ethnicity classification differences</h4>
+      <p>ACS uses Census Bureau definitions from Table B03002 (Hispanic Origin by Race), which classifies individuals into mutually exclusive categories based on self-identification. Esri applies its own current-year estimation models, which may handle multiracial individuals and small populations differently. In particular, Esri's American Indian counts include individuals who selected American Indian as one of their races (including multiracial individuals), while ACS B03002 counts only individuals who identify as Non-Hispanic American Indian alone. Both figures are valid for their respective classification approaches; the consistent divergence across all districts is a methodology difference, not a data error.</p>
+    </div>
+
+    <div class="methodology-block" id="known-anomalies">
+      <h3>Known Anomalies Under Review</h3>
+      <p>The following variances between ACS and Esri data are under investigation and are flagged here for transparency:</p>
+      <p><strong>District 3, Asian population:</strong> ACS reports 9,739 Non-Hispanic Asian residents; Esri reports 24,075 — a -59.5% divergence. District 3 includes the Ohio State University campus, where group-quarters methodology and block-group boundary assignments may contribute to the discrepancy. This is the single largest percentage variance for a numerically significant population in the dataset and is under active review.</p>
+      <p><strong>District 3, Black population:</strong> ACS reports 5,552 Non-Hispanic Black residents; Esri reports 8,354 — a -33.5% divergence. This may relate to the same block-group crosswalk issues affecting the D3 Asian population count.</p>
+      <p><strong>District 2, total population:</strong> ACS reports 143,899; Esri reports 103,970 — a +38.4% divergence. This is the largest population divergence of any district. It may reflect genuine rapid growth in the Clintonville and Northland corridors, a block-group crosswalk issue, or both. Under investigation.</p>
+      <p>All figures on individual district pages are displayed as reported by the source data. Where a figure is under review, the district page includes a note linking to this section.</p>
+    </div>
+  </section>
+
+  {/* ================================================================ */}
+  {/* SECTION: Data Sources & Vintage History (3D.5 continued)         */}
+  {/* ================================================================ */}
+  <section id="sources" class="data-section">
+    <h2>Data Sources & Vintage History</h2>
+    <p class="section-intro">Every data vintage used on this site, with pull dates, sources, and coverage.</p>
+
+    <div class="table-wrapper">
+      <table class="vintage-table">
+        <thead>
+          <tr>
+            <th>Vintage</th>
+            <th>Pull Date</th>
+            <th>Source</th>
+            <th>Variables Covered</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {vintageHistory.map((v) => (
+            <tr>
+              <td class="vintage-label">{v.vintage}</td>
+              <td>{v.pullDate}</td>
+              <td>{v.source}</td>
+              <td>{v.variables}</td>
+              <td>{v.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p>Additional data sources used on this site include the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a> (election results), the <a href="https://www.columbus.gov/Government/City-Council" target="_blank" rel="noopener">City of Columbus</a> (council member directory and committee assignments), and <a href="https://cbusareacommissions.org/" target="_blank" rel="noopener">cbusareacommissions.org</a> (area commission directory).</p>
+  </section>
+
+  {/* ================================================================ */}
+  {/* SECTION: Data Pipeline (3D.5 continued)                          */}
+  {/* ================================================================ */}
+  <section id="pipeline" class="data-section">
+    <h2>Data Pipeline</h2>
+    <p>The demographic data on this site is produced by a reproducible pipeline of Python scripts maintained in the project's <code>/scripts/</code> directory:</p>
+    <p><strong><code>build_district_profiles.py</code></strong> pulls ACS 5-Year estimates from the Census Bureau API, maps block groups to council districts using the city's official crosswalk file, computes population-weighted aggregations for each district, and writes the results to the district JSON files that power this site.</p>
+    <p><strong><code>compare_sources.py</code></strong> reads the ACS-derived district data and the Esri current-year estimates side by side, computes percentage variances for every metric, flags outliers for review, and produces the variance analysis documented in <code>data_notes.md</code>.</p>
+    <p>Both scripts and their documentation are available in the project's <a href="https://github.com/tfulton/columbusdistricts-site/tree/main/scripts" target="_blank" rel="noopener"><code>/scripts/</code> directory on GitHub</a>.</p>
+    <p>Found an error or have a data correction? Use the <strong>Suggest an Edit</strong> form on any <a href="/districts/district-one/">district page</a>, or reach out to the team at <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a>.</p>
+  </section>
+
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-intro {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .page-toc ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .page-toc a {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .page-toc a:hover {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+
+  /* Data sections */
+  .data-section {
+    margin-bottom: 3rem;
+  }
+
+  .data-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .section-intro {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .section-intro a {
+    color: var(--color-accent);
+  }
+
+  /* Trend tables */
+  .table-wrapper {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  .table-wrapper h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-accent);
+  }
+
+  .trend-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  .trend-table th {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    padding: 0.4rem 0.5rem;
+    text-align: left;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .trend-table th.num {
+    text-align: right;
+  }
+
+  .trend-table td {
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .trend-table td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vintage-label {
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+  }
+
+  .change-row {
+    border-top: 2px solid var(--color-border);
+    background: var(--color-bg-subtle);
+  }
+
+  .change-row td {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .esri-row {
+    background: var(--color-bg-subtle);
+  }
+
+  .esri-row td {
+    font-style: italic;
+    color: var(--color-text-muted);
+  }
+
+  .table-note {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+    padding: 0 0.25rem;
+  }
+
+  /* Vintage history table */
+  .vintage-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+  }
+
+  .vintage-table th {
+    background: var(--color-bg-subtle);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    padding: 0.5rem 0.65rem;
+    text-align: left;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .vintage-table td {
+    padding: 0.5rem 0.65rem;
+    border-bottom: 1px solid var(--color-border-light);
+    color: var(--color-text);
+    font-size: 0.82rem;
+  }
+
+  /* Methodology */
+  .methodology-section h2 {
+    margin-bottom: 1rem;
+  }
+
+  .methodology-block {
+    margin-bottom: 2rem;
+  }
+
+  .methodology-block h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+    color: var(--color-text);
+  }
+
+  .methodology-block h4 {
+    font-size: 0.95rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-secondary);
+  }
+
+  .methodology-block p {
+    margin-bottom: 0.9rem;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .methodology-block code {
+    font-size: 0.85em;
+    background: var(--color-bg-subtle);
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
+    border: 1px solid var(--color-border-light);
+  }
+
+  .methodology-block strong {
+    color: var(--color-text);
+  }
+
+  .methodology-block a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .methodology-block a:hover {
+    text-decoration: underline;
+  }
+
+  #pipeline p {
+    margin-bottom: 0.9rem;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  #pipeline code {
+    font-size: 0.85em;
+    background: var(--color-bg-subtle);
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
+    border: 1px solid var(--color-border-light);
+  }
+
+  #pipeline a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  #pipeline a:hover {
+    text-decoration: underline;
+  }
+
+  #sources p {
+    margin-bottom: 0.9rem;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  #sources a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  #sources a:hover {
+    text-decoration: underline;
+  }
+</style>

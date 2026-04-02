@@ -1,0 +1,111 @@
+---
+/**
+ * AreaCommission.astro
+ * Renders area commission(s) for a district.
+ * Handles multiple commissions per district.
+ * Hides meeting details gracefully when null.
+ */
+interface Commission {
+  name: string;
+  url: string;
+  meetingSchedule: string | null;
+  meetingLocation: string | null;
+}
+
+interface Props {
+  areaCommissions: Commission[];
+}
+
+const { areaCommissions } = Astro.props;
+---
+{areaCommissions.length > 0 && (
+<section class="area-commissions">
+  <h2>Area Commission{areaCommissions.length > 1 ? 's' : ''}</h2>
+  <p class="ac-intro">Area commissions are the most local level of civic input in Columbus. They review zoning cases, hear community concerns, and advise City Council.</p>
+
+  <div class="ac-list">
+    {areaCommissions.map((ac) => (
+      <div class="ac-card">
+        <h3 class="ac-name">
+          <a href={ac.url} target="_blank" rel="noopener">{ac.name}</a>
+        </h3>
+        {ac.meetingSchedule && (
+          <p class="ac-detail"><span class="ac-label">Meetings:</span> {ac.meetingSchedule}</p>
+        )}
+        {ac.meetingLocation && (
+          <p class="ac-detail"><span class="ac-label">Location:</span> {ac.meetingLocation}</p>
+        )}
+        <p class="ac-comment">Meetings are open to the public. Residents may attend and submit comments on items before the commission.</p>
+      </div>
+    ))}
+  </div>
+</section>
+)}
+
+<style>
+  .area-commissions {
+    margin-bottom: 2rem;
+  }
+
+  .area-commissions h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .ac-intro {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .ac-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .ac-card {
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    padding: 1rem;
+  }
+
+  .ac-name {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .ac-name a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .ac-name a:hover {
+    text-decoration: underline;
+  }
+
+  .ac-label {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  .ac-detail {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    margin-bottom: 0.3rem;
+    color: var(--color-text-secondary);
+  }
+
+  .ac-comment {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+  }
+</style>

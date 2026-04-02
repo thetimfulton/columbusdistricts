@@ -1,0 +1,321 @@
+/* Columbus Districts — Global Styles
+   Design: editorially authoritative, not flashy.
+   Columbus Underground aesthetic sensibility. */
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-text: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-muted: #6b6b6b;
+  --color-bg: #ffffff;
+  --color-bg-subtle: #f5f5f3;
+  --color-border: #d4d4d4;
+  --color-border-light: #e8e8e6;
+  --color-accent: #1a3a5c;
+  --color-accent-hover: #0f2740;
+  --color-link: #1a3a5c;
+  --color-link-hover: #0f2740;
+  --color-nav-bg: #1a1a1a;
+  --color-nav-text: #f0f0ee;
+  --color-footer-bg: #1a1a1a;
+  --color-footer-text: #c8c8c4;
+  --font-body: 'Georgia', 'Times New Roman', serif;
+  --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-nav: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+  --max-width: 1120px;
+  --nav-height: 56px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.65;
+}
+
+/* ---- Typography ---- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+h1 { font-size: 2rem; margin-bottom: 0.75rem; }
+h2 { font-size: 1.5rem; margin-bottom: 0.6rem; }
+h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+
+p { margin-bottom: 1rem; }
+
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* ---- Layout Shell ---- */
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ---- Header / Nav ---- */
+.site-header {
+  background-color: var(--color-nav-bg);
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+}
+
+.site-logo a {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-nav-text);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.site-logo a:hover {
+  color: #fff;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-nav);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-nav-text);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  transition: color 0.15s;
+}
+.nav-links a:hover {
+  color: #fff;
+}
+
+/* Districts dropdown */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-toggle {
+  font-family: var(--font-nav);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-nav-text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  transition: color 0.15s;
+}
+.nav-dropdown-toggle:hover {
+  color: #fff;
+}
+.nav-dropdown-toggle::after {
+  content: ' \25BE';
+  font-size: 0.7em;
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--color-nav-bg);
+  border: 1px solid #333;
+  min-width: 200px;
+  padding: 0.25rem 0;
+  z-index: 200;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  display: block;
+}
+
+.nav-dropdown-menu a {
+  display: block;
+  font-family: var(--font-nav);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--color-nav-text);
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+}
+.nav-dropdown-menu a:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-nav-text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ---- Footer ---- */
+.site-footer {
+  background-color: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  border-top: 3px solid var(--color-accent);
+  padding: 2.5rem 1.5rem 1.5rem;
+  font-family: var(--font-nav);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.footer-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.footer-section h4 {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #e8e8e6;
+  margin-bottom: 0.75rem;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section li {
+  margin-bottom: 0.35rem;
+}
+
+.footer-section a {
+  color: var(--color-footer-text);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-section a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  max-width: var(--max-width);
+  margin: 2rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: var(--color-nav-bg);
+    flex-direction: column;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #333;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a,
+  .nav-dropdown-toggle {
+    padding: 0.6rem 1.5rem;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    border: none;
+    padding-left: 1rem;
+  }
+
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu {
+    display: block;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .site-main {
+    padding: 1.5rem 1rem;
+  }
+
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.3rem; }
+}

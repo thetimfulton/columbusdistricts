@@ -1,0 +1,299 @@
+---
+/**
+ * DemographicsBlock.astro
+ * Reads demographics.current_vintage to select the active snapshot.
+ * Renders income, rent, home value, unemployment, racial composition.
+ * Always renders the snapshot's data_note, vintage label, and pull_date.
+ * Designed to accept additional ACS vintages without template changes.
+ */
+interface Snapshot {
+  vintage: string;
+  pull_date: string;
+  source: string;
+  esri_estimates: Record<string, any> | null;
+  data: Record<string, any>;
+}
+
+interface Props {
+  demographics: {
+    current_vintage: string;
+    snapshots: Snapshot[];
+  };
+}
+
+const { demographics } = Astro.props;
+
+// Find the snapshot matching current_vintage
+const snapshot = demographics.snapshots.find(s => s.vintage === demographics.current_vintage);
+const data = snapshot?.data;
+const esri = snapshot?.esri_estimates;
+
+// Format helpers
+function fmtNum(val: number | null): string {
+  if (val === null || val === undefined) return '—';
+  return val.toLocaleString('en-US');
+}
+
+function fmtDollar(val: number | null): string {
+  if (val === null || val === undefined) return '—';
+  return '$' + val.toLocaleString('en-US');
+}
+
+function fmtPct(val: number | null): string {
+  if (val === null || val === undefined) return '—';
+  return val.toFixed(1) + '%';
+}
+---
+{snapshot && data ? (
+<section class="demographics-block">
+  <h2>Demographics</h2>
+  <div class="demo-vintage">
+    <span class="demo-vintage-label">{snapshot.vintage}</span>
+    <span class="demo-vintage-date">Data pulled {snapshot.pull_date}</span>
+  </div>
+
+  <div class="demo-grid">
+    <div class="demo-section">
+      <h3>Population &amp; Households</h3>
+      <table class="demo-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ACS Estimate</th>
+            {esri && <th>Esri Current-Year</th>}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="demo-metric">Total Population</td>
+            <td>{fmtNum(data.total_population)}</td>
+            {esri && <td>{fmtNum(esri.total_population)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">Total Households</td>
+            <td>{fmtNum(data.total_households)}</td>
+            {esri && <td>—</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">% Family Households</td>
+            <td>{fmtPct(data.pct_family_households)}</td>
+            {esri && <td>—</td>}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="demo-section">
+      <h3>Economic Indicators</h3>
+      <table class="demo-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ACS Estimate</th>
+            {esri && <th>Esri Current-Year</th>}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="demo-metric">Median Household Income</td>
+            <td>{fmtDollar(data.median_hh_income_est)}</td>
+            {esri && <td>{fmtDollar(esri.median_hh_income)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">Median Gross Rent</td>
+            <td>{fmtDollar(data.median_gross_rent_est)}</td>
+            {esri && <td>{fmtDollar(esri.median_gross_rent)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">Median Home Value</td>
+            <td>{fmtDollar(data.median_home_value_est)}</td>
+            {esri && <td>{fmtDollar(esri.median_home_value)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">Unemployment Rate</td>
+            <td>{fmtPct(data.unemployment_rate)}</td>
+            {esri && <td>{fmtPct(esri.unemployment_rate)}</td>}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="demo-section">
+      <h3>Racial &amp; Ethnic Composition</h3>
+      <table class="demo-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ACS Estimate</th>
+            {esri && <th>Esri Current-Year</th>}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="demo-metric">% NH White</td>
+            <td>{fmtPct(data.pct_nh_white)}</td>
+            {esri && <td>{fmtPct(esri.pct_nh_white)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">% NH Black</td>
+            <td>{fmtPct(data.pct_nh_black)}</td>
+            {esri && <td>{fmtPct(esri.pct_nh_black)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">% Hispanic</td>
+            <td>{fmtPct(data.pct_hispanic)}</td>
+            {esri && <td>{fmtPct(esri.pct_hispanic)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">% NH Asian</td>
+            <td>{fmtPct(data.pct_nh_asian)}</td>
+            {esri && <td>{fmtPct(esri.pct_nh_asian)}</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">% NH American Indian</td>
+            <td>{fmtPct(data.pct_nh_american_indian)}</td>
+            {esri && <td>—</td>}
+          </tr>
+          <tr>
+            <td class="demo-metric">% Other</td>
+            <td>{fmtPct(data.pct_other)}</td>
+            {esri && <td>—</td>}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {data.data_note && (
+    <p class="demo-note">{data.data_note}</p>
+  )}
+
+  <p class="demo-source">
+    Source: {snapshot.source}
+    {esri && <span> · Esri estimates: {esri.source} (pulled {esri.pull_date})</span>}
+  </p>
+
+  <a class="demo-trends-link" href="/data/">View data trends and methodology &rarr;</a>
+</section>
+) : (
+<section class="demographics-block">
+  <h2>Demographics</h2>
+  <p>Demographic data is not yet available for this district.</p>
+</section>
+)}
+
+<style>
+  .demographics-block {
+    margin-bottom: 2rem;
+  }
+
+  .demographics-block h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .demo-vintage {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .demo-vintage-label {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  .demo-vintage-date {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .demo-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .demo-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-secondary);
+  }
+
+  .demo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+  }
+
+  .demo-table th {
+    text-align: right;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    padding: 0.3rem 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .demo-table th:first-child {
+    text-align: left;
+  }
+
+  .demo-table td {
+    padding: 0.4rem 0.5rem;
+    text-align: right;
+    border-bottom: 1px solid var(--color-border-light);
+    color: var(--color-text);
+  }
+
+  .demo-metric {
+    text-align: left !important;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  .demo-note {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .demo-source {
+    margin-top: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+
+  .demo-trends-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .demo-trends-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .demo-table {
+      font-size: 0.82rem;
+    }
+    .demo-table th, .demo-table td {
+      padding: 0.3rem 0.25rem;
+    }
+  }
+</style>

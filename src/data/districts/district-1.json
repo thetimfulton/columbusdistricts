@@ -1,0 +1,147 @@
+{
+  "number": 1,
+  "slug": "district-one",
+  "geographicSummary": "District One covers the Far North, Far Northwest, and Northland neighborhoods of Columbus. Its boundaries run roughly from Sawmill Road to the west, Route 161 to the south, Cleveland Avenue to the east, and the Polaris area to the north. The district is unique in that its neighborhoods are highly diverse in size and demographic makeup, and its poverty rate is among the lowest of the nine districts.",
+  "councilMember": {
+    "name": "Christopher L. Wyche",
+    "officialBioUrl": "https://www.columbus.gov/Government/City-Council/Councilmembers/Christopher-L.-Wyche",
+    "committees": [
+      "Public Utilities & Sustainability (Chair)",
+      "Neighborhoods, Recreation & Parks (Vice Chair)"
+    ],
+    "firstElected": 2023,
+    "termEnds": 2029,
+    "nextElection": 2029,
+    "contactEmail": "clgolterman@columbus.gov",
+    "contactPhone": "(614) 645-3091"
+  },
+  "neighborhoods": [
+    "Far North",
+    "Far Northwest",
+    "Northland",
+    "Polaris",
+    "Westerville (partial)"
+  ],
+  "pointsOfInterest": [
+    {
+      "name": "Polaris Fashion Place",
+      "url": "https://polarisfashionplace.com/",
+      "description": "Large indoor shopping and entertainment complex anchoring the district's northern commercial corridor."
+    },
+    {
+      "name": "Highbanks Metro Park",
+      "url": "https://www.metroparks.net/parks-and-trails/highbanks/",
+      "description": "1,204-acre park along the Olentangy River with hiking trails, nature center, sledding hill, and canoe access."
+    },
+    {
+      "name": "Topgolf Columbus",
+      "url": "https://topgolf.com/us/columbus/",
+      "description": "Three-story entertainment venue with hitting bays, restaurant, and event spaces near Polaris."
+    },
+    {
+      "name": "Lazelle Woods Park",
+      "url": "https://columbusrecparks.com/",
+      "description": "Neighborhood park in Northland with walking trails, sports courts, and playground facilities."
+    },
+    {
+      "name": "Northland Community Library",
+      "url": "https://www.columbuslibrary.org/",
+      "description": "Columbus Metropolitan Library branch serving the Northland neighborhood with programs and meeting spaces."
+    },
+    {
+      "name": "IKEA Columbus",
+      "url": "https://www.ikea.com/us/en/stores/columbus/",
+      "description": "Major home furnishings retailer in the Polaris commercial district."
+    }
+  ],
+  "areaCommissions": [
+    {
+      "name": "Far North Columbus Communities Coalition",
+      "url": "https://cbusareacommissions.org/",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    },
+    {
+      "name": "Northland Community Council",
+      "url": "https://cbusareacommissions.org/",
+      "meetingSchedule": null,
+      "meetingLocation": null
+    }
+  ],
+  "demographics": {
+    "current_vintage": "ACS 2019-2023",
+    "snapshots": [
+      {
+        "vintage": "ACS 2017-2021",
+        "pull_date": "2023-01-01",
+        "source": "U.S. Census Bureau ACS 5-Year",
+        "esri_estimates": null,
+        "data": {
+          "total_population": null,
+          "total_households": null,
+          "pct_family_households": null,
+          "median_hh_income_est": null,
+          "median_gross_rent_est": null,
+          "median_home_value_est": null,
+          "unemployment_rate": null,
+          "pct_nh_white": null,
+          "pct_nh_black": null,
+          "pct_hispanic": null,
+          "pct_nh_asian": null,
+          "pct_nh_american_indian": null,
+          "pct_other": null,
+          "data_note": "Figures from original site launch. Block-group weighted aggregation to council districts."
+        }
+      },
+      {
+        "vintage": "ACS 2019-2023",
+        "pull_date": "2026-04-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "esri_estimates": {
+          "pull_date": "2026-04-02",
+          "source": "Esri current-year estimates (Comparisons.xlsx)",
+          "total_population": 102038,
+          "median_hh_income": 76986,
+          "median_gross_rent": 996,
+          "median_home_value": 260211,
+          "unemployment_rate": 2.8,
+          "pct_nh_white": 59.7,
+          "pct_nh_black": 17.5,
+          "pct_nh_asian": 10.3,
+          "pct_nh_american_indian": 0.2,
+          "pct_hispanic": 7.0
+        },
+        "data": {
+          "total_population": 97923,
+          "total_households": 42052,
+          "pct_family_households": 57.1,
+          "median_hh_income_est": 97449,
+          "median_gross_rent_est": 1378,
+          "median_home_value_est": 305195,
+          "unemployment_rate": 3.8,
+          "pct_nh_white": 61.1,
+          "pct_nh_black": 18.5,
+          "pct_hispanic": 7.7,
+          "pct_nh_asian": 6.9,
+          "pct_nh_american_indian": 0.1,
+          "pct_other": 5.7,
+          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians \u2014 approximations, not true district medians. See /data/ for methodology."
+        }
+      }
+    ]
+  },
+  "crimeRisk": {
+    "totalCrime": null,
+    "personalCrime": null,
+    "murder": null,
+    "rape": null,
+    "robbery": null,
+    "assault": null,
+    "propertyCrime": null,
+    "burglary": null,
+    "larceny": null,
+    "motorVehicleTheft": null,
+    "dataSource": "Applied Geographic Solutions CrimeRisk",
+    "pull_date": null
+  }
+}
