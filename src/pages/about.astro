@@ -17,13 +17,13 @@ import Layout from '../components/Layout.astro';
 
     <div class="faq-item">
       <h2>What is this site?</h2>
-      <p>Columbus Districts provides a single reference point for anyone who wants to understand how the Columbus City Council's district system works, who represents each district, and how districts compare on demographics, housing, income, and elections. Every data point links back to its source, and the full methodology is documented on the <a href="/data/">Data & Methodology</a> page.</p>
+      <p>Columbus Districts provides a single reference point for anyone who wants to understand how the Columbus City Council's district system works, who represents each district, and how districts compare on demographics, housing, income, and elections. Every data point links back to its source, and the full methodology is documented on the <a href={`${import.meta.env.BASE_URL}data/`}>Data & Methodology</a> page.</p>
     </div>
 
     <div class="faq-item">
       <h2>Why does Columbus have residential districts?</h2>
       <p>In November 2018, Columbus voters approved a charter amendment changing the composition of City Council from seven at-large members to a hybrid system: five members elected from residential districts and four elected at-large. The first district elections were held in 2023, and the system has now completed two full election cycles (2023 and 2025). The hybrid model was designed to give neighborhoods more direct representation on Council while retaining at-large seats to represent the city as a whole.</p>
-      <p>For a full explanation of how the hybrid system works — including term structure, lot-drawing for staggered terms, and council powers — see <a href="/how-it-works/">How It Works</a>.</p>
+      <p>For a full explanation of how the hybrid system works — including term structure, lot-drawing for staggered terms, and council powers — see <a href={`${import.meta.env.BASE_URL}how-it-works/`}>How It Works</a>.</p>
     </div>
 
     <div class="faq-item">
@@ -31,7 +31,7 @@ import Layout from '../components/Layout.astro';
       <p>The primary demographic data on this site comes from the <strong>American Community Survey (ACS) 2019-2023 5-Year Estimates</strong>, published by the U.S. Census Bureau. Because Columbus's council districts do not align with any standard Census geography, district-level figures are produced by aggregating ACS data from the block-group level using population-weighted methods.</p>
       <p>Where available, <strong>Esri current-year estimates</strong> are shown alongside ACS figures as a supplemental comparison. Esri's projections start from the 2020 Census and incorporate building permits and IRS migration data.</p>
       <p>The site uses a <strong>snapshot/vintage system</strong> that stores demographic data from each ACS release as a separate snapshot. This makes it possible to compare districts across time as new ACS vintages are published. The current active vintage is ACS 2019-2023; earlier vintages will be backfilled as the data pipeline matures.</p>
-      <p>For full details on methodology, data sources, known anomalies, and the data pipeline, see the <a href="/data/">Data & Methodology</a> page.</p>
+      <p>For full details on methodology, data sources, known anomalies, and the data pipeline, see the <a href={`${import.meta.env.BASE_URL}data/`}>Data & Methodology</a> page.</p>
     </div>
 
     <div class="faq-item">

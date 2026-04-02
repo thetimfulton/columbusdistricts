@@ -75,7 +75,7 @@ function fmtPct(v: number | null) { return v !== null && v !== undefined ? v.toF
       <tbody>
         {rows.map((r) => (
           <tr>
-            <td><a href={`/districts/${r.slug}/`}>District {r.number}</a></td>
+            <td><a href={`${import.meta.env.BASE_URL}districts/${r.slug}/`}>District {r.number}</a></td>
             <td>{r.member || '—'}</td>
             <td class="num">{fmtNum(r.population)}</td>
             <td class="num">{fmtDollar(r.income)}</td>
@@ -102,7 +102,7 @@ function fmtPct(v: number | null) { return v !== null && v !== undefined ? v.toF
     </table>
   </div>
 
-  <p class="table-note">Source: U.S. Census Bureau {d1.demographics.current_vintage} 5-Year Estimates via Census API. City-wide figures are approximate averages of district-level data. Median income, rent, and home value are population-weighted averages of block-group medians. See <a href="/data/">Data &amp; Methodology</a> for details.</p>
+  <p class="table-note">Source: U.S. Census Bureau {d1.demographics.current_vintage} 5-Year Estimates via Census API. City-wide figures are approximate averages of district-level data. Median income, rent, and home value are population-weighted averages of block-group medians. See <a href={`${import.meta.env.BASE_URL}data/`}>Data &amp; Methodology</a> for details.</p>
 
 </Layout>
 

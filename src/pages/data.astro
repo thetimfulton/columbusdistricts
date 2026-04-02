@@ -544,7 +544,7 @@ const vintageHistory = [
     <p><strong><code>build_district_profiles.py</code></strong> pulls ACS 5-Year estimates from the Census Bureau API, maps block groups to council districts using the city's official crosswalk file, computes population-weighted aggregations for each district, and writes the results to the district JSON files that power this site.</p>
     <p><strong><code>compare_sources.py</code></strong> reads the ACS-derived district data and the Esri current-year estimates side by side, computes percentage variances for every metric, flags outliers for review, and produces the variance analysis documented in <code>data_notes.md</code>.</p>
     <p>Both scripts and their documentation are available in the project's <a href="https://github.com/tfulton/columbusdistricts-site/tree/main/scripts" target="_blank" rel="noopener"><code>/scripts/</code> directory on GitHub</a>.</p>
-    <p>Found an error or have a data correction? Use the <strong>Suggest an Edit</strong> form on any <a href="/districts/district-one/">district page</a>, or reach out to the team at <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a>.</p>
+    <p>Found an error or have a data correction? Use the <strong>Suggest an Edit</strong> form on any <a href={`${import.meta.env.BASE_URL}districts/district-one/`}>district page</a>, or reach out to the team at <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a>.</p>
   </section>
 
 </Layout>

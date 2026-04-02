@@ -173,7 +173,7 @@ function fmtPct(val: number | null): string {
     {esri && <span> · Esri estimates: {esri.source} (pulled {esri.pull_date})</span>}
   </p>
 
-  <a class="demo-trends-link" href="/data/">View data trends and methodology &rarr;</a>
+  <a class="demo-trends-link" href={`${import.meta.env.BASE_URL}data/`}>View data trends and methodology &rarr;</a>
 </section>
 ) : (
 <section class="demographics-block">

@@ -17,6 +17,7 @@ import d8 from '../data/districts/district-8.json';
 import d9 from '../data/districts/district-9.json';
 
 const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
+const base = import.meta.env.BASE_URL;
 ---
 <Layout title="Home" description="Columbus City Council represents more than 900,000 residents across nine districts. Find yours, meet your council member, and explore district demographics.">
 
@@ -28,7 +29,7 @@ const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
 
     <div class="hero-ctas">
       <a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener" class="cta-primary">Find Your District</a>
-      <a href="/how-it-works/" class="cta-secondary">How does the council work?</a>
+      <a href={`${base}how-it-works/`} class="cta-secondary">How does the council work?</a>
     </div>
   </section>
 
@@ -40,21 +41,21 @@ const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
         <DistrictCard district={d} />
       ))}
     </div>
-    <p class="grid-footnote">Population figures from ACS 2019-2023 5-Year Estimates. <a href="/data/">View methodology and data sources.</a></p>
+    <p class="grid-footnote">Population figures from ACS 2019-2023 5-Year Estimates. <a href={`${base}data/`}>View methodology and data sources.</a></p>
   </section>
 
   {/* Quick Links */}
   <section class="quick-links">
     <div class="quick-link-card">
-      <h3><a href="/all-districts/">Compare All Districts</a></h3>
+      <h3><a href={`${base}all-districts/`}>Compare All Districts</a></h3>
       <p>Side-by-side demographics, income, and election data for all nine districts.</p>
     </div>
     <div class="quick-link-card">
-      <h3><a href="/elections/">Elections</a></h3>
+      <h3><a href={`${base}elections/`}>Elections</a></h3>
       <p>Results from 2023 and 2025, plus what to know about the 2027 cycle.</p>
     </div>
     <div class="quick-link-card">
-      <h3><a href="/data/">Data &amp; Methodology</a></h3>
+      <h3><a href={`${base}data/`}>Data &amp; Methodology</a></h3>
       <p>Longitudinal trends, ACS vs. Esri comparison, and full source documentation.</p>
     </div>
   </section>

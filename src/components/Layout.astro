@@ -13,6 +13,8 @@ const { title, description = "Columbus City Council district information — dem
 
 import '../styles/global.css';
 
+const base = import.meta.env.BASE_URL;
+
 const districts = [
   { number: 1, slug: "district-one", label: "District 1" },
   { number: 2, slug: "district-two", label: "District 2" },
@@ -32,7 +34,7 @@ const districts = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <title>{title} | Columbus Districts</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
 
 </head>
 <body>
@@ -41,26 +43,26 @@ const districts = [
     <header class="site-header">
       <nav class="nav-container" aria-label="Main navigation">
         <div class="site-logo">
-          <a href="/">Columbus Districts</a>
+          <a href={base}>Columbus Districts</a>
         </div>
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
         <ul class="nav-links" role="menubar">
-          <li role="none"><a href="/" role="menuitem">Home</a></li>
-          <li role="none"><a href="/about/" role="menuitem">About</a></li>
+          <li role="none"><a href={base} role="menuitem">Home</a></li>
+          <li role="none"><a href={`${base}about/`} role="menuitem">About</a></li>
           <li class="nav-dropdown" role="none">
             <button class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false" role="menuitem">Districts</button>
             <ul class="nav-dropdown-menu" role="menu">
               {districts.map((d) => (
                 <li role="none">
-                  <a href={`/districts/${d.slug}/`} role="menuitem">{d.label}</a>
+                  <a href={`${base}districts/${d.slug}/`} role="menuitem">{d.label}</a>
                 </li>
               ))}
             </ul>
           </li>
-          <li role="none"><a href="/all-districts/" role="menuitem">All Districts</a></li>
-          <li role="none"><a href="/data/" role="menuitem">Data</a></li>
-          <li role="none"><a href="/how-it-works/" role="menuitem">How It Works</a></li>
-          <li role="none"><a href="/elections/" role="menuitem">Elections</a></li>
+          <li role="none"><a href={`${base}all-districts/`} role="menuitem">All Districts</a></li>
+          <li role="none"><a href={`${base}data/`} role="menuitem">Data</a></li>
+          <li role="none"><a href={`${base}how-it-works/`} role="menuitem">How It Works</a></li>
+          <li role="none"><a href={`${base}elections/`} role="menuitem">Elections</a></li>
         </ul>
       </nav>
     </header>
@@ -87,14 +89,14 @@ const districts = [
           <ul>
             <li><a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a></li>
             <li><a href="https://www.ohiosos.gov" target="_blank" rel="noopener">Ohio Voter Registration</a></li>
-            <li><a href="/data/">District Data &amp; Methodology</a></li>
-            <li><a href="/elections/">Election Results Archive</a></li>
+            <li><a href={`${base}data/`}>District Data &amp; Methodology</a></li>
+            <li><a href={`${base}elections/`}>Election Results Archive</a></li>
           </ul>
         </div>
         <div class="footer-section">
           <h4>About This Site</h4>
           <ul>
-            <li><a href="/about/">About Columbus Districts</a></li>
+            <li><a href={`${base}about/`}>About Columbus Districts</a></li>
             <li><a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a></li>
             <li><a href="https://www.columbusunderground.com" target="_blank" rel="noopener">Columbus Underground</a></li>
           </ul>

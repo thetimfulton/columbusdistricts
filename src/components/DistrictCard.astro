@@ -26,8 +26,9 @@ const statValue = data?.total_population
 
 // Show first 3 neighborhoods
 const neighborhoods = d.neighborhoods?.slice(0, 3) ?? [];
+const base = import.meta.env.BASE_URL;
 ---
-<a href={`/districts/${d.slug}/`} class="district-card">
+<a href={`${base}districts/${d.slug}/`} class="district-card">
   <div class="card-number">District {d.number}</div>
   <div class="card-member">{d.councilMember?.name ?? 'TBD'}</div>
   <div class="card-neighborhoods">{neighborhoods.join(', ')}{d.neighborhoods?.length > 3 ? ' +' + (d.neighborhoods.length - 3) + ' more' : ''}</div>

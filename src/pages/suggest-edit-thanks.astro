@@ -4,5 +4,5 @@ import Layout from '../components/Layout.astro';
 <Layout title="Thanks for Your Suggestion" description="Your suggestion has been submitted to Columbus Districts.">
   <h1>Thank you</h1>
   <p>Your suggestion has been received. We review submissions periodically and update the site when corrections are confirmed against primary sources.</p>
-  <p><a href="/">Return to the homepage</a></p>
+  <p><a href={import.meta.env.BASE_URL}>Return to the homepage</a></p>
 </Layout>

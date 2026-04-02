@@ -18,7 +18,7 @@ const { district } = Astro.props;
     method="POST"
     data-netlify="true"
     netlify-honeypot="bot-field"
-    action="/suggest-edit-thanks/"
+    action={`${import.meta.env.BASE_URL}suggest-edit-thanks/`}
   >
     <input type="hidden" name="form-name" value="suggest-edit" />
     <input type="hidden" name="district" value={String(district)} />
