@@ -14,7 +14,7 @@
     "firstElected": 2023,
     "termEnds": 2029,
     "nextElection": 2029,
-    "contactEmail": "radorans@columbus.gov",
+    "contactEmail": "ColumbusCouncil@columbus.gov",
     "contactPhone": "(614) 645-7994"
   },
   "neighborhoods": [
@@ -82,30 +82,30 @@
     "snapshots": [
       {
         "vintage": "ACS 2017-2021",
-        "pull_date": "2026-04-02",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API (backfill_2021.py)",
+        "pull_date": "2026-08-23",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
         "esri_estimates": null,
         "data": {
-          "total_population": 101222,
-          "total_households": 41406,
-          "pct_family_households": 38.1,
-          "median_hh_income_est": 71719,
-          "median_gross_rent_est": 1119,
-          "median_home_value_est": 264992,
-          "unemployment_rate": 5.0,
-          "pct_nh_white": 77.3,
-          "pct_nh_black": 5.5,
+          "total_population": 95898,
+          "total_households": 39174,
+          "pct_family_households": 36.4,
+          "median_hh_income_est": 68849,
+          "median_gross_rent_est": 1118,
+          "median_home_value_est": 256594,
+          "unemployment_rate": 5.2,
+          "pct_nh_white": 76.9,
+          "pct_nh_black": 5.7,
           "pct_hispanic": 4.0,
-          "pct_nh_asian": 9.3,
+          "pct_nh_asian": 9.4,
           "pct_nh_american_indian": 0.1,
-          "pct_other": 3.8,
+          "pct_other": 3.9,
           "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       },
       {
         "vintage": "ACS 2019-2023",
-        "pull_date": "2026-04-02",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "pull_date": "2026-08-23",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
         "esri_estimates": {
           "pull_date": "2026-04-02",
           "source": "Esri current-year estimates (Comparisons.xlsx)",
@@ -121,19 +121,19 @@
           "pct_hispanic": 4.5
         },
         "data": {
-          "total_population": 100809,
-          "total_households": 42613,
-          "pct_family_households": 37.1,
-          "median_hh_income_est": 77715,
-          "median_gross_rent_est": 1255,
-          "median_home_value_est": 327556,
-          "unemployment_rate": 4.8,
-          "pct_nh_white": 75.8,
-          "pct_nh_black": 5.5,
+          "total_population": 95375,
+          "total_households": 40232,
+          "pct_family_households": 35.5,
+          "median_hh_income_est": 74303,
+          "median_gross_rent_est": 1250,
+          "median_home_value_est": 318836,
+          "unemployment_rate": 4.9,
+          "pct_nh_white": 75.3,
+          "pct_nh_black": 5.7,
           "pct_hispanic": 4.5,
-          "pct_nh_asian": 9.7,
+          "pct_nh_asian": 9.9,
           "pct_nh_american_indian": 0.0,
-          "pct_other": 4.5,
+          "pct_other": 4.6,
           "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       }
@@ -152,5 +152,10 @@
     "motorVehicleTheft": null,
     "dataSource": "Applied Geographic Solutions CrimeRisk",
     "pull_date": null
+  },
+  "population2020": 100914,
+  "enrichment": {
+    "block_groups": 99,
+    "voting_precincts": 63
   }
 }

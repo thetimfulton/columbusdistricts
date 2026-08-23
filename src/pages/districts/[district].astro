@@ -1,190 +1,427 @@
 ---
 /**
- * [district].astro — Dynamic route for all 9 district pages.
- * Reads from /src/data/districts/district-N.json via getStaticPaths().
- * Generates all 9 pages at build time.
+ * [district].astro — the district page template for all 9 districts.
+ * Rebuilt from design-concepts/district-one-concept.html (Aug 2026 redesign).
+ * Data-driven from src/data/districts/district-N.json + district-boundaries.json.
+ *
+ * Phase A scope: map renders real CivicWorth boundary paths (extracted from the
+ * approved concept; Phase B's sync regenerates them). The civic-snapshot strip and
+ * "Compared to Columbus" baseline use figures derived from the nine district JSONs;
+ * CivicWorth enrichment counts (block groups, precincts, 2020 census) and crime
+ * (currently null) land in Phases B/D.
  */
-import Layout from '../../components/Layout.astro';
-import CouncilMemberCard from '../../components/CouncilMemberCard.astro';
-import DemographicsBlock from '../../components/DemographicsBlock.astro';
-import CrimeBlock from '../../components/CrimeBlock.astro';
-import AreaCommission from '../../components/AreaCommission.astro';
-import SuggestEditForm from '../../components/SuggestEditForm.astro';
-
-// Import all district JSON files
-import district1 from '../../data/districts/district-1.json';
-import district2 from '../../data/districts/district-2.json';
-import district3 from '../../data/districts/district-3.json';
-import district4 from '../../data/districts/district-4.json';
-import district5 from '../../data/districts/district-5.json';
-import district6 from '../../data/districts/district-6.json';
-import district7 from '../../data/districts/district-7.json';
-import district8 from '../../data/districts/district-8.json';
-import district9 from '../../data/districts/district-9.json';
-
-const allDistricts = [district1, district2, district3, district4, district5, district6, district7, district8, district9];
+import Layout from "../../components/Layout.astro";
+import SuggestEditForm from "../../components/SuggestEditForm.astro";
+import boundaries from "../../data/district-boundaries.json";
+import {
+  districts,
+  currentSnapshot,
+  priorSnapshot,
+  citywide,
+  compareMetric,
+  ordinal,
+} from "../../lib/districts";
 
 export function getStaticPaths() {
-  const districts = [district1, district2, district3, district4, district5, district6, district7, district8, district9];
-  return districts.map((d) => ({
-    params: { district: d.slug },
-    props: { district: d },
-  }));
+  return districts.map((d) => ({ params: { district: d.slug }, props: { district: d } }));
 }
 
 const { district } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
 
-const numberWords = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-const districtName = `District ${numberWords[district.number]}`;
+const numberWords = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+const word = numberWords[district.number];
+const member = district.councilMember;
+
+// --- Member card helpers ---
+const nameWords = (member.name || "").split(/\s+/).filter(Boolean);
+const initials = nameWords.length
+  ? (nameWords[0][0] + nameWords[nameWords.length - 1][0]).toUpperCase()
+  : "—";
+const committees = (member.committees || []).map((c: string) => {
+  const m = c.match(/\(([^)]+)\)\s*$/);
+  const role = m ? m[1] : null;
+  const label = c.replace(/\s*\(([^)]+)\)\s*$/, "").trim();
+  return { label, role, lead: role === "Chair" };
+});
+
+// --- Formatters ---
+const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+const moneyK = (n: number) => "$" + Math.round(n / 1000) + "k";
+const num = (n: number) => Math.round(n).toLocaleString("en-US");
+const pct = (n: number, d = 1) => n.toFixed(d) + "%";
+const shortRange = (vintage: string) => {
+  const m = vintage.match(/(\d{4})-(\d{4})/);
+  return m ? `${m[1]}–${m[2].slice(2)}` : vintage;
+};
+const enDashVintage = (v: string) => v.replace(/(\d{4})-(\d{4})/, "$1–$2");
+
+// --- Snapshots ---
+const curSnap = currentSnapshot(district);
+const cur = curSnap.data;
+const esri = curSnap.esri_estimates || null;
+const priorSnap = priorSnapshot(district);
+const prior = priorSnap ? priorSnap.data : null;
+const curVintage = district.demographics.current_vintage;
+const priorShort = priorSnap ? shortRange(priorSnap.vintage) : null;
+
+// --- Civic snapshot strip (Phase B: 2020-census pop + enrichment counts from CivicWorth) ---
+const enrich = district.enrichment || {};
+const snapStats = [
+  { v: num(cur.total_population), l: "Population (ACS)" },
+  { v: district.population2020 ? num(district.population2020) : "—", l: "2020 Census" },
+  { v: String(district.neighborhoods.length), l: "Neighborhoods" },
+  { v: enrich.block_groups ? String(enrich.block_groups) : "—", l: "Block groups" },
+  { v: enrich.voting_precincts ? String(enrich.voting_precincts) : "—", l: "Voting precincts" },
+  { v: String(district.areaCommissions.length), l: "Area commissions" },
+];
+
+// --- Change grid (current vs prior snapshot) ---
+function pctChange(curV: number, prevV: number) {
+  return ((curV - prevV) / prevV) * 100;
+}
+function changeChip(kind: "pct" | "pts", curV: number, prevV: number | null) {
+  if (prevV == null) return null;
+  if (kind === "pts") {
+    const delta = curV - prevV;
+    return { up: delta >= 0, text: `${Math.abs(delta).toFixed(1)} pts since ${priorShort}` };
+  }
+  const delta = pctChange(curV, prevV);
+  return { up: delta >= 0, text: `${Math.abs(delta).toFixed(1)}% since ${priorShort}` };
+}
+const changeStats = [
+  { v: num(cur.total_population), l: "Population", chip: changeChip("pct", cur.total_population, prior?.total_population ?? null) },
+  { v: money(cur.median_hh_income_est), l: "Median income", chip: changeChip("pct", cur.median_hh_income_est, prior?.median_hh_income_est ?? null) },
+  { v: money(cur.median_gross_rent_est), l: "Median rent", chip: changeChip("pct", cur.median_gross_rent_est, prior?.median_gross_rent_est ?? null) },
+  { v: money(cur.median_home_value_est), l: "Median home value", chip: changeChip("pct", cur.median_home_value_est, prior?.median_home_value_est ?? null) },
+  { v: pct(cur.unemployment_rate), l: "Unemployment", chip: changeChip("pts", cur.unemployment_rate, prior?.unemployment_rate ?? null) },
+];
+
+// --- Compared to Columbus ---
+const cmpConfigs = [
+  { key: "median_hh_income_est", label: "Median income", esriKey: "median_hh_income", fmt: money, endsFmt: money, kind: "money" },
+  { key: "median_gross_rent_est", label: "Median rent", esriKey: "median_gross_rent", fmt: money, endsFmt: money, kind: "money" },
+  { key: "median_home_value_est", label: "Median home value", esriKey: "median_home_value", fmt: money, endsFmt: moneyK, kind: "money" },
+  { key: "unemployment_rate", label: "Unemployment", esriKey: "unemployment_rate", fmt: (n: number) => pct(n), endsFmt: (n: number) => pct(n), kind: "unemp" },
+];
+const cmps = cmpConfigs.map((c) => {
+  const m = compareMetric(district, c.key);
+  const esriVal = esri && typeof esri[c.esriKey] === "number" ? esri[c.esriKey] : null;
+  let rankText: string;
+  let vsText: string;
+  if (c.kind === "unemp") {
+    rankText = `${ordinal(m.rankAsc)} lowest`;
+    const ptsDiff = m.cityValue != null ? m.value - m.cityValue : 0;
+    vsText = m.cityValue != null ? `${Math.abs(ptsDiff).toFixed(1)} pts ${ptsDiff < 0 ? "below" : "above"} city` : "";
+  } else {
+    rankText = `#${m.rankDesc} of 9`;
+    const p = m.pctVsCity ?? 0;
+    vsText = `${p >= 0 ? "+" : "−"}${Math.abs(p).toFixed(0)}% vs. city`;
+  }
+  if (esriVal != null) vsText += ` · Esri ${c.fmt(esriVal)}`;
+  return { ...c, ...m, rankText, vsText, valDisplay: c.fmt(m.value), minDisplay: c.endsFmt(m.min), maxDisplay: c.endsFmt(m.max) };
+});
+
+// --- Race & ethnicity (scale 0-65%) ---
+const RACE_SCALE = 65;
+const raceRows = [
+  ["NH White", "pct_nh_white"],
+  ["NH Black", "pct_nh_black"],
+  ["Hispanic", "pct_hispanic"],
+  ["NH Asian", "pct_nh_asian"],
+  ["Other", "pct_other"],
+].map(([label, key]) => {
+  const v = cur[key] ?? 0;
+  const city = citywide(key) ?? 0;
+  return { label, v, fill: Math.min(100, (v / RACE_SCALE) * 100), tick: Math.min(100, (city / RACE_SCALE) * 100) };
+});
+
+// --- Households ---
+const maxHH = Math.max(...districts.map((d) => currentSnapshot(d).data.total_households || 0));
+const cityFamily = citywide("pct_family_households") ?? 0;
+
+// --- Public safety (Phase A: crimeRisk is null; renders a pending state until Phase D) ---
+const crimeConfigs: [string, string][] = [
+  ["totalCrime", "Total crime"], ["personalCrime", "Personal crime"], ["murder", "Murder"],
+  ["rape", "Rape"], ["robbery", "Robbery"], ["assault", "Assault"],
+  ["propertyCrime", "Property crime"], ["burglary", "Burglary"], ["larceny", "Larceny"],
+  ["motorVehicleTheft", "Motor vehicle theft"],
+];
+const crime = district.crimeRisk || {};
+const crimeRows = crimeConfigs
+  .filter(([key]) => typeof crime[key] === "number")
+  .map(([key, label]) => {
+    const v = crime[key] as number; // signed % vs citywide average
+    const below = v < 0;
+    return { label, below, width: Math.min(50, Math.abs(v) * (2 / 3)), text: `${below ? "−" : "+"}${Math.abs(v)}%` };
+  });
+const hasCrime = crimeRows.length > 0;
+
+// --- Map ---
+const members: Record<string, string> = {};
+for (const d of districts) members[String(d.number)] = d.councilMember.name;
+const membersJSON = JSON.stringify(members);
+const kicker = district.neighborhoods.slice(0, 2).join(" & ");
+
 const pageTitle = `District ${district.number}`;
 ---
-<Layout title={pageTitle} description={`Columbus City Council ${districtName} — council member, demographics, neighborhoods, and civic resources.`}>
+<Layout
+  title={pageTitle}
+  description={`Columbus City Council District ${district.number} — council member ${member.name}, demographics, neighborhoods, and civic resources.`}
+  active="districts"
+>
+  {/* ---- Hero + map ---- */}
+  <section class="hero"><div class="wrap"><div class="hero-grid">
+    <div>
+      <div class="eyebrow fade">Columbus City Council</div>
+      <h1 class="fade d1">District <em>{word}</em></h1>
+      <div class="kicker fade d1 tnum">District {district.number} of 9{kicker ? ` · ${kicker}` : ""}</div>
+      <p class="lede fade d2">{district.geographicSummary}</p>
+      <div class="cta-row fade d2">
+        <a class="btn primary" href={`${b}all-districts/`} data-ev="find_district_click" data-ev-label="district-hero">Find your district
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="mailto:ColumbusCouncil@columbus.gov">Contact your council member</a>
+      </div>
+    </div>
+    <div class="mapcard fade d1">
+      <h2>Where District {word} sits in Columbus <span class="compass">&#9650; N</span></h2>
+      <div class="mapwrap">
+        <svg class="districtmap" id="dmap" viewBox={boundaries.viewBox} role="img" aria-label={`Map of Columbus City Council districts with District ${word} highlighted`}>
+          {Object.entries(boundaries.paths).map(([n, d]) => (
+            <path class={`dist${Number(n) === district.number ? " here" : ""}`} data-d={n} d={d as string} />
+          ))}
+        </svg>
+        <div class="maptip" id="maptip"></div>
+      </div>
+      <div class="maplegend">
+        <span><i class="swatch" style="background:var(--accent)"></i> District {word}</span>
+        <span><i class="swatch" style="background:var(--map-fill); border:1px solid var(--map-stroke)"></i> Other districts (hover)</span>
+      </div>
+      <div class="provenance"><span class="dot"></span> Boundaries from CivicWorth &middot; official 2023 council map</div>
+    </div>
+  </div></div></section>
 
-  {/* 1. District Header */}
-  <header class="district-header">
-    <h1>{districtName}</h1>
-    <p class="district-number">District {district.number} of 9</p>
-    {district.geographicSummary && (
-      <p class="district-geo">{district.geographicSummary}</p>
-    )}
-  </header>
+  {/* ---- Civic snapshot strip ---- */}
+  <div class="snapshot"><div class="wrap" style="padding-inline:0;"><div class="snap-grid">
+    {snapStats.map((s) => (
+      <div class="snap"><div class="v tnum">{s.v}</div><div class="l">{s.l}</div></div>
+    ))}
+  </div></div></div>
 
-  {/* 2. Council Member Card */}
-  {district.councilMember.name && (
-    <CouncilMemberCard councilMember={district.councilMember} />
-  )}
+  {/* ---- 01 Representation ---- */}
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><span class="n">01</span><h2>Your representation</h2></div>
+    <div class="council">
+      <div class="side">
+        <div class="avatar" aria-hidden="true">{initials}</div>
+        <div class="role">Council Member</div>
+        <div class="nm">{member.name}</div>
+        {member.firstElected && <div class="meta">First elected {member.firstElected}</div>}
+        <div class="contact">
+          <a href="mailto:ColumbusCouncil@columbus.gov">ColumbusCouncil@columbus.gov</a>
+          <a href={member.officialBioUrl || "https://www.columbus.gov/Government/City-Council"} target="_blank" rel="noopener">Official bio &amp; council office &rarr;</a>
+        </div>
+      </div>
+      <div class="body">
+        <h3>Committee assignments</h3>
+        <div class="chips">
+          {committees.length
+            ? committees.map((c) => (
+                <span class={`chip${c.lead ? " lead" : ""}`}>{c.label}{c.role ? ` — ${c.role}` : ""}</span>
+              ))
+            : <span class="chip">Committee assignments pending</span>}
+        </div>
+        <div class="term">
+          <div><div class="tl">First elected</div><div class="tv tnum">{member.firstElected ?? "—"}</div></div>
+          <div><div class="tl">Term ends</div><div class="tv tnum">{member.termEnds ?? "—"}</div></div>
+          <div><div class="tl">Next election</div><div class="tv tnum">{member.nextElection ?? "—"}</div></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
 
-  {/* 3. Neighborhoods */}
-  {district.neighborhoods.length > 0 && (
-    <section class="district-neighborhoods">
-      <h2>Neighborhoods</h2>
-      <ul class="neighborhood-list">
-        {district.neighborhoods.map((n: string) => <li>{n}</li>)}
-      </ul>
-    </section>
-  )}
+  <div class="wrap"><div class="divider"></div></div>
 
-  {/* 4. Points of Interest */}
-  {district.pointsOfInterest.length > 0 && (
-    <section class="district-pois">
-      <h2>Points of Interest</h2>
-      <ul class="poi-list">
-        {district.pointsOfInterest.map((poi: any) => (
-          <li class="poi-item">
-            <a href={poi.url} target="_blank" rel="noopener" class="poi-name">{poi.name}</a>
-            {poi.description && <span class="poi-desc"> — {poi.description}</span>}
-          </li>
+  {/* ---- 02 Neighborhoods ---- */}
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><span class="n">02</span><h2>The neighborhoods</h2></div>
+    <div class="nbhd" style="margin-bottom:2.4rem;">
+      {district.neighborhoods.map((n: string) => <span class="chip">{n}</span>)}
+    </div>
+    <div class="cols poi">
+      <div>
+        <h3 style="font-family:var(--sans);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin:0 0 .3rem;">Points of interest</h3>
+        <ul class="poi-list">
+          {district.pointsOfInterest.map((poi: any) => (
+            <li>
+              <svg class="pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg>
+              <span><a class="nm" href={poi.url} target="_blank" rel="noopener">{poi.name}</a>{poi.description && <span class="ds"> &mdash; {poi.description}</span>}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="aside-card">
+        <h3>Area commissions</h3>
+        <p style="font-size:.84rem;color:var(--ink-2);margin:0 0 .8rem;">The most local level of civic input &mdash; they review zoning cases and advise Council. Meetings are open to the public.</p>
+        {district.areaCommissions.map((c: any) => (
+          <div class="commish">
+            <div class="cn">{c.url ? <a href={c.url} target="_blank" rel="noopener" style="color:inherit;">{c.name}</a> : c.name}</div>
+            {c.meetingSchedule && <div class="cd">{c.meetingSchedule}{c.meetingLocation ? ` · ${c.meetingLocation}` : ""}</div>}
+          </div>
         ))}
-      </ul>
-    </section>
-  )}
+      </div>
+    </div>
+  </div></section>
 
-  {/* 5. Area Commissions */}
-  <AreaCommission areaCommissions={district.areaCommissions} />
+  <div class="wrap"><div class="divider"></div></div>
 
-  {/* 6. Demographics */}
-  <DemographicsBlock demographics={district.demographics} />
+  {/* ---- 03 Demographics ---- */}
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><span class="n">03</span><h2>Who lives here</h2></div>
+    <div class="vintage-bar">
+      <span class="vpill">&#9679; {enDashVintage(curVintage)} 5-Year</span>
+      {priorShort && <span class="note">How District {word} changed since {priorShort}, and how it compares to Columbus as a whole</span>}
+    </div>
 
-  {/* 7. Crime Risk */}
-  <CrimeBlock crimeRisk={district.crimeRisk} />
+    <div class="changegrid">
+      {changeStats.map((s) => (
+        <div class="cstat">
+          <div class="v tnum">{s.v}</div>
+          <div class="l">{s.l}</div>
+          {s.chip && <div class="chg"><span class="ar">{s.chip.up ? "▲" : "▼"}</span> {s.chip.text}</div>}
+        </div>
+      ))}
+    </div>
 
-  {/* 8. Suggest an Edit */}
+    <h3 style="font-family:var(--serif);font-weight:500;font-size:1.25rem;margin:0 0 .3rem;">Compared to Columbus</h3>
+    <p style="font-size:.86rem;color:var(--ink-3);margin:0 0 1.1rem;">Where District {word} ranks among all nine districts. The dot is District {word}; the line marks the citywide average.</p>
+    <div class="cmp-grid">
+      {cmps.map((c) => (
+        <div class="cmp">
+          <div class="l">{c.label}</div><div class="v tnum">{c.valDisplay}</div>
+          <div><span class="rank">{c.rankText}</span></div>
+          <div class="vs">{c.vsText}</div>
+          <div class="strip">
+            <span class="rangefill" style={`left:0;width:${c.pos.toFixed(1)}%`}></span>
+            <span class="city" style={`left:${c.cityPos.toFixed(1)}%`}></span>
+            <span class="d1" style={`left:${c.pos.toFixed(1)}%`}></span>
+          </div>
+          <div class="strip-ends"><span>{c.minDisplay}</span><span>{c.maxDisplay}</span></div>
+        </div>
+      ))}
+    </div>
+    <div class="cmp-legend"><span><i class="kd"></i> District {word}</span><span><i class="kc"></i> Columbus average</span><span>Bar spans lowest&ndash;highest of the 9 districts</span></div>
+
+    <div class="demo-2col">
+      <div class="panel">
+        <h3>Race &amp; ethnicity</h3>
+        <div class="sub">Share of residents &middot; District {word} bar, Columbus average tick &middot; {enDashVintage(curVintage)}</div>
+        <div class="bars">
+          {raceRows.map((r) => (
+            <div class="bar">
+              <span class="bl">{r.label}</span>
+              <span class="track"><span class="fill" style={`width:${r.fill.toFixed(1)}%`}></span><span class="citytick" style={`left:${r.tick.toFixed(1)}%`}></span></span>
+              <span class="bv tnum">{pct(r.v)}</span>
+            </div>
+          ))}
+        </div>
+        <div class="foot"><i class="kc"></i> Columbus average &middot; scale 0&ndash;65%</div>
+      </div>
+      <div class="panel">
+        <h3>Households</h3>
+        <div class="sub">District {word} &middot; {enDashVintage(curVintage)}</div>
+        <div class="bars">
+          <div class="bar"><span class="bl">Total households</span><span class="track"><span class="fill" style={`width:${((cur.total_households / maxHH) * 100).toFixed(0)}%`}></span></span><span class="bv tnum">{num(cur.total_households)}</span></div>
+          <div class="bar"><span class="bl">Family HH</span><span class="track"><span class="fill" style={`width:${cur.pct_family_households}%`}></span><span class="citytick" style={`left:${cityFamily.toFixed(1)}%`}></span></span><span class="bv tnum">{pct(cur.pct_family_households)}</span></div>
+        </div>
+        <p style="font-size:.84rem;color:var(--ink-2);margin-top:1.1rem;">Household counts are ACS 5-year estimates aggregated from the district's block groups. The tick marks the citywide family-household share.</p>
+      </div>
+    </div>
+
+    <p class="datanote"><strong>About these figures.</strong> District totals are aggregated from census block groups. Median income, rent, and home value are population-weighted averages of block-group medians &mdash; approximations, not true district medians &mdash; so the citywide comparison shows relative standing, not exact dollars. ACS is a 5-year backward average; Esri current-year estimates are forward projections. <a href={`${b}data/`}>See full methodology &rarr;</a></p>
+  </div></section>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  {/* ---- 04 Public safety ---- */}
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><span class="n">04</span><h2>Public safety</h2></div>
+    {hasCrime ? (
+      <>
+        <p class="sec-sub">How reported crime in District {word} compares to the Columbus average, by category. Bars to the <span style="color:var(--good);font-weight:600;">left are below</span> the citywide average; bars to the <span style="color:var(--accent-ink);font-weight:600;">right are above</span>.</p>
+        <div class="crime-scale"><span></span><div class="mids">&larr; safer than city&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Columbus average&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;higher than city &rarr;</div><span></span></div>
+        <div class="crime-wrap">
+          {crimeRows.map((r) => (
+            <div class="crime-row">
+              <span class="cl">{r.label}</span>
+              <span class="crime-track"><span class="mid"></span><span class={`crime-bar ${r.below ? "below" : "above"}`} style={`width:${r.width.toFixed(1)}%`}></span></span>
+              <span class={`cv ${r.below ? "below" : "above"}`}>{r.text}</span>
+            </div>
+          ))}
+        </div>
+        {crime.dataSource && <p class="datanote">Source: {crime.dataSource}{crime.pull_date ? ` · ${crime.pull_date}` : ""}. Figures are percentage differences from the citywide average.</p>}
+      </>
+    ) : (
+      <div class="aside-card" style="max-width:640px;">
+        <h3>Crime data refresh in progress</h3>
+        <p style="font-size:.92rem;color:var(--ink-2);margin:0;">Public-safety figures for District {word} &mdash; reported crime by category, shown as a difference from the Columbus average &mdash; are being refreshed from Applied Geographic Solutions data and will appear here before launch.</p>
+      </div>
+    )}
+  </div></section>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  {/* ---- 05 Get involved ---- */}
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><span class="n">05</span><h2>Get involved in District {word}</h2></div>
+    <div class="involve">
+      <div class="icard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>
+        <h3>Attend an area commission</h3>
+        <p>Area commissions meet monthly and take public comment on zoning and development in your neighborhood.</p>
+        <a href="https://cbusareacommissions.org/" target="_blank" rel="noopener">Find meeting times &rarr;</a>
+      </div>
+      <div class="icard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H7l-3 3V4Z"/></svg>
+        <h3>Contact Council Member {nameWords[nameWords.length - 1]}</h3>
+        <p>Reach the District {district.number} office directly with questions, concerns, or support for constituents.</p>
+        <a href="mailto:ColumbusCouncil@columbus.gov">Send a message &rarr;</a>
+      </div>
+      <div class="icard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+        <h3>Vote on the 2026 measure</h3>
+        <p>This November, Columbus voters decide whether to change how council is elected. Understand what's on your ballot.</p>
+        <a href={`${b}2026-ballot/`} data-ev="ballot_engagement" data-ev-label="district-getinvolved">Read the ballot explainer &rarr;</a>
+      </div>
+    </div>
+  </div></section>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  {/* ---- 06 Suggest an edit ---- */}
   <SuggestEditForm district={district.number} />
 
+  <script is:inline set:html={`
+    (function(){
+      var MEMBERS = ${membersJSON};
+      var svg = document.getElementById('dmap'); if(!svg) return;
+      var tip = document.getElementById('maptip'); var wrap = svg.parentElement;
+      svg.querySelectorAll('path.dist').forEach(function(p){
+        var d = p.getAttribute('data-d');
+        p.setAttribute('tabindex','0'); p.setAttribute('role','link');
+        p.setAttribute('aria-label','District '+d+' \\u2014 '+MEMBERS[d]);
+        function show(){
+          var r = wrap.getBoundingClientRect(), bb = p.getBoundingClientRect();
+          tip.innerHTML = '<b>District '+d+'</b> <span class="sub">\\u00B7 '+MEMBERS[d]+'</span>';
+          tip.style.left = (bb.left - r.left + bb.width/2)+'px';
+          tip.style.top = (bb.top - r.top + bb.height/2)+'px';
+          tip.style.opacity = 1;
+        }
+        p.addEventListener('mouseenter', show); p.addEventListener('focus', show);
+        p.addEventListener('mouseleave', function(){ tip.style.opacity = 0; });
+        p.addEventListener('blur', function(){ tip.style.opacity = 0; });
+      });
+    })();
+  `}></script>
 </Layout>
-
-<style>
-  .district-header {
-    margin-bottom: 2rem;
-  }
-
-  .district-header h1 {
-    font-size: 2rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .district-number {
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    margin-bottom: 0.75rem;
-  }
-
-  .district-geo {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-  }
-
-  /* Neighborhoods */
-  .district-neighborhoods {
-    margin-bottom: 2rem;
-  }
-
-  .district-neighborhoods h2 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 2px solid var(--color-accent);
-  }
-
-  .neighborhood-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1rem;
-  }
-
-  .neighborhood-list li {
-    font-family: var(--font-heading);
-    font-size: 0.9rem;
-    color: var(--color-text);
-    padding: 0.3rem 0.65rem;
-    background: var(--color-bg-subtle);
-    border: 1px solid var(--color-border-light);
-    border-radius: 3px;
-  }
-
-  /* Points of Interest */
-  .district-pois {
-    margin-bottom: 2rem;
-  }
-
-  .district-pois h2 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 2px solid var(--color-accent);
-  }
-
-  .poi-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .poi-item {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--color-border-light);
-    font-size: 0.92rem;
-    line-height: 1.5;
-  }
-
-  .poi-item:last-child {
-    border-bottom: none;
-  }
-
-  .poi-name {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-  .poi-name:hover {
-    text-decoration: underline;
-  }
-
-  .poi-desc {
-    color: var(--color-text-secondary);
-  }
-</style>

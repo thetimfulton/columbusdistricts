@@ -1,128 +1,55 @@
 ---
-import Layout from '../components/Layout.astro';
+/**
+ * how-it-works.astro — Plain-language explainer of the current council system.
+ * Rebuilt from design-concepts/how-it-works.html. Static article (shared CSS).
+ */
+import Layout from "../components/Layout.astro";
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
 ---
-<Layout title="How Columbus City Council Works" description="How Columbus's hybrid at-large/district council system works — history, elections, term structure, council powers, and how to participate.">
+<Layout
+  title="How Columbus City Council works"
+  description="A plain-language explainer of how Columbus City Council is structured — nine district members elected citywide under the current hybrid system."
+  active="how"
+>
+  <div class="wrap"><div class="article">
+    <section class="art-hero">
+      <div class="eyebrow">The basics</div>
+      <h1>How Columbus City Council works</h1>
+      <p class="dek">Columbus uses a system that trips up even lifelong residents. Here's the short version: nine members, each living in a different district &mdash; but for now, every voter in the city helps elect all nine.</p>
+      <div class="keyfacts">
+        <div class="kf"><div class="kfl">Seats</div><div class="kfv">9 council members</div></div>
+        <div class="kf"><div class="kfl">Districts</div><div class="kfv">~100,000 residents each</div></div>
+        <div class="kf"><div class="kfl">Term</div><div class="kfv">4 years, staggered</div></div>
+      </div>
+    </section>
 
-  <header class="page-header">
-    <h1>How Columbus City Council Works</h1>
-    <p class="page-intro">Columbus uses a genuinely unusual hybrid council system. This page explains how it works, why it exists, and how residents can participate.</p>
-    <nav class="page-toc" aria-label="On this page">
-      <ul>
-        <li><a href="#history">History</a></li>
-        <li><a href="#hybrid-system">How the Hybrid Works</a></li>
-        <li><a href="#terms">Term Structure</a></li>
-        <li><a href="#powers">Council Powers</a></li>
-        <li><a href="#participate">How to Participate</a></li>
-      </ul>
-    </nav>
-  </header>
+    <h2>The part that confuses people</h2>
+    <p>Columbus has a <strong>hybrid</strong> system. Council members must <strong>live in the district they represent</strong> &mdash; but every Columbus voter <strong>votes in all nine district races</strong>, not just their own. So your ballot includes all nine seats, and every member is ultimately accountable to the whole city.</p>
+    <div class="vote-cta" style="margin:1.4rem 0;">
+      <div class="vc"><div class="vk">Step 1 &middot; Live</div><div class="vv">Members live local</div><p style="font-size:.9rem;color:var(--ink-2);margin:0;">Each candidate must reside in the district they want to represent.</p></div>
+      <div class="vc"><div class="vk">Step 2 &middot; Vote</div><div class="vv">Everyone votes citywide</div><p style="font-size:.9rem;color:var(--ink-2);margin:0;">All Columbus voters weigh in on all nine seats.</p></div>
+      <div class="vc"><div class="vk">Step 3 &middot; Serve</div><div class="vv">Answerable to the city</div><p style="font-size:.9rem;color:var(--ink-2);margin:0;">Members represent a district but answer to all of Columbus.</p></div>
+    </div>
+    <div class="callout"><b>This may change in November.</b> A 2026 ballot measure asks voters whether to switch to true single-member districts, where you'd vote only for your own district's seat. <a href={`${b}2026-ballot/`}>Read the ballot explainer &rarr;</a></div>
 
-  <section id="history" class="content-section">
-    <h2>History</h2>
-    <p>For over a century — from 1914 to 2023 — Columbus City Council operated as a purely at-large body. All council members were elected city-wide, and none were required to live in or represent a specific geographic area.</p>
-    <p>In November 2018, Columbus voters approved a charter amendment to create a district-based council system. The measure passed with approximately 75% support. The amendment called for a Districting Commission to draw nine residential districts of roughly equal population.</p>
-    <p>The Districting Commission convened in 2021 and developed three proposed maps. City Council selected the final map in December 2021, creating nine districts each containing approximately 100,000 residents.</p>
-    <p>The first district elections were held in November 2023. All nine seats were filled simultaneously, marking the end of the at-large era and the beginning of geographic representation in Columbus.</p>
-  </section>
+    <h2>How we got here</h2>
+    <div class="timeline">
+      <div class="tl"><div class="tdate">1914&ndash;2023</div><div class="ty">A century at-large</div><div class="td">For more than 100 years, Columbus elected all council members citywide, with no districts at all.</div></div>
+      <div class="tl"><div class="tdate">2018</div><div class="ty">Voters approve districts</div><div class="td">Columbus voters amend the city charter to create residential districts and expand council from seven seats to nine.</div></div>
+      <div class="tl"><div class="tdate">2021</div><div class="ty">The map is drawn</div><div class="td">A districting commission develops map options; City Council selects the final nine-district map in December.</div></div>
+      <div class="tl"><div class="tdate">2023</div><div class="ty">The system begins</div><div class="td">All nine district seats are filled for the first time.</div></div>
+      <div class="tl now"><div class="tdate">2024</div><div class="ty">Terms get staggered</div><div class="td">Members draw lots: four take two-year terms (up in 2025), five take four-year terms (up in 2027). All future terms are four years, staggered so the whole council never turns over at once.</div></div>
+    </div>
 
-  <section id="hybrid-system" class="content-section">
-    <h2>How the Hybrid Works</h2>
-    <p>Columbus does not use a traditional ward system. It uses a hybrid at-large/district model that works differently from most American cities:</p>
-    <p><strong>Residency requirement:</strong> Each council member must live within their assigned district. Christopher Wyche must reside in District 1, Nancy Day-Achauer in District 2, and so on.</p>
-    <p><strong>City-wide elections:</strong> All Columbus voters vote in all nine district races — not just the race for their own district. Every registered voter sees all nine council races on their ballot.</p>
-    <p><strong>Why this matters:</strong> Because every council member is elected by the entire city, they are accountable to all Columbus residents, not just the constituents in their home district. A resident of District 4 can vote against a District 9 incumbent they disagree with, and vice versa. This hybrid structure is designed to combine the geographic representation benefits of districts with the city-wide accountability of at-large elections.</p>
-    <p>This is the most counterintuitive aspect of the Columbus system, and research from the 2023 election cycle showed that most voters did not fully understand it. If you take one thing from this page: <strong>you vote in all nine races, not just your district's race.</strong></p>
-  </section>
+    <h2>What City Council actually does</h2>
+    <p>Council is the legislative body of the City of Columbus. It <strong>adopts the city's operating and capital budgets</strong>, <strong>passes city ordinances</strong> (the Columbus City Codes), and <strong>approves city contracts</strong>. It's led by a Council President &mdash; currently Shannon G. Hardin. Day-to-day city operations are run by the Mayor's administration; Council sets policy and holds the purse strings.</p>
 
-  <section id="terms" class="content-section">
-    <h2>Term Structure</h2>
-    <p>In the November 2023 election, all nine council seats were filled simultaneously for the first time under the new district system.</p>
-    <p>To establish staggered terms going forward, a lot drawing was held in January 2024. Four members drew two-year initial terms, and five drew four-year initial terms:</p>
-    <p><strong>Two-year terms (up for re-election in 2025):</strong> Districts 1, 3, 4, and 7. These four seats were on the ballot in November 2025.</p>
-    <p><strong>Four-year terms (up for re-election in 2027):</strong> Districts 2, 5, 6, 8, and 9. These five seats will be on the ballot in November 2027.</p>
-    <p>After the 2025 election, all future council terms are four years on a staggered cycle. Districts 1, 3, 4, and 7 will next be up in 2029. Districts 2, 5, 6, 8, and 9 will next be up in 2027.</p>
-  </section>
-
-  <section id="powers" class="content-section">
-    <h2>Council Powers</h2>
-    <p>Columbus City Council is the primary legislative body of the City of Columbus. Its core responsibilities include:</p>
-    <p><strong>Budget authority:</strong> Council adopts the city's annual operating and capital budgets, controlling how Columbus allocates its resources across departments, services, and infrastructure.</p>
-    <p><strong>Legislation:</strong> Council enacts and amends the Columbus City Code, the body of local law governing everything from zoning and building permits to public safety regulations and business licensing.</p>
-    <p><strong>Contract approval:</strong> Major city contracts — for construction, services, and procurement — require council approval before they can take effect.</p>
-    <p><strong>Council President:</strong> The council elects a president from among its members. The Council President presides over meetings, sets agendas, and assigns committee chairs. Shannon G. Hardin currently serves as Council President. Rob Dorans serves as President Pro Tem.</p>
-    <p>Council business is conducted through standing committees, each chaired by a council member. Committees review proposed legislation, hear testimony, and vote before items advance to the full council. See each <a href={`${import.meta.env.BASE_URL}districts/district-one/`}>district page</a> for the committee assignments of individual council members.</p>
-  </section>
-
-  <section id="participate" class="content-section">
-    <h2>How to Participate</h2>
-    <p>Columbus offers several direct pathways for civic participation:</p>
-    <p><strong>Attend City Council meetings.</strong> Council meets regularly at Columbus City Hall. Meetings are open to the public. The <a href="https://www.columbus.gov/Government/City-Council/Meeting-Schedules-Agendas" target="_blank" rel="noopener">meeting schedule and agendas</a> are published online.</p>
-    <p><strong>Submit written public comment.</strong> Residents can submit written comments on items before council. Check the agenda and meeting schedule for deadlines and procedures.</p>
-    <p><strong>Contact your council member directly.</strong> Every council member has a publicly listed office phone and email. Visit the <a href="https://www.columbus.gov/Government/City-Council/Directory" target="_blank" rel="noopener">council directory</a> or any district page on this site for contact information.</p>
-    <p><strong>Engage your area commission.</strong> Columbus's area commissions are the most local level of civic input below council. They review zoning cases, hear neighborhood concerns, and advise council. Find your area commission through the district pages on this site, or visit <a href="https://cbusareacommissions.org/" target="_blank" rel="noopener">cbusareacommissions.org</a>.</p>
-    <p><strong>Register to vote and confirm your district.</strong> You can register to vote or check your registration at <a href="https://www.ohiosos.gov" target="_blank" rel="noopener">ohiosos.gov</a>. To confirm which council district you live in, use the <a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener">city's ArcGIS district finder</a>.</p>
-  </section>
-
+    <h2>How to get involved</h2>
+    <div class="involve" style="margin-top:1rem;">
+      <div class="icard"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg><h3>Attend a meeting</h3><p>Council meets at City Hall and the sessions are open to the public, with time set aside for public comment.</p><a href="https://www.columbus.gov/Government/City-Council" target="_blank" rel="noopener">See the calendar &rarr;</a></div>
+      <div class="icard"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg><h3>Engage your area commission</h3><p>The most local level of input &mdash; area commissions review zoning and advise Council on neighborhood matters.</p><a href="https://cbusareacommissions.org/" target="_blank" rel="noopener">Find yours &rarr;</a></div>
+      <div class="icard"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H7l-3 3V4Z"/></svg><h3>Contact your members</h3><p>Because every member is elected citywide, you can reach any of the nine &mdash; not just the one in your district.</p><a href="https://www.columbus.gov/Government/City-Council/Directory" target="_blank" rel="noopener">Council directory &rarr;</a></div>
+    </div>
+  </div></div>
 </Layout>
-
-<style>
-  .page-header {
-    margin-bottom: 2.5rem;
-  }
-
-  .page-header h1 {
-    margin-bottom: 0.5rem;
-  }
-
-  .page-intro {
-    font-size: 1.05rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 1.25rem;
-  }
-
-  .page-toc ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .page-toc a {
-    font-family: var(--font-heading);
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--color-accent);
-    text-decoration: none;
-    padding: 0.3rem 0.7rem;
-    border: 1px solid var(--color-border);
-    border-radius: 3px;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .page-toc a:hover {
-    background: var(--color-accent);
-    color: #fff;
-    border-color: var(--color-accent);
-  }
-
-  .content-section {
-    margin-bottom: 2.5rem;
-  }
-
-  .content-section h2 {
-    font-size: 1.4rem;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 2px solid var(--color-accent);
-  }
-
-  .content-section p {
-    margin-bottom: 0.9rem;
-    line-height: 1.7;
-  }
-
-  .content-section strong {
-    color: var(--color-text);
-  }
-</style>

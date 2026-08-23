@@ -1,120 +1,36 @@
 ---
 /**
- * SuggestEditForm.astro — Netlify Form for suggesting corrections to district data
- * Placed at the bottom of each district page.
- * The district number is passed as a prop and submitted as a hidden field.
+ * SuggestEditForm.astro — "Suggest an edit" form (ported from the district concept).
+ *
+ * Phase A: real form markup with a honeypot; posts to /api/suggest (not yet live).
+ * Phase C wires the Cloudflare Pages Function + Turnstile and the thank-you redirect.
  */
 interface Props {
   district: number;
 }
-
 const { district } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
-<section class="suggest-edit" id="suggest-edit">
-  <h3>Suggest an Edit</h3>
-  <p>See something out of date or incorrect on this page? Let us know.</p>
-  <form
-    name="suggest-edit"
-    method="POST"
-    data-netlify="true"
-    netlify-honeypot="bot-field"
-    action={`${import.meta.env.BASE_URL}suggest-edit-thanks/`}
-  >
-    <input type="hidden" name="form-name" value="suggest-edit" />
-    <input type="hidden" name="district" value={String(district)} />
-    <p class="hidden" aria-hidden="true">
-      <label>Don't fill this out: <input name="bot-field" /></label>
-    </p>
-    <div class="form-field">
-      <label for={`edit-name-${district}`}>Your name</label>
-      <input type="text" id={`edit-name-${district}`} name="name" required />
-    </div>
-    <div class="form-field">
-      <label for={`edit-email-${district}`}>Email address</label>
-      <input type="email" id={`edit-email-${district}`} name="email" required />
-    </div>
-    <div class="form-field">
-      <label for={`edit-suggestion-${district}`}>What needs updating?</label>
-      <textarea id={`edit-suggestion-${district}`} name="suggestion" rows="4" required></textarea>
-    </div>
-    <button type="submit" class="form-submit">Submit Suggestion</button>
-  </form>
-</section>
-
-<style>
-  .suggest-edit {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border-light);
-  }
-
-  .suggest-edit h3 {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .suggest-edit p {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 1.25rem;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .form-field {
-    margin-bottom: 1rem;
-  }
-
-  .form-field label {
-    display: block;
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-    color: var(--color-text);
-  }
-
-  .form-field input,
-  .form-field textarea {
-    width: 100%;
-    max-width: 480px;
-    padding: 0.5rem 0.65rem;
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    border: 1px solid var(--color-border);
-    border-radius: 3px;
-    background: var(--color-bg);
-    color: var(--color-text);
-  }
-
-  .form-field input:focus,
-  .form-field textarea:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 1px;
-    border-color: var(--color-accent);
-  }
-
-  .form-field textarea {
-    resize: vertical;
-  }
-
-  .form-submit {
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #fff;
-    background: var(--color-accent);
-    border: none;
-    padding: 0.55rem 1.4rem;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .form-submit:hover {
-    background: var(--color-accent-hover);
-  }
-</style>
+<section class="block"><div class="wrap">
+  <div class="sec-head"><span class="n">06</span><h2>Suggest an edit</h2></div>
+  <div class="form-wrap">
+    <p style="margin:0;color:var(--ink-2);font-size:.92rem;">See something out of date or incorrect on this page? Let us know &mdash; every district page links to primary sources, and we correct errors quickly.</p>
+    <form method="POST" action={`${b}api/suggest`} data-district={district}>
+      <input type="hidden" name="district" value={district} />
+      {/* Honeypot — bots fill this; humans never see it. */}
+      <div style="position:absolute;left:-9999px;" aria-hidden="true">
+        <label>Leave this field empty <input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+      </div>
+      <label for={`se-name-${district}`}>Your name</label>
+      <input id={`se-name-${district}`} name="name" type="text" autocomplete="name" />
+      <label for={`se-email-${district}`}>Email address</label>
+      <input id={`se-email-${district}`} name="email" type="email" autocomplete="email" required />
+      <label for={`se-msg-${district}`}>What needs updating?</label>
+      <textarea id={`se-msg-${district}`} name="message" required></textarea>
+      {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="auto" style="margin-top:1rem;"></div>}
+      <button class="btn primary" type="submit">Submit suggestion</button>
+    </form>
+  </div>
+</div></section>

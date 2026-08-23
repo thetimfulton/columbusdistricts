@@ -1,192 +1,117 @@
 ---
 /**
- * all-districts.astro — Side-by-side district comparison.
- * Reads all 9 district JSON files at build time.
- * Pulls demographic data from the current_vintage snapshot.
+ * all-districts.astro — Comparison table of all nine districts + Columbus weighted-average row.
+ * Rebuilt from design-concepts/all-districts.html. Population uses the 2020 Census count
+ * (avoids ACS artifacts per the brief); income/rent/unemployment/race are current ACS.
  */
-import Layout from '../components/Layout.astro';
+import Layout from "../components/Layout.astro";
+import { districts, currentSnapshot, citywide, citywideSum } from "../lib/districts";
 
-import d1 from '../data/districts/district-1.json';
-import d2 from '../data/districts/district-2.json';
-import d3 from '../data/districts/district-3.json';
-import d4 from '../data/districts/district-4.json';
-import d5 from '../data/districts/district-5.json';
-import d6 from '../data/districts/district-6.json';
-import d7 from '../data/districts/district-7.json';
-import d8 from '../data/districts/district-8.json';
-import d9 from '../data/districts/district-9.json';
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
+const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+const num = (n: number) => Math.round(n).toLocaleString("en-US");
+const pct = (n: number) => n.toFixed(1) + "%";
 
-const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
-
-// Extract current snapshot data for each district
-const rows = allDistricts.map((d) => {
-  const snap = d.demographics.snapshots.find(
-    (s: any) => s.vintage === d.demographics.current_vintage
-  );
-  const data = snap?.data || {};
+const rows = districts.map((d: any) => {
+  const c = currentSnapshot(d).data;
   return {
     number: d.number,
     slug: d.slug,
     member: d.councilMember.name,
-    population: data.total_population,
-    income: data.median_hh_income_est,
-    rent: data.median_gross_rent_est,
-    unemployment: data.unemployment_rate,
-    pctWhite: data.pct_nh_white,
-    pctBlack: data.pct_nh_black,
-    pctHispanic: data.pct_hispanic,
-    nextElection: d.councilMember.nextElection,
+    pop2020: d.population2020 ?? c.total_population,
+    income: c.median_hh_income_est,
+    rent: c.median_gross_rent_est,
+    unemp: c.unemployment_rate,
+    white: c.pct_nh_white,
+    black: c.pct_nh_black,
+    hispanic: c.pct_hispanic,
+    next: d.councilMember.nextElection,
   };
 });
 
-// City-wide averages (approximate, summed from district data)
-const totalPop = rows.reduce((s, r) => s + (r.population || 0), 0);
-const avgIncome = Math.round(rows.reduce((s, r) => s + (r.income || 0), 0) / 9);
-const avgRent = Math.round(rows.reduce((s, r) => s + (r.rent || 0), 0) / 9);
-const avgUnemployment = +(rows.reduce((s, r) => s + (r.unemployment || 0), 0) / 9).toFixed(1);
+// Column leaders (accent): highest median income, lowest unemployment (matches concept)
+const leadIncome = Math.max(...rows.map((r) => r.income));
+const leadUnemp = Math.min(...rows.map((r) => r.unemp));
 
-function fmtNum(v: number | null) { return v ? v.toLocaleString('en-US') : '—'; }
-function fmtDollar(v: number | null) { return v ? '$' + v.toLocaleString('en-US') : '—'; }
-function fmtPct(v: number | null) { return v !== null && v !== undefined ? v.toFixed(1) + '%' : '—'; }
+// Columbus weighted-average row
+const city = {
+  pop: citywideSum("total_population") && rows.reduce((a, r) => a + r.pop2020, 0),
+  income: citywide("median_hh_income_est"),
+  rent: citywide("median_gross_rent_est"),
+  unemp: citywide("unemployment_rate"),
+  white: citywide("pct_nh_white"),
+  black: citywide("pct_nh_black"),
+  hispanic: citywide("pct_hispanic"),
+};
+
+// Superlatives
+const byIncomeDesc = [...rows].sort((a, b2) => b2.income - a.income);
+const hiInc = byIncomeDesc[0];
+const loInc = byIncomeDesc[byIncomeDesc.length - 1];
+const loUnemp = [...rows].sort((a, b2) => a.unemp - b2.unemp)[0];
+const pctVsCity = (v: number) => {
+  const c = city.income ?? v;
+  const p = (v - c) / c * 100;
+  return `${p >= 0 ? "+" : "−"}${Math.abs(p).toFixed(0)}%`;
+};
+const nextYear = Math.min(...rows.map((r) => r.next).filter(Boolean));
+const nextDistricts = rows.filter((r) => r.next === nextYear).map((r) => r.number);
 ---
-<Layout title="All Districts" description="Compare all nine Columbus City Council districts across demographics, economics, and civic representation.">
+<Layout
+  title="All nine districts, compared"
+  description="Every Columbus City Council district across the same demographic and civic measures — population, income, rent, unemployment, and race/ethnicity — with a citywide comparison row."
+  active="all"
+>
+  <div class="wrap">
+    <section class="block" style="padding-bottom:1.4rem;">
+      <div class="sec-head"><span class="n">Compare</span><h2>All nine districts, side by side</h2></div>
+      <p class="sec-sub">Every Columbus City Council district across the same demographic and civic measures. Population is the 2020 Census count; income, rent, unemployment, and race/ethnicity are ACS 2019&ndash;2023 estimates. Tap a district to open its page.</p>
 
-  <header class="page-header">
-    <h1>All Districts</h1>
-    <p class="page-intro">Compare all nine Columbus City Council districts across key demographic and civic metrics. All demographic figures are from the {d1.demographics.current_vintage} vintage.</p>
-  </header>
+      <div class="super">
+        <div class="sup"><div class="sk">Highest median income</div><div class="sv">District {hiInc.number}</div><div class="sd">{money(hiInc.income)} &middot; <b>{pctVsCity(hiInc.income)}</b> vs. city</div></div>
+        <div class="sup"><div class="sk">Lowest median income</div><div class="sv">District {loInc.number}</div><div class="sd">{money(loInc.income)} &middot; {pctVsCity(loInc.income)} vs. city</div></div>
+        <div class="sup"><div class="sk">Lowest unemployment</div><div class="sv">District {loUnemp.number}</div><div class="sd">{pct(loUnemp.unemp)} &middot; city is {pct(city.unemp ?? 0)}</div></div>
+        <div class="sup"><div class="sk">Next up for election</div><div class="sv">{nextYear}</div><div class="sd">Districts {nextDistricts.join(", ")}</div></div>
+      </div>
 
-  <div class="table-wrapper">
-    <table class="comparison-table">
-      <thead>
-        <tr>
-          <th>District</th>
-          <th>Council Member</th>
-          <th class="num">Population</th>
-          <th class="num">Median Income</th>
-          <th class="num">Median Rent</th>
-          <th class="num">Unemployment</th>
-          <th class="num">% White</th>
-          <th class="num">% Black</th>
-          <th class="num">% Hispanic</th>
-          <th class="num">Next Election</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((r) => (
-          <tr>
-            <td><a href={`${import.meta.env.BASE_URL}districts/${r.slug}/`}>District {r.number}</a></td>
-            <td>{r.member || '—'}</td>
-            <td class="num">{fmtNum(r.population)}</td>
-            <td class="num">{fmtDollar(r.income)}</td>
-            <td class="num">{fmtDollar(r.rent)}</td>
-            <td class="num">{fmtPct(r.unemployment)}</td>
-            <td class="num">{fmtPct(r.pctWhite)}</td>
-            <td class="num">{fmtPct(r.pctBlack)}</td>
-            <td class="num">{fmtPct(r.pctHispanic)}</td>
-            <td class="num">{r.nextElection || '—'}</td>
-          </tr>
-        ))}
-      </tbody>
-      <tfoot>
-        <tr class="city-avg">
-          <td colspan="2"><strong>City-wide (approx.)</strong></td>
-          <td class="num">{fmtNum(totalPop)}</td>
-          <td class="num">{fmtDollar(avgIncome)}</td>
-          <td class="num">{fmtDollar(avgRent)}</td>
-          <td class="num">{fmtPct(avgUnemployment)}</td>
-          <td class="num" colspan="3">—</td>
-          <td class="num">—</td>
-        </tr>
-      </tfoot>
-    </table>
+      <div class="cmptable-wrap">
+        <table class="cmpt">
+          <thead><tr>
+            <th class="dcol">District</th><th style="text-align:left">Council member</th><th>Population</th><th>Median income</th><th>Median rent</th><th>Unemployment</th><th>% NH White</th><th>% NH Black</th><th>% Hispanic</th><th>Next election</th>
+          </tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <td class="dcol"><a class="dlink" href={`${b}districts/${r.slug}/`}>District {r.number}</a></td>
+                <td class="mcol">{r.member}</td>
+                <td><span class="num">{num(r.pop2020)}</span></td>
+                <td class={r.income === leadIncome ? "lead" : ""}><span class="num">{money(r.income)}</span></td>
+                <td><span class="num">{money(r.rent)}</span></td>
+                <td class={r.unemp === leadUnemp ? "lead" : ""}><span class="num">{pct(r.unemp)}</span></td>
+                <td><span class="num">{pct(r.white)}</span></td>
+                <td><span class="num">{pct(r.black)}</span></td>
+                <td><span class="num">{pct(r.hispanic)}</span></td>
+                <td><span class="num">{r.next}</span></td>
+              </tr>
+            ))}
+            <tr class="city">
+              <td class="dcol">Columbus</td>
+              <td class="mcol" style="color:var(--ink-3);font-weight:400;font-size:.82rem;">weighted average</td>
+              <td><span class="num">{num(city.pop)}</span></td>
+              <td><span class="num">{money(city.income ?? 0)}</span></td>
+              <td><span class="num">{money(city.rent ?? 0)}</span></td>
+              <td><span class="num">{pct(city.unemp ?? 0)}</span></td>
+              <td><span class="num">{pct(city.white ?? 0)}</span></td>
+              <td><span class="num">{pct(city.black ?? 0)}</span></td>
+              <td><span class="num">{pct(city.hispanic ?? 0)}</span></td>
+              <td>&mdash;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend-note"><span><b>Accent</b> marks the leading district in a column</span><span>Scroll the table sideways to see every measure &rarr;</span></div>
+      <p class="datanote"><strong>About these figures.</strong> Demographics are aggregated from census block groups; median income, rent, and home value are population-weighted averages of block-group medians &mdash; approximations, not true district medians. The Columbus row is a population-weighted average of the nine districts. <a href={`${b}data/`}>See full methodology &rarr;</a></p>
+    </section>
   </div>
-
-  <p class="table-note">Source: U.S. Census Bureau {d1.demographics.current_vintage} 5-Year Estimates via Census API. City-wide figures are approximate averages of district-level data. Median income, rent, and home value are population-weighted averages of block-group medians. See <a href={`${import.meta.env.BASE_URL}data/`}>Data &amp; Methodology</a> for details.</p>
-
 </Layout>
-
-<style>
-  .page-header {
-    margin-bottom: 2rem;
-  }
-
-  .page-intro {
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-  }
-
-  .table-wrapper {
-    overflow-x: auto;
-    margin-bottom: 1rem;
-    border: 1px solid var(--color-border-light);
-    border-radius: 4px;
-  }
-
-  .comparison-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-
-  .comparison-table th {
-    background: var(--color-bg-subtle);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-text-muted);
-    padding: 0.6rem 0.65rem;
-    text-align: left;
-    border-bottom: 2px solid var(--color-border);
-    position: sticky;
-    top: 0;
-  }
-
-  .comparison-table th.num {
-    text-align: right;
-  }
-
-  .comparison-table td {
-    padding: 0.55rem 0.65rem;
-    border-bottom: 1px solid var(--color-border-light);
-    color: var(--color-text);
-  }
-
-  .comparison-table td.num {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .comparison-table td a {
-    font-weight: 600;
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-  .comparison-table td a:hover {
-    text-decoration: underline;
-  }
-
-  .comparison-table tbody tr:hover {
-    background: var(--color-bg-subtle);
-  }
-
-  .city-avg {
-    background: var(--color-bg-subtle);
-    border-top: 2px solid var(--color-border);
-  }
-
-  .city-avg td {
-    font-weight: 600;
-    color: var(--color-text-secondary);
-  }
-
-  .table-note {
-    font-family: var(--font-heading);
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    line-height: 1.5;
-  }
-</style>
