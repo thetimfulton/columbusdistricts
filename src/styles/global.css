@@ -48,7 +48,7 @@
   .ribbon{background:var(--brand); color:#F3F1EC;}
   :root[data-theme="dark"] .ribbon,:root:not([data-theme="light"]) .ribbon{background:#1B2E42;}
   @media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .ribbon{background:var(--brand);}}
-  .ribbon .wrap{display:flex; align-items:center; gap:.7rem; padding-block:.55rem; font-size:.82rem;}
+  .ribbon .wrap{display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .7rem; padding-block:.55rem; font-size:.82rem;}
   .ribbon .tag{background:var(--gold); color:#20160A; font-weight:700; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; padding:.16rem .5rem; border-radius:100px; white-space:nowrap;}
   .ribbon b{font-weight:600;}
   .ribbon a{color:#fff; margin-left:auto; white-space:nowrap; font-weight:600;}
