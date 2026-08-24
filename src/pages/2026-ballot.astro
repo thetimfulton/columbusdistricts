@@ -1,11 +1,11 @@
 ---
 /**
  * 2026-ballot.astro — the 2026 council-structure ballot explainer.
- * Ported from design-concepts/ballot.html.
  *
- * ⚠ Phase A: copy is DRAFT and must be verified against the certified ballot
- * language before launch (see the brief). It is a live political topic — kept
- * nonpartisan and dated. The draft banner below is removed once copy is certified.
+ * ⚠ DRAFT copy — a live political topic. Updated Aug 2026 to reflect the two competing
+ * charter amendments (the earlier single-vs-hybrid framing is obsolete). Kept nonpartisan
+ * and dated; MUST be verified against the certified ballot language before the draft banner
+ * is removed. Every substantive claim should trace to a primary source.
  */
 import Layout from "../components/Layout.astro";
 const base = import.meta.env.BASE_URL;
@@ -13,81 +13,81 @@ const b = base.endsWith("/") ? base : base + "/";
 ---
 <Layout
   title="How Columbus elects its City Council is on the 2026 ballot"
-  description="A nonpartisan explainer of the 2026 Columbus ballot measure on how City Council is elected — the current hybrid system vs. true single-member districts."
+  description="A nonpartisan explainer of the 2026 Columbus ballot measures on how City Council is elected — the citizen single-member-district amendment and City Council's 13-member expansion."
   ribbon={false}
 >
   <div class="draftbar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
-    <span><strong>Draft &mdash; pending certified ballot language.</strong> This copy is being verified against the final certified measure and may change before launch.</span>
+    <span><strong>Draft &mdash; pending certified ballot language.</strong> This is a developing, time-sensitive topic; the exact measures and wording are being verified against the certified ballot and may change.</span>
   </div>
 
   <div class="wrap"><div class="article">
     <section class="art-hero">
-      <div class="eyebrow">Ballot Measure &middot; General Election, November 4, 2026</div>
+      <div class="eyebrow">Ballot Measures &middot; General Election, November 4, 2026</div>
       <h1>How Columbus elects its City Council is on the ballot</h1>
-      <p class="dek">This November, Columbus voters decide whether to keep the current hybrid system &mdash; where every voter helps elect all nine council members &mdash; or switch to true single-member districts, where you vote only for the member who represents your own district.</p>
-      <div class="asof"><span class="dot"></span> As of August 2026 &middot; details may change before the final ballot is certified</div>
+      <p class="dek">This November, Columbus voters are expected to weigh <strong>two competing charter amendments</strong> that would change how City Council is elected &mdash; one from a citizen petition, one from Council itself. They take different paths from the same starting point: today's nine members each represent a district but are elected by the whole city.</p>
+      <div class="asof"><span class="dot"></span> As of August 2026 &middot; details may change before the ballot is certified</div>
       <div class="keyfacts">
-        <div class="kf"><div class="kfl">What it is</div><div class="kfv">A proposed city charter amendment</div></div>
-        <div class="kf"><div class="kfl">How it qualified</div><div class="kfv">Citizen petition &mdash; 23,000+ signatures</div></div>
+        <div class="kf"><div class="kfl">What's on the ballot</div><div class="kfv">Two proposed charter amendments</div></div>
+        <div class="kf"><div class="kfl">How they qualified</div><div class="kfv">One by citizen petition, one referred by Council</div></div>
         <div class="kf"><div class="kfl">When you vote</div><div class="kfv">Tuesday, November 4, 2026</div></div>
       </div>
     </section>
 
-    <div class="callout"><b>This is a developing story.</b> City Council and the petition organizers have been discussing a possible compromise. What ultimately appears on the ballot &mdash; and its exact wording &mdash; may change. This page will be updated as the ballot is finalized. Every claim here links to a primary source.</div>
+    <div class="callout"><b>This is a developing story.</b> A compromise between the two sides was floated and then rejected, and Council has advanced its own amendment alongside the citizen petition. What ultimately appears on the ballot &mdash; and its exact wording &mdash; may still change. This page will be updated as the ballot is finalized; every claim should be checked against a primary source.</div>
 
-    <h2>The two systems, side by side</h2>
-    <p>Both systems use nine geographic districts, and in both, a council member must live in the district they represent. The difference is <strong>who gets to vote for each seat</strong>.</p>
+    <h2>The system today</h2>
+    <p>Columbus uses a <strong>hybrid</strong> system, in place since the 2023 elections. There are nine council members, and each must <strong>live in the district they represent</strong> &mdash; but every voter in the city votes in <strong>all nine</strong> district races. So members represent a district geographically while answering to the whole city. Both amendments below would change that arrangement in different ways.</p>
+
+    <h2>The two measures, side by side</h2>
     <div class="compare2">
-      <div class="sys today">
-        <div class="sh"><div class="lab">Today &middot; in place since 2023</div><div class="nm">Hybrid at-large districts</div></div>
-        <div class="srow"><div class="sq">Who votes for your member</div><div class="sa">Every voter in Columbus votes in all nine district races.</div></div>
-        <div class="srow"><div class="sq">Races on your ballot</div><div class="sa">All nine council seats, every cycle they're up.</div></div>
-        <div class="srow"><div class="sq">Who members answer to</div><div class="sa">The whole city &mdash; every member is elected citywide.</div></div>
-        <div class="srow"><div class="sq">The argument for it</div><div class="sa">Members stay accountable to all of Columbus, not just one district.</div></div>
-      </div>
       <div class="sys prop">
-        <div class="sh"><div class="lab">Proposed &middot; the ballot measure</div><div class="nm">True single-member districts</div></div>
-        <div class="srow"><div class="sq">Who votes for your member</div><div class="sa">Only residents of your district vote for your representative.</div></div>
-        <div class="srow"><div class="sq">Races on your ballot</div><div class="sa">One council race &mdash; the seat for your district.</div></div>
-        <div class="srow"><div class="sq">Who members answer to</div><div class="sa">Their own district's residents directly.</div></div>
-        <div class="srow"><div class="sq">The argument for it</div><div class="sa">Neighborhoods get a representative accountable to them specifically.</div></div>
+        <div class="sh"><div class="lab">Citizen petition &middot; Our City Our Say</div><div class="nm">True single-member districts</div></div>
+        <div class="srow"><div class="sq">What it changes</div><div class="sa">Keeps nine districts and the current map, but switches to district-only elections.</div></div>
+        <div class="srow"><div class="sq">How you'd vote</div><div class="sa">Only residents of your district vote for your representative &mdash; one council race on your ballot.</div></div>
+        <div class="srow"><div class="sq">Council size</div><div class="sa">Stays at nine members.</div></div>
+        <div class="srow"><div class="sq">Status</div><div class="sa">Qualified by petition &mdash; the Franklin County Board of Elections validated 15,945 signatures, above the required threshold.</div></div>
+      </div>
+      <div class="sys today">
+        <div class="sh"><div class="lab">Referred by City Council</div><div class="nm">A 13-member expanded council</div></div>
+        <div class="srow"><div class="sq">What it changes</div><div class="sa">Expands council to 13 members &mdash; nine district seats plus four elected at-large &mdash; and calls for the district map to be redrawn in 2028.</div></div>
+        <div class="srow"><div class="sq">How you'd vote</div><div class="sa">You'd vote for your district's seat and for the at-large seats. (Exact election method is set by the amendment.)</div></div>
+        <div class="srow"><div class="sq">Council size</div><div class="sa">Grows from nine to 13 members.</div></div>
+        <div class="srow"><div class="sq">Status</div><div class="sa">Advanced by City Council in August 2026 as a competing charter amendment.</div></div>
       </div>
     </div>
+    <p style="font-size:.86rem;color:var(--ink-3);">The exact ballot titles, wording, and effective dates are set by the certified measures. Confirm details with the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a>.</p>
 
     <h2>How we got here</h2>
     <div class="timeline">
       <div class="tl"><div class="tdate">2018</div><div class="ty">Voters approve districts</div><div class="td">Columbus ends its century-old fully at-large council, adopting the hybrid district system and expanding council from seven seats to nine.</div></div>
       <div class="tl"><div class="tdate">2023</div><div class="ty">First district elections</div><div class="td">All nine district seats are filled for the first time under the new system.</div></div>
       <div class="tl"><div class="tdate">2025</div><div class="ty">Second cycle</div><div class="td">Districts 1, 3, 4, and 7 are up; the staggered four-year terms take hold.</div></div>
-      <div class="tl now"><div class="tdate">2026</div><div class="ty">A petition qualifies for the ballot</div><div class="td">The group Our City Our Say gathers more than 23,000 signatures &mdash; clearing the validation threshold &mdash; to put single-member districts before voters. Council weighs a possible compromise.</div></div>
-      <div class="tl future"><div class="tdate">November 4, 2026</div><div class="ty">Columbus votes</div><div class="td">The measure goes before city voters.</div></div>
-      <div class="tl future"><div class="tdate">If it passes</div><div class="ty">A new map and new rules</div><div class="td">The city would implement the change on the timeline set by the amendment.</div></div>
+      <div class="tl now"><div class="tdate">Summer 2026</div><div class="ty">A petition qualifies</div><div class="td">The group Our City Our Say submits about 23,000 signatures for single-member districts; the Board of Elections validates 15,945 &mdash; enough to reach the ballot.</div></div>
+      <div class="tl now"><div class="tdate">August 2026</div><div class="ty">Compromise rejected; a second measure</div><div class="td">Talks on a middle-ground deal collapse. City Council advances its own amendment &mdash; a 13-member council with four at-large seats and a 2028 remap &mdash; to run alongside the petition.</div></div>
+      <div class="tl future"><div class="tdate">November 4, 2026</div><div class="ty">Columbus votes</div><div class="td">Voters decide the measures that appear on the certified ballot.</div></div>
     </div>
-
-    <h2>The compromise being discussed</h2>
-    <p>Rather than a straight yes-or-no on single-member districts, City Council and some organizers have floated a middle path: <strong>expand the council</strong> with several new at-large seats alongside nine ward seats, pair it with <strong>campaign-finance reform</strong>, and <strong>redraw the district map</strong>. Supporters of a deal argue it delivers neighborhood representation without losing citywide accountability; some petition backers counter that it dilutes the original proposal. Whether a compromise reaches the ballot &mdash; and in what form &mdash; was still unsettled as of late August 2026.</p>
 
     <h2>What each side says</h2>
     <div class="procon">
       <div class="pc for">
-        <h3>Supporters of single-member districts</h3>
+        <h3>Arguments for changing the system</h3>
         <ul>
-          <li>Neighborhoods get a representative who answers to them directly, not the whole city.</li>
-          <li>Running for a single district costs less than a citywide campaign, lowering the barrier to entry.</li>
-          <li>It's how most large U.S. cities elect their councils.</li>
+          <li>Single-member districts give neighborhoods a representative who answers to them directly, not the whole city.</li>
+          <li>Running for one district costs less than a citywide campaign, lowering the barrier to entry.</li>
+          <li>Supporters of expansion say adding at-large seats keeps a citywide voice while growing representation.</li>
         </ul>
       </div>
       <div class="pc against">
-        <h3>Those who favor the current system</h3>
+        <h3>Concerns and counterpoints</h3>
         <ul>
-          <li>Every member being elected citywide keeps the whole council accountable to all of Columbus.</li>
-          <li>Voters keep a say in all nine seats rather than just one.</li>
-          <li>The hybrid system is only two cycles old &mdash; too soon to judge, some argue.</li>
+          <li>Electing every member citywide keeps the whole council accountable to all of Columbus.</li>
+          <li>Some labor and community leaders have raised concerns about how the changes could affect representation.</li>
+          <li>The current system is only two cycles old &mdash; too soon to judge, some argue.</li>
         </ul>
       </div>
     </div>
-    <p style="font-size:.86rem;color:var(--ink-3);">The points above summarize positions publicly stated by each side; they are not endorsements. Columbus Districts is a nonpartisan reference and does not take a position on the measure.</p>
+    <p style="font-size:.86rem;color:var(--ink-3);">The points above summarize positions publicly stated by various parties; they are not endorsements. Columbus Districts is a nonpartisan reference and does not take a position on either measure.</p>
 
     <h2>Make your plan to vote</h2>
     <div class="vote-cta">
