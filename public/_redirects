@@ -1,42 +1,90 @@
 # Cloudflare Pages redirects — Columbus Districts
-# Old-URL redirects so bookmarks and inbound links to previous URLs don't 404.
-# Canonical district URLs are /districts/district-<word>/  (e.g. /districts/district-one/).
+# 301s from old WordPress URLs to the Astro build, so bookmarks, inbound links, and
+# Google's existing index of the old site don't 404. Canonical district URLs are
+# /districts/district-<word>/  (e.g. /districts/district-one/).
 #
-# NOTE: best-guess starter set. The exact URLs people actually hit are being captured
-# live via the GA4 "page_not_found" event fired from src/pages/404.astro — promote real
-# ones here as they surface in Analytics, and prune any of the guesses below that never fire.
+# IMPORTANT — trailing slash matters on Cloudflare Pages: "/district-seven" and
+# "/district-seven/" are matched separately, and the old WordPress URLs were indexed
+# WITH a trailing slash. Every source is therefore listed in both forms so both redirect.
+# Real 404s are captured via the GA4 "page_not_found" event (src/pages/404.astro);
+# promote any that surface and prune guesses that never fire.
 
-# No /districts/ landing page exists — send it to the comparison table.
-/districts             /all-districts/             301
-/districts/            /all-districts/             301
+# --- No /districts/ landing page exists — send it to the comparison table ---
+/districts              /all-districts/             301
+/districts/             /all-districts/             301
 
-# Numeric district slugs -> canonical word slugs.
-/district-1            /districts/district-one/    301
-/district-2            /districts/district-two/    301
-/district-3            /districts/district-three/  301
-/district-4            /districts/district-four/   301
-/district-5            /districts/district-five/   301
-/district-6            /districts/district-six/    301
-/district-7            /districts/district-seven/  301
-/district-8            /districts/district-eight/  301
-/district-9            /districts/district-nine/   301
-/districts/district-1  /districts/district-one/    301
-/districts/district-2  /districts/district-two/    301
-/districts/district-3  /districts/district-three/  301
-/districts/district-4  /districts/district-four/   301
-/districts/district-5  /districts/district-five/   301
-/districts/district-6  /districts/district-six/    301
-/districts/district-7  /districts/district-seven/  301
-/districts/district-8  /districts/district-eight/  301
-/districts/district-9  /districts/district-nine/   301
+# --- Old district URLs -> canonical word slugs ---
+# Word slugs at the site root (the primary old WordPress district URLs).
+/district-one           /districts/district-one/    301
+/district-one/          /districts/district-one/    301
+/district-two           /districts/district-two/    301
+/district-two/          /districts/district-two/    301
+/district-three         /districts/district-three/  301
+/district-three/        /districts/district-three/  301
+/district-four          /districts/district-four/   301
+/district-four/         /districts/district-four/   301
+/district-five          /districts/district-five/   301
+/district-five/         /districts/district-five/   301
+/district-six           /districts/district-six/    301
+/district-six/          /districts/district-six/    301
+/district-seven         /districts/district-seven/  301
+/district-seven/        /districts/district-seven/  301
+/district-eight         /districts/district-eight/  301
+/district-eight/        /districts/district-eight/  301
+/district-nine          /districts/district-nine/   301
+/district-nine/         /districts/district-nine/   301
 
-# Root-level word slugs (in case old district pages lived at the root).
-/district-one          /districts/district-one/    301
-/district-two          /districts/district-two/    301
-/district-three        /districts/district-three/  301
-/district-four         /districts/district-four/   301
-/district-five         /districts/district-five/   301
-/district-six          /districts/district-six/    301
-/district-seven        /districts/district-seven/  301
-/district-eight        /districts/district-eight/  301
-/district-nine         /districts/district-nine/   301
+# Numeric slugs at the root (in case any were linked).
+/district-1             /districts/district-one/    301
+/district-1/            /districts/district-one/    301
+/district-2             /districts/district-two/    301
+/district-2/            /districts/district-two/    301
+/district-3             /districts/district-three/  301
+/district-3/            /districts/district-three/  301
+/district-4             /districts/district-four/   301
+/district-4/            /districts/district-four/   301
+/district-5             /districts/district-five/   301
+/district-5/            /districts/district-five/   301
+/district-6             /districts/district-six/    301
+/district-6/            /districts/district-six/    301
+/district-7             /districts/district-seven/  301
+/district-7/            /districts/district-seven/  301
+/district-8             /districts/district-eight/  301
+/district-8/            /districts/district-eight/  301
+/district-9             /districts/district-nine/   301
+/district-9/            /districts/district-nine/   301
+
+# Numeric slugs already under /districts/.
+/districts/district-1   /districts/district-one/    301
+/districts/district-1/  /districts/district-one/    301
+/districts/district-2   /districts/district-two/    301
+/districts/district-2/  /districts/district-two/    301
+/districts/district-3   /districts/district-three/  301
+/districts/district-3/  /districts/district-three/  301
+/districts/district-4   /districts/district-four/   301
+/districts/district-4/  /districts/district-four/   301
+/districts/district-5   /districts/district-five/   301
+/districts/district-5/  /districts/district-five/   301
+/districts/district-6   /districts/district-six/    301
+/districts/district-6/  /districts/district-six/    301
+/districts/district-7   /districts/district-seven/  301
+/districts/district-7/  /districts/district-seven/  301
+/districts/district-8   /districts/district-eight/  301
+/districts/district-8/  /districts/district-eight/  301
+/districts/district-9   /districts/district-nine/   301
+/districts/district-9/  /districts/district-nine/   301
+
+# --- Other old WordPress paths ---
+# No standalone "Suggest an edit" page (the form is embedded on each district page) -> About.
+/suggest                /about/                     301
+/suggest/               /about/                     301
+# No community forum on the new site.
+/forum                  /                           301
+/forum/                 /                           301
+
+# --- Sitemap alias: the classic /sitemap.xml path already submitted in Search Console ---
+# The Astro sitemap emits /sitemap-index.xml; keep the old path resolving.
+/sitemap.xml            /sitemap-index.xml          301
+
+# Intentionally left to 404 (junk WordPress pages, no equivalent, not worth redirecting):
+#   /arcgis-online-content/   /sample-page/

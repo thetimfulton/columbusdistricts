@@ -35,6 +35,13 @@ const base = import.meta.env.BASE_URL;
 // Normalize base so links join cleanly whether base is "/" or "/subpath/".
 const b = base.endsWith("/") ? base : base + "/";
 
+// Canonical URL — always the www host from astro.config `site`, even when the page is
+// served on the apex (columbusdistricts.com serves 200; a Cloudflare dashboard rule to
+// 301 apex -> www is still needed — _redirects can't do cross-host on Pages).
+const canonicalURL = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.pathname;
+
 const nav = [
   { key: "home", href: b, label: "Home" },
   { key: "districts", href: `${b}all-districts/`, label: "Districts" },
@@ -50,6 +57,7 @@ const nav = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <title>{title} | Columbus Districts</title>
+  <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href={`${b}favicon.svg`} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -89,7 +97,7 @@ const nav = [
   {ribbon && (
     <div class="ribbon"><div class="wrap">
       <span class="tag">On the 2026 ballot</span>
-      <span><b>Columbus will vote this November</b> on how City Council is elected.</span>
+      <span><b>Two charter amendments</b> on how City Council is elected are on Columbus&rsquo;s November ballot.</span>
       <a href={`${b}2026-ballot/`} data-ev="ballot_engagement" data-ev-label="ribbon">Read the explainer &rarr;</a>
     </div></div>
   )}
