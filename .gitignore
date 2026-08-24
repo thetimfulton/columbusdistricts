@@ -35,3 +35,6 @@ pnpm-debug.log*
 
 # Cloudflare wrangler local state
 .wrangler/
+
+# Local-only DNS/disaster-recovery record — never commit (holds origin IP + nameservers)
+DNS-ROLLBACK.local.md
