@@ -1,0 +1,50 @@
+---
+/**
+ * 404.astro — Not Found page.
+ * Cloudflare Pages serves the built /404.html for any unmatched route. Besides
+ * helping the visitor find their way, it fires a GA4 "page_not_found" event carrying
+ * the requested path + referrer, so we can discover which old URLs people still hit
+ * and turn the common ones into redirects (see public/_redirects).
+ */
+import Layout from "../components/Layout.astro";
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
+---
+<Layout
+  title="Page not found"
+  description="The page you were looking for could not be found on Columbus Districts."
+  ribbon={false}
+>
+  <div class="wrap">
+    <section style="padding:4rem 0 5rem;text-align:center;max-width:46rem;margin-inline:auto;">
+      <div class="eyebrow">Error 404</div>
+      <h1 style="font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);line-height:1.1;margin:.5rem 0 .7rem;">This page doesn&rsquo;t exist</h1>
+      <p style="color:var(--ink-2);font-size:1.05rem;max-width:40ch;margin:0 auto 1.8rem;">The page may have moved, been renamed, or never existed. Here are some good places to start:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;">
+        <a class="btn primary" href={b}>Home</a>
+        <a class="btn ghost" href={`${b}all-districts/`}>All districts</a>
+        <a class="btn ghost" href={`${b}data/`}>Data &amp; methodology</a>
+        <a class="btn ghost" href={`${b}2026-ballot/`}>2026 ballot</a>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    // Record the missing path in GA4 so real old URLs can be turned into redirects.
+    (function () {
+      var tries = 0;
+      function report() {
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "page_not_found", {
+            page_path: location.pathname + location.search,
+            page_location: location.href,
+            page_referrer: document.referrer || "(none)"
+          });
+          return;
+        }
+        if (tries++ < 40) setTimeout(report, 150);
+      }
+      report();
+    })();
+  </script>
+</Layout>

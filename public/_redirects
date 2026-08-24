@@ -1,0 +1,42 @@
+# Cloudflare Pages redirects — Columbus Districts
+# Old-URL redirects so bookmarks and inbound links to previous URLs don't 404.
+# Canonical district URLs are /districts/district-<word>/  (e.g. /districts/district-one/).
+#
+# NOTE: best-guess starter set. The exact URLs people actually hit are being captured
+# live via the GA4 "page_not_found" event fired from src/pages/404.astro — promote real
+# ones here as they surface in Analytics, and prune any of the guesses below that never fire.
+
+# No /districts/ landing page exists — send it to the comparison table.
+/districts             /all-districts/             301
+/districts/            /all-districts/             301
+
+# Numeric district slugs -> canonical word slugs.
+/district-1            /districts/district-one/    301
+/district-2            /districts/district-two/    301
+/district-3            /districts/district-three/  301
+/district-4            /districts/district-four/   301
+/district-5            /districts/district-five/   301
+/district-6            /districts/district-six/    301
+/district-7            /districts/district-seven/  301
+/district-8            /districts/district-eight/  301
+/district-9            /districts/district-nine/   301
+/districts/district-1  /districts/district-one/    301
+/districts/district-2  /districts/district-two/    301
+/districts/district-3  /districts/district-three/  301
+/districts/district-4  /districts/district-four/   301
+/districts/district-5  /districts/district-five/   301
+/districts/district-6  /districts/district-six/    301
+/districts/district-7  /districts/district-seven/  301
+/districts/district-8  /districts/district-eight/  301
+/districts/district-9  /districts/district-nine/   301
+
+# Root-level word slugs (in case old district pages lived at the root).
+/district-one          /districts/district-one/    301
+/district-two          /districts/district-two/    301
+/district-three        /districts/district-three/  301
+/district-four         /districts/district-four/   301
+/district-five         /districts/district-five/   301
+/district-six          /districts/district-six/    301
+/district-seven        /districts/district-seven/  301
+/district-eight        /districts/district-eight/  301
+/district-nine         /districts/district-nine/   301
