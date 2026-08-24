@@ -1,0 +1,5 @@
+# Columbus Districts — an independent, nonpartisan civic resource.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.columbusdistricts.com/sitemap-index.xml
