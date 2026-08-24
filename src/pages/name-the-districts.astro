@@ -1,11 +1,17 @@
 ---
 /**
  * name-the-districts.astro — community district-naming suggestions.
- * Rebuilt in the shared article layout.
+ * A single form with a district selector (one visible Turnstile widget) — robust vs. the
+ * earlier per-district accordions, which hid the widget and broke Turnstile's render.
+ *
+ * Phase C: posts to /api/name (Cloudflare Pages Function): honeypot + Turnstile → Formspree
+ * → thank-you. Progressive enhancement; Turnstile is the only JS-dependent piece.
  */
 import Layout from "../components/Layout.astro";
-import NameDistrictForm from "../components/NameDistrictForm.astro";
 
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 const districts = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 ---
 <Layout
@@ -23,64 +29,42 @@ const districts = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     <p>We've been collecting community suggestions since the districts were established in 2023. There is no official naming process at this time, but this page stays open to gather ideas — and we'll share updates here if a path forward emerges.</p>
 
     <h2>Suggest a name</h2>
-    <p>Choose a district and suggest a name. Add a brief note on why it fits, if you'd like.</p>
+    <p>Pick a district and suggest a name. Add a brief note on why it fits, if you'd like.</p>
 
-    <div class="nd-list">
-      {districts.map((d) => (
-        <details class="nd-item">
-          <summary>District {d}</summary>
-          <NameDistrictForm district={d} />
-        </details>
-      ))}
+    <div class="form-wrap" style="max-width:560px;">
+      <form method="POST" action={`${b}api/name`}>
+        {/* Honeypot — bots fill this; humans never see it. */}
+        <div style="position:absolute;left:-9999px;" aria-hidden="true">
+          <label>Leave this field empty <input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <label for="nd-district">District</label>
+        <select id="nd-district" name="district" required>
+          {districts.map((d) => <option value={d}>District {d}</option>)}
+        </select>
+        <label for="nd-name">Your name</label>
+        <input id="nd-name" name="name" type="text" autocomplete="name" required />
+        <label for="nd-email">Email address</label>
+        <input id="nd-email" name="email" type="email" autocomplete="email" required />
+        <label for="nd-suggestion">Suggested name</label>
+        <input id="nd-suggestion" name="suggested_name" type="text" required />
+        <label for="nd-reason">Why this name? (optional)</label>
+        <textarea id="nd-reason" name="reason"></textarea>
+        {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="auto" style="margin-top:1rem;"></div>}
+        <button class="btn primary" type="submit">Submit name</button>
+      </form>
     </div>
   </div></div>
-
-  {/* Turnstile auto-render skips widgets hidden inside a closed <details>, so render
-      each one explicitly the first time its accordion opens. Guard against double-render
-      (which errors and removes the widget) by skipping any widget that already has an
-      injected iframe, whether from auto-render or a prior open. */}
-  <script is:inline>
-    (function () {
-      function renderIn(item) {
-        var el = item.querySelector(".cf-turnstile");
-        if (!el || el.querySelector("iframe")) return; // missing, or already rendered
-        if (window.turnstile && typeof window.turnstile.render === "function") {
-          try { window.turnstile.render(el); } catch (e) { /* already rendered */ }
-        } else {
-          setTimeout(function () { renderIn(item); }, 300); // api.js not ready yet
-        }
-      }
-      document.querySelectorAll(".nd-item").forEach(function (item) {
-        item.addEventListener("toggle", function () {
-          if (item.open) setTimeout(function () { renderIn(item); }, 50);
-        });
-      });
-    })();
-  </script>
 </Layout>
 
 <style>
-  .nd-list { display: flex; flex-direction: column; gap: .7rem; margin-top: 1rem; }
-  .nd-item {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
+  .form-wrap select {
+    width: 100%;
+    padding: .7rem .8rem;
+    border: 1px solid var(--line-2);
+    border-radius: 9px;
     background: var(--surface);
-    overflow: hidden;
-  }
-  .nd-item > summary {
-    cursor: pointer;
-    padding: .95rem 1.2rem;
-    font-family: var(--serif);
-    font-size: 1.15rem;
     color: var(--ink);
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    font-family: inherit;
+    font-size: .95rem;
   }
-  .nd-item > summary::-webkit-details-marker { display: none; }
-  .nd-item > summary::after { content: "+"; color: var(--accent-ink); font-family: var(--sans); font-weight: 700; }
-  .nd-item[open] > summary::after { content: "–"; }
-  .nd-item[open] > summary { border-bottom: 1px solid var(--line); }
-  .nd-item > .form-wrap { margin: 1rem 1.2rem 1.2rem; }
 </style>
