@@ -36,22 +36,23 @@ const districts = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   </div></div>
 
   {/* Turnstile auto-render skips widgets hidden inside a closed <details>, so render
-      each one explicitly the first time its accordion opens. */}
+      each one explicitly the first time its accordion opens. Guard against double-render
+      (which errors and removes the widget) by skipping any widget that already has an
+      injected iframe, whether from auto-render or a prior open. */}
   <script is:inline>
     (function () {
       function renderIn(item) {
         var el = item.querySelector(".cf-turnstile");
-        if (!el || el.dataset.rendered) return;
+        if (!el || el.querySelector("iframe")) return; // missing, or already rendered
         if (window.turnstile && typeof window.turnstile.render === "function") {
-          window.turnstile.render(el);
-          el.dataset.rendered = "1";
+          try { window.turnstile.render(el); } catch (e) { /* already rendered */ }
         } else {
           setTimeout(function () { renderIn(item); }, 300); // api.js not ready yet
         }
       }
       document.querySelectorAll(".nd-item").forEach(function (item) {
         item.addEventListener("toggle", function () {
-          if (item.open) renderIn(item);
+          if (item.open) setTimeout(function () { renderIn(item); }, 50);
         });
       });
     })();
