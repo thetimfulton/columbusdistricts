@@ -137,6 +137,10 @@
   .chips{display:flex; flex-wrap:wrap; gap:.5rem;}
   .chip{font-size:.85rem; padding:.4rem .7rem; border-radius:8px; background:var(--sunk); border:1px solid var(--line); color:var(--ink-2); font-weight:500;}
   .chip.lead{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft);}
+  /* Neighborhood chips that link out to a CivicWorth page: keep the chip look, add a
+     subtle interactive affordance on hover (no default link underline/color). */
+  a.chip{text-decoration:none; cursor:pointer; transition:border-color .15s ease,color .15s ease;}
+  .nbhd a.chip:hover{border-color:var(--accent); color:var(--accent-ink);}
   .term{display:flex; margin-top:1.4rem; border:1px solid var(--line); border-radius:10px; overflow:hidden;}
   .term div{flex:1; padding:.7rem .8rem; border-right:1px solid var(--line);}
   .term div:last-child{border-right:0;}
@@ -249,6 +253,9 @@
   footer.site a:hover{color:#fff;}
   footer .brandline{font-family:var(--serif); font-size:1.3rem; color:#fff; margin-bottom:.5rem;}
   footer .fine{margin-top:1.8rem; padding-top:1.2rem; border-top:1px solid rgba(255,255,255,.12); font-size:.78rem; color:#8FA3B5; display:flex; flex-wrap:wrap; gap:.6rem; justify-content:space-between;}
+  /* Inline link inside the fine-print row (footer.site a is display:block by default). */
+  footer .fine a{display:inline; color:inherit; font-size:inherit; margin:0; text-decoration:underline; text-underline-offset:2px;}
+  footer .fine a:hover{color:#fff;}
   @media(prefers-reduced-motion:no-preference){
     .fade{opacity:0; transform:translateY(10px); animation:fu .7s cubic-bezier(.2,.7,.2,1) forwards;}
     .fade.d1{animation-delay:.06s;} .fade.d2{animation-delay:.14s;}

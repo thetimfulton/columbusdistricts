@@ -164,6 +164,42 @@ for (const d of districts) members[String(d.number)] = d.councilMember.name;
 const membersJSON = JSON.stringify(members);
 const kicker = district.neighborhoods.slice(0, 2).join(" & ");
 
+// --- CivicWorth neighborhood deep-links -------------------------------------------
+// CivicWorth publishes browsable pages for 19 Columbus neighborhoods (area commissions).
+// Every URL below was verified live (HTTP 200, Aug 2026). A district neighborhood links
+// out ONLY on an exact name/slug match after normalization; anything else stays plain
+// text (no guessed URLs). Keyed by normalized name — parentheticals like "(partial)"
+// are stripped before matching.
+const CIVICWORTH = "https://civicworth.com";
+const cwNeighborhoods: Record<string, string> = {
+  brewerydistrict: "/columbus/brewery-district",
+  clintonville: "/columbus/clintonville",
+  downtown: "/columbus/downtown",
+  fareast: "/columbus/far-east",
+  farnorthwest: "/columbus/far-northwest",
+  farsouth: "/columbus/far-south",
+  farwest: "/columbus/far-west",
+  fifthbynorthwest: "/columbus/fifth-by-northwest",
+  franklinton: "/columbus/franklinton",
+  germanvillage: "/columbus/german-village",
+  greaterhilltop: "/columbus/greater-hilltop",
+  hilltop: "/columbus/greater-hilltop", // District 4 lists it as "Hilltop"; same area (confirmed)
+  italianvillage: "/columbus/italian-village",
+  milogrogan: "/columbus/milo-grogan",
+  neareast: "/columbus/near-east",
+  northcentral: "/columbus/north-central",
+  northlinden: "/columbus/north-linden",
+  northland: "/columbus/northland",
+  southside: "/columbus/southside",
+  university: "/columbus/university",
+  universitydistrict: "/columbus/university", // CivicWorth page title is "University District"
+};
+const normNbhd = (s: string) => s.replace(/\(.*?\)/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+const cwNeighborhoodUrl = (n: string) => {
+  const path = cwNeighborhoods[normNbhd(n)];
+  return path ? CIVICWORTH + path : null;
+};
+
 const pageTitle = `District ${district.number}`;
 ---
 <Layout
@@ -247,7 +283,12 @@ const pageTitle = `District ${district.number}`;
   <section class="block"><div class="wrap">
     <div class="sec-head"><span class="n">02</span><h2>The neighborhoods</h2></div>
     <div class="nbhd" style="margin-bottom:2.4rem;">
-      {district.neighborhoods.map((n: string) => <span class="chip">{n}</span>)}
+      {district.neighborhoods.map((n: string) => {
+        const cw = cwNeighborhoodUrl(n);
+        return cw
+          ? <a class="chip" href={cw} target="_blank" rel="noopener" title={`Explore ${n} on CivicWorth`}>{n}</a>
+          : <span class="chip">{n}</span>;
+      })}
     </div>
     <div class="cols poi">
       <div>
@@ -340,6 +381,7 @@ const pageTitle = `District ${district.number}`;
     </div>
 
     <p class="datanote"><strong>About these figures.</strong> District totals are aggregated from census block groups. Median income, rent, and home value are population-weighted averages of block-group medians &mdash; approximations, not true district medians &mdash; so the citywide comparison shows relative standing, not exact dollars. ACS is a 5-year backward average; Esri current-year estimates are forward projections. <a href={`${b}data/`}>See full methodology &rarr;</a></p>
+    <p class="datanote" style="margin-top:.9rem;padding-top:0;border-top:0;">This page describes the whole district. Want the same picture for your own block? You can <a href="https://civicworth.com" target="_blank" rel="noopener">look up your parcel on CivicWorth</a> &mdash; it resolves representation, zoning, transit, and recent 311 activity down to the individual address.</p>
   </div></section>
 
   <div class="wrap"><div class="divider"></div></div>
