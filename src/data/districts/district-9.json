@@ -12,8 +12,9 @@
     "firstElected": 2023,
     "termEnds": 2027,
     "nextElection": 2027,
-    "contactEmail": "jnclinger@columbus.gov",
-    "contactPhone": "(614) 645-6354"
+    "contactEmail": "ColumbusCouncil@columbus.gov",
+    "contactPhone": "(614) 645-6354",
+    "role": "Council President"
   },
   "neighborhoods": [
     "Eastmoor",
@@ -80,21 +81,21 @@
     "snapshots": [
       {
         "vintage": "ACS 2017-2021",
-        "pull_date": "2026-04-02",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API (backfill_2021.py)",
+        "pull_date": "2026-08-23",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
         "esri_estimates": null,
         "data": {
-          "total_population": 108955,
-          "total_households": 44217,
-          "pct_family_households": 60.5,
-          "median_hh_income_est": 67467,
-          "median_gross_rent_est": 1076,
-          "median_home_value_est": 171371,
-          "unemployment_rate": 5.2,
-          "pct_nh_white": 38.7,
-          "pct_nh_black": 45.9,
-          "pct_hispanic": 5.3,
-          "pct_nh_asian": 4.7,
+          "total_population": 101325,
+          "total_households": 41624,
+          "pct_family_households": 59.9,
+          "median_hh_income_est": 66500,
+          "median_gross_rent_est": 1087,
+          "median_home_value_est": 171054,
+          "unemployment_rate": 4.6,
+          "pct_nh_white": 37.4,
+          "pct_nh_black": 46.1,
+          "pct_hispanic": 5.7,
+          "pct_nh_asian": 5.4,
           "pct_nh_american_indian": 0.1,
           "pct_other": 5.3,
           "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
@@ -102,8 +103,8 @@
       },
       {
         "vintage": "ACS 2019-2023",
-        "pull_date": "2026-04-02",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "pull_date": "2026-08-23",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
         "esri_estimates": {
           "pull_date": "2026-04-02",
           "source": "Esri current-year estimates (Comparisons.xlsx)",
@@ -119,36 +120,41 @@
           "pct_hispanic": 7.5
         },
         "data": {
-          "total_population": 109388,
-          "total_households": 44373,
-          "pct_family_households": 60.8,
-          "median_hh_income_est": 77391,
-          "median_gross_rent_est": 1348,
-          "median_home_value_est": 230356,
-          "unemployment_rate": 4.0,
-          "pct_nh_white": 35.6,
-          "pct_nh_black": 45.7,
-          "pct_hispanic": 6.3,
-          "pct_nh_asian": 5.9,
+          "total_population": 102653,
+          "total_households": 42051,
+          "pct_family_households": 60.1,
+          "median_hh_income_est": 76240,
+          "median_gross_rent_est": 1347,
+          "median_home_value_est": 230913,
+          "unemployment_rate": 3.4,
+          "pct_nh_white": 34.5,
+          "pct_nh_black": 46.0,
+          "pct_hispanic": 6.4,
+          "pct_nh_asian": 6.4,
           "pct_nh_american_indian": 0.0,
-          "pct_other": 6.5,
+          "pct_other": 6.7,
           "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       }
     ]
   },
   "crimeRisk": {
-    "totalCrime": null,
-    "personalCrime": null,
-    "murder": null,
-    "rape": null,
-    "robbery": null,
-    "assault": null,
-    "propertyCrime": null,
-    "burglary": null,
-    "larceny": null,
-    "motorVehicleTheft": null,
+    "totalCrime": -8,
+    "personalCrime": -10,
+    "murder": -17,
+    "rape": 13,
+    "robbery": -25,
+    "assault": -1,
+    "propertyCrime": -8,
+    "burglary": -14,
+    "larceny": -5,
+    "motorVehicleTheft": -12,
     "dataSource": "Applied Geographic Solutions CrimeRisk",
     "pull_date": null
+  },
+  "population2020": 100855,
+  "enrichment": {
+    "block_groups": 73,
+    "voting_precincts": 56
   }
 }

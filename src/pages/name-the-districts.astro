@@ -1,52 +1,63 @@
 ---
-import Layout from '../components/Layout.astro';
-import NameDistrictForm from '../components/NameDistrictForm.astro';
+/**
+ * name-the-districts.astro — community district-naming suggestions.
+ * Rebuilt in the shared article layout.
+ */
+import Layout from "../components/Layout.astro";
+import NameDistrictForm from "../components/NameDistrictForm.astro";
 
 const districts = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 ---
-<Layout title="Name the Districts" description="Submit your idea for naming one of Columbus's nine City Council residential districts.">
-  <h1>Name the Districts</h1>
-  <p>Columbus's nine City Council residential districts are currently identified by number only. Should they have names? If so, what should they be called?</p>
-  <p>We've been collecting community suggestions since the districts were established in 2023. There is no official naming process at this time, but we're keeping this page open to gather ideas. We'll share updates here if a path forward emerges.</p>
+<Layout
+  title="Name the Districts"
+  description="Should Columbus's nine City Council districts have names? Share your idea — an open, community-driven suggestion box."
+  active=""
+>
+  <div class="wrap"><div class="article">
+    <section class="art-hero">
+      <div class="eyebrow">Community</div>
+      <h1>Name the Districts</h1>
+      <p class="dek">Columbus's nine City Council districts are identified by number only. Should they have names? If so, what should they be called?</p>
+    </section>
 
-  <h2>Submit a Name</h2>
-  <p>Choose a district and suggest a name. Include a brief note on why the name fits, if you'd like.</p>
+    <p>We've been collecting community suggestions since the districts were established in 2023. There is no official naming process at this time, but this page stays open to gather ideas — and we'll share updates here if a path forward emerges.</p>
 
-  {districts.map((d) => (
-    <details class="district-form-section">
-      <summary>District {d}</summary>
-      <NameDistrictForm district={d} />
-    </details>
-  ))}
+    <h2>Suggest a name</h2>
+    <p>Choose a district and suggest a name. Add a brief note on why it fits, if you'd like.</p>
+
+    <div class="nd-list">
+      {districts.map((d) => (
+        <details class="nd-item">
+          <summary>District {d}</summary>
+          <NameDistrictForm district={d} />
+        </details>
+      ))}
+    </div>
+  </div></div>
 </Layout>
 
 <style>
-  .district-form-section {
-    margin-bottom: 1rem;
-    border: 1px solid var(--color-border-light);
-    border-radius: 4px;
-    padding: 0;
+  .nd-list { display: flex; flex-direction: column; gap: .7rem; margin-top: 1rem; }
+  .nd-item {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
   }
-
-  .district-form-section summary {
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.75rem 1rem;
+  .nd-item > summary {
     cursor: pointer;
-    user-select: none;
+    padding: .95rem 1.2rem;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: var(--ink);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-
-  .district-form-section summary:hover {
-    background: var(--color-bg-subtle);
-  }
-
-  .district-form-section[open] summary {
-    border-bottom: 1px solid var(--color-border-light);
-    background: var(--color-bg-subtle);
-  }
-
-  .district-form-section :global(.name-district-form) {
-    padding: 1rem;
-  }
+  .nd-item > summary::-webkit-details-marker { display: none; }
+  .nd-item > summary::after { content: "+"; color: var(--accent-ink); font-family: var(--sans); font-weight: 700; }
+  .nd-item[open] > summary::after { content: "–"; }
+  .nd-item[open] > summary { border-bottom: 1px solid var(--line); }
+  .nd-item > .form-wrap { margin: 1rem 1.2rem 1.2rem; }
 </style>

@@ -1,30 +1,47 @@
 ---
 /**
- * Layout.astro — Site-wide shell for Columbus Districts
- * Nav: Home | About | Districts (dropdown 1-9) | All Districts | Data | How It Works | Elections
- * Footer: Civic links, data sources, project info, last-reviewed date
+ * Layout.astro — Site-wide shell for Columbus Districts.
+ * Rebuilt from design-concepts/ (Aug 2026 redesign): 2026 ballot ribbon, sticky
+ * header w/ nav + theme toggle, scrubbed footer. No org attribution (see CLAUDE.md).
+ *
+ * Props:
+ *   title       — page title (appended with "| Columbus Districts")
+ *   description — meta description
+ *   active      — nav key to highlight: home | districts | all | data | how | elections
+ *   ribbon      — show the 2026 ballot ribbon (default true)
  */
 interface Props {
   title: string;
   description?: string;
+  active?: string;
+  ribbon?: boolean;
 }
 
-const { title, description = "Columbus City Council district information — demographics, representatives, elections, and civic resources." } = Astro.props;
+const {
+  title,
+  description = "Columbus City Council district information — demographics, representatives, elections, and civic resources.",
+  active = "",
+  ribbon = true,
+} = Astro.props;
 
-import '../styles/global.css';
+import "../styles/global.css";
+
+// Analytics + spam-protection config — all from env, never hardcoded (see CLAUDE.md).
+const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;        // e.g. G-KEEV757MNS
+const CF_BEACON = import.meta.env.PUBLIC_CF_BEACON_TOKEN;      // Cloudflare Web Analytics token
+const TURNSTILE = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;   // Turnstile widget site key
 
 const base = import.meta.env.BASE_URL;
+// Normalize base so links join cleanly whether base is "/" or "/subpath/".
+const b = base.endsWith("/") ? base : base + "/";
 
-const districts = [
-  { number: 1, slug: "district-one", label: "District 1" },
-  { number: 2, slug: "district-two", label: "District 2" },
-  { number: 3, slug: "district-three", label: "District 3" },
-  { number: 4, slug: "district-four", label: "District 4" },
-  { number: 5, slug: "district-five", label: "District 5" },
-  { number: 6, slug: "district-six", label: "District 6" },
-  { number: 7, slug: "district-seven", label: "District 7" },
-  { number: 8, slug: "district-eight", label: "District 8" },
-  { number: 9, slug: "district-nine", label: "District 9" },
+const nav = [
+  { key: "home", href: b, label: "Home" },
+  { key: "districts", href: `${b}districts/district-one/`, label: "Districts" },
+  { key: "all", href: `${b}all-districts/`, label: "All Districts" },
+  { key: "data", href: `${b}data/`, label: "Data" },
+  { key: "how", href: `${b}how-it-works/`, label: "How It Works" },
+  { key: "elections", href: `${b}elections/`, label: "Elections" },
 ];
 ---
 <!doctype html>
@@ -34,92 +51,151 @@ const districts = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <title>{title} | Columbus Districts</title>
-  <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+  <link rel="icon" type="image/svg+xml" href={`${b}favicon.svg`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 
+  {/* GA4 — full analytics for every visitor (analytics granted). Advertising signals stay off
+      (this is a civic site, not an ad property). */}
+  {GA_ID && (
+    <Fragment>
+      <script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} async></script>
+      <script is:inline define:vars={{ GA_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('consent', 'default', {
+          analytics_storage: 'granted',
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+        });
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      </script>
+    </Fragment>
+  )}
+  {/* Cloudflare Web Analytics — cookieless, privacy-first, no consent required. */}
+  {CF_BEACON && (
+    <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token":"${CF_BEACON}"}`}></script>
+  )}
+  {/* Cloudflare Turnstile — renders the .cf-turnstile widgets in the forms. */}
+  {TURNSTILE && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  )}
 </head>
 <body>
-  <div class="site-wrapper">
-    <!-- Header / Navigation -->
-    <header class="site-header">
-      <nav class="nav-container" aria-label="Main navigation">
-        <div class="site-logo">
-          <a href={base}>Columbus Districts</a>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
-        <ul class="nav-links" role="menubar">
-          <li role="none"><a href={base} role="menuitem">Home</a></li>
-          <li role="none"><a href={`${base}about/`} role="menuitem">About</a></li>
-          <li class="nav-dropdown" role="none">
-            <button class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false" role="menuitem">Districts</button>
-            <ul class="nav-dropdown-menu" role="menu">
-              {districts.map((d) => (
-                <li role="none">
-                  <a href={`${base}districts/${d.slug}/`} role="menuitem">{d.label}</a>
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li role="none"><a href={`${base}all-districts/`} role="menuitem">All Districts</a></li>
-          <li role="none"><a href={`${base}data/`} role="menuitem">Data</a></li>
-          <li role="none"><a href={`${base}how-it-works/`} role="menuitem">How It Works</a></li>
-          <li role="none"><a href={`${base}elections/`} role="menuitem">Elections</a></li>
-        </ul>
-      </nav>
-    </header>
+  {ribbon && (
+    <div class="ribbon"><div class="wrap">
+      <span class="tag">On the 2026 ballot</span>
+      <span><b>Columbus will vote this November</b> on how City Council is elected.</span>
+      <a href={`${b}2026-ballot/`} data-ev="ballot_engagement" data-ev-label="ribbon">Read the explainer &rarr;</a>
+    </div></div>
+  )}
 
-    <!-- Main Content -->
-    <main class="site-main">
-      <slot />
-    </main>
+  <header class="site"><div class="wrap">
+    <a class="brand" href={b}>
+      <svg class="mk" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M16 3 A13 13 0 0 1 16 29" fill="none" stroke="var(--brand)" stroke-width="2"/><circle cx="16" cy="16" r="3.2" fill="var(--accent)"/></svg>
+      Columbus Districts
+    </a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mainNav">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="main" id="mainNav" aria-label="Main navigation">
+      {nav.map((item) => (
+        <a href={item.href} class={active === item.key ? "active" : ""} aria-current={active === item.key ? "page" : undefined}>{item.label}</a>
+      ))}
+    </nav>
+    <button class="tbtn hspace" id="themeBtn" aria-label="Toggle light and dark theme" title="Toggle theme">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></svg>
+    </button>
+  </div></header>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="footer-container">
-        <div class="footer-section">
-          <h4>Civic Resources</h4>
-          <ul>
-            <li><a href="https://www.columbus.gov/Government/City-Council/Directory" target="_blank" rel="noopener">Columbus City Council Directory</a></li>
-            <li><a href="https://www.columbus.gov/Government/City-Council" target="_blank" rel="noopener">City Council Meeting Calendar</a></li>
-            <li><a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener">Find Your District (ArcGIS)</a></li>
-            <li><a href="https://www.columbus.gov/Government/City-Council/Council-Residential-Districts" target="_blank" rel="noopener">Official District Map</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Elections &amp; Data</h4>
-          <ul>
-            <li><a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a></li>
-            <li><a href="https://www.ohiosos.gov" target="_blank" rel="noopener">Ohio Voter Registration</a></li>
-            <li><a href={`${base}data/`}>District Data &amp; Methodology</a></li>
-            <li><a href={`${base}elections/`}>Election Results Archive</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>About This Site</h4>
-          <ul>
-            <li><a href={`${base}about/`}>About Columbus Districts</a></li>
-            <li><a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a></li>
-            <li><a href="https://www.columbusunderground.com" target="_blank" rel="noopener">Columbus Underground</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>&copy; {new Date().getFullYear()} The Confluence Cast. All rights reserved.</span>
-        <span>Last reviewed: April 2026</span>
-      </div>
-    </footer>
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site"><div class="wrap"><div class="foot-grid">
+    <div>
+      <div class="brandline">Columbus Districts</div>
+      <p style="color:#A9B7C4;font-size:.9rem;max-width:34ch;margin:.2rem 0 0;">An independent, nonpartisan civic resource for Columbus residents.</p>
+    </div>
+    <div>
+      <h4>Civic resources</h4>
+      <a href="https://www.columbus.gov/Government/City-Council/Directory" target="_blank" rel="noopener">Council Directory</a>
+      <a href="https://www.columbus.gov/Government/City-Council" target="_blank" rel="noopener">Meeting Calendar</a>
+      <a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener">Find Your District</a>
+      <a href="https://www.columbus.gov/Government/City-Council/Council-Residential-Districts" target="_blank" rel="noopener">Official District Map</a>
+    </div>
+    <div>
+      <h4>Elections &amp; data</h4>
+      <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County BOE</a>
+      <a href="https://www.ohiosos.gov/elections/voters/" target="_blank" rel="noopener">Voter Registration</a>
+      <a href={`${b}data/`}>Data &amp; Methodology</a>
+      <a href={`${b}2026-ballot/`}>2026 Ballot Measure</a>
+    </div>
+    <div>
+      <h4>About</h4>
+      <a href={`${b}about/`}>About this site</a>
+      <a href={`${b}name-the-districts/`}>Name the Districts</a>
+    </div>
   </div>
+  <div class="fine">
+    <span>&copy; {new Date().getFullYear()} Columbus Districts. All rights reserved.</span>
+    <span>Data via CivicWorth &middot; Last reviewed August 2026</span>
+  </div>
+  </div></footer>
 
   <script>
+    // Theme toggle — matches the concept's tri-state (system → light/dark override).
+    const themeBtn = document.getElementById("themeBtn");
+    themeBtn?.addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme");
+      const next = cur === "dark" ? "light"
+        : cur === "light" ? "dark"
+        : (matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", next);
+    });
+
     // Mobile nav toggle
-    const toggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    if (toggle && navLinks) {
-      toggle.addEventListener('click', () => {
-        const expanded = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!expanded));
-        navLinks.classList.toggle('open');
-      });
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    navToggle?.addEventListener("click", () => {
+      const open = mainNav?.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", String(!!open));
+    });
+
+    // Civic-action analytics: data-ev clicks, outbound links, and form submissions.
+    // No-ops safely when GA is not configured (window.gtag absent).
+    function track(name, params) {
+      if (typeof window.gtag === "function") window.gtag("event", name, params || {});
     }
+    document.addEventListener("click", (e) => {
+      const el = (e.target as HTMLElement)?.closest?.("a,button") as HTMLElement | null;
+      if (!el) return;
+      const name = el.getAttribute("data-ev");
+      if (name) {
+        track(name, { label: el.getAttribute("data-ev-label") || el.textContent?.trim().slice(0, 60) });
+        return;
+      }
+      if (el.tagName === "A") {
+        const href = (el as HTMLAnchorElement).href;
+        try {
+          const u = new URL(href);
+          if (u.host !== location.host && /^https?:$/.test(u.protocol)) {
+            track("outbound_click", { link_url: href, link_domain: u.host });
+          }
+        } catch { /* ignore */ }
+      }
+    });
+    document.addEventListener("submit", (e) => {
+      const f = e.target as HTMLFormElement;
+      if (f?.matches?.('form[action*="/api/"]')) {
+        track("form_submit", { form: (f.getAttribute("action") || "").split("/").pop() });
+      }
+    });
   </script>
 </body>
 </html>

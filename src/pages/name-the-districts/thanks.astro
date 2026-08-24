@@ -1,8 +1,15 @@
 ---
-import Layout from '../../components/Layout.astro';
+import Layout from "../../components/Layout.astro";
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
 ---
-<Layout title="Thanks for Your Name Suggestion" description="Your district name suggestion has been submitted.">
-  <h1>Thank you</h1>
-  <p>Your name suggestion has been received. We're collecting ideas from across the community and will share updates on the <a href={`${import.meta.env.BASE_URL}name-the-districts/`}>Name the Districts</a> page.</p>
-  <p><a href={import.meta.env.BASE_URL}>Return to the homepage</a></p>
+<Layout title="Thanks for your name suggestion" description="Your district name suggestion has been submitted." ribbon={false}>
+  <div class="wrap"><div class="article">
+    <section class="art-hero">
+      <div class="eyebrow">Name the Districts</div>
+      <h1>Thank you</h1>
+      <p class="dek">Your name suggestion has been received. We're collecting ideas from across the community and will share updates on the <a href={`${b}name-the-districts/`}>Name the Districts</a> page.</p>
+    </section>
+    <p><a href={b}>&larr; Return to the homepage</a></p>
+  </div></div>
 </Layout>

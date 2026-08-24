@@ -1,0 +1,15 @@
+{
+  "description": "Per-district metadata pulled from CivicWorth (Supabase cohdnvvhmrqaupamhnly) public.boundaries: population2020 + councilmember from properties; enrichment counts via spatial predicates (voting_precinct/library/rec_center by ST_PointOnSurface containment; block_groups by majority-area assignment). Regenerate with scripts/sync_from_civicworth.py.",
+  "generated": "2026-08-23",
+  "districts": {
+    "1": {"population2020": 100997, "member": "Christopher L. Wyche", "role": null, "party": "D", "enrichment": {"block_groups": 63, "voting_precincts": 53, "libraries": 18, "rec_centers": 1}},
+    "2": {"population2020": 100572, "member": "Nancy Day-Achauer", "role": null, "party": "D", "enrichment": {"block_groups": 83, "voting_precincts": 65, "libraries": 0, "rec_centers": 1}},
+    "3": {"population2020": 100914, "member": "Rob Dorans", "role": null, "party": "D", "enrichment": {"block_groups": 99, "voting_precincts": 63, "libraries": 18, "rec_centers": 2}},
+    "4": {"population2020": 100288, "member": "Emmanuel V. Remy", "role": null, "party": "D", "enrichment": {"block_groups": 90, "voting_precincts": 61, "libraries": 36, "rec_centers": 7}},
+    "5": {"population2020": 100505, "member": "Nicholas J. Bankston", "role": null, "party": "D", "enrichment": {"block_groups": 70, "voting_precincts": 60, "libraries": 0, "rec_centers": 1}},
+    "6": {"population2020": 100522, "member": "Melissa Green", "role": null, "party": "D", "enrichment": {"block_groups": 86, "voting_precincts": 56, "libraries": 9, "rec_centers": 3}},
+    "7": {"population2020": 100514, "member": "Tiara Ross", "role": null, "party": "D", "enrichment": {"block_groups": 106, "voting_precincts": 68, "libraries": 45, "rec_centers": 7}},
+    "8": {"population2020": 100581, "member": "Lourdes Barroso de Padilla", "role": null, "party": "D", "enrichment": {"block_groups": 111, "voting_precincts": 66, "libraries": 27, "rec_centers": 6}},
+    "9": {"population2020": 100855, "member": "Shannon G. Hardin", "role": "Council President", "party": "D", "enrichment": {"block_groups": 73, "voting_precincts": 56, "libraries": 9, "rec_centers": 0}}
+  }
+}

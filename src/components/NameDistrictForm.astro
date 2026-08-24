@@ -1,104 +1,35 @@
 ---
 /**
- * NameDistrictForm.astro — Netlify Form for naming the districts
- * Used on the /name-the-districts/ page.
- * District is passed as a prop and submitted as a hidden field.
+ * NameDistrictForm.astro — "Name the district" form (rebuilt in the design system).
+ *
+ * Phase A/B′: real form markup with a honeypot; posts to /api/name (not yet live).
+ * Phase C wires the Cloudflare Pages Function + Turnstile. (The old Netlify Forms wiring
+ * does not work on Cloudflare Pages — removed.)
  */
 interface Props {
   district: number;
 }
-
 const { district } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
-<div class="name-district-form">
-  <form
-    name="name-the-district"
-    method="POST"
-    data-netlify="true"
-    netlify-honeypot="bot-field"
-    action={`${import.meta.env.BASE_URL}name-the-districts/thanks/`}
-  >
-    <input type="hidden" name="form-name" value="name-the-district" />
-    <input type="hidden" name="district" value={String(district)} />
-    <p class="hidden" aria-hidden="true">
-      <label>Don't fill this out: <input name="bot-field" /></label>
-    </p>
-    <div class="form-field">
-      <label for={`name-name-${district}`}>Your name</label>
-      <input type="text" id={`name-name-${district}`} name="name" required />
+<div class="form-wrap" style="max-width:560px;">
+  <form method="POST" action={`${b}api/name`} data-district={district}>
+    <input type="hidden" name="district" value={district} />
+    {/* Honeypot */}
+    <div style="position:absolute;left:-9999px;" aria-hidden="true">
+      <label>Leave this field empty <input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
     </div>
-    <div class="form-field">
-      <label for={`name-email-${district}`}>Email address</label>
-      <input type="email" id={`name-email-${district}`} name="email" required />
-    </div>
-    <div class="form-field">
-      <label for={`name-suggestion-${district}`}>Suggested name for District {district}</label>
-      <input type="text" id={`name-suggestion-${district}`} name="suggested-name" required />
-    </div>
-    <div class="form-field">
-      <label for={`name-reason-${district}`}>Why this name? (optional)</label>
-      <textarea id={`name-reason-${district}`} name="reason" rows="3"></textarea>
-    </div>
-    <button type="submit" class="form-submit">Submit Name</button>
+    <label for={`nd-name-${district}`}>Your name</label>
+    <input id={`nd-name-${district}`} name="name" type="text" autocomplete="name" required />
+    <label for={`nd-email-${district}`}>Email address</label>
+    <input id={`nd-email-${district}`} name="email" type="email" autocomplete="email" required />
+    <label for={`nd-suggestion-${district}`}>Suggested name for District {district}</label>
+    <input id={`nd-suggestion-${district}`} name="suggested_name" type="text" required />
+    <label for={`nd-reason-${district}`}>Why this name? (optional)</label>
+    <textarea id={`nd-reason-${district}`} name="reason"></textarea>
+    {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="auto" style="margin-top:1rem;"></div>}
+    <button class="btn primary" type="submit">Submit name</button>
   </form>
 </div>
-
-<style>
-  .hidden {
-    display: none;
-  }
-
-  .form-field {
-    margin-bottom: 1rem;
-  }
-
-  .form-field label {
-    display: block;
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-    color: var(--color-text);
-  }
-
-  .form-field input,
-  .form-field textarea {
-    width: 100%;
-    max-width: 480px;
-    padding: 0.5rem 0.65rem;
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    border: 1px solid var(--color-border);
-    border-radius: 3px;
-    background: var(--color-bg);
-    color: var(--color-text);
-  }
-
-  .form-field input:focus,
-  .form-field textarea:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 1px;
-    border-color: var(--color-accent);
-  }
-
-  .form-field textarea {
-    resize: vertical;
-  }
-
-  .form-submit {
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #fff;
-    background: var(--color-accent);
-    border: none;
-    padding: 0.55rem 1.4rem;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .form-submit:hover {
-    background: var(--color-accent-hover);
-  }
-</style>

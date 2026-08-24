@@ -1,0 +1,410 @@
+<title>Columbus District Data & Trends</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+  :root{
+    --paper:#FAF8F4; --surface:#FFFFFF; --sunk:#F1EEE7;
+    --ink:#191B20; --ink-2:#4C515B; --ink-3:#7C818B;
+    --line:#E6E1D8; --line-2:#D9D3C7;
+    --brand:#233B54; --brand-2:#3A5C78;
+    --accent:#C13B2A; --accent-ink:#A22E20; --accent-soft:#F6E7E3;
+    --map-fill:#E7E2D8; --map-fill-2:#DAD3C5; --map-stroke:#C9C1B2;
+    --gold:#B98828; --good:#2E7D57; --good-soft:#E5F0EA;
+    --shadow:0 1px 2px rgba(30,26,20,.04),0 6px 24px rgba(30,26,20,.06);
+    --shadow-lg:0 2px 6px rgba(30,26,20,.06),0 18px 48px rgba(30,26,20,.10);
+    --maxw:1120px; --radius:14px;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --sans:"Public Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --paper:#131519; --surface:#1A1D23; --sunk:#22262D;
+    --ink:#ECEAE3; --ink-2:#B4B9C1; --ink-3:#868B93;
+    --line:#2A2F37; --line-2:#363C45;
+    --brand:#8FB3D1; --brand-2:#6E93B2;
+    --accent:#E56A54; --accent-ink:#E56A54; --accent-soft:#3A211C;
+    --map-fill:#2A2F37; --map-fill-2:#333941; --map-stroke:#3E454F;
+    --gold:#D3A24A; --good:#5FB88A; --good-soft:#1E3329;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 18px 48px rgba(0,0,0,.5);
+  }}
+  :root[data-theme="dark"]{
+    --paper:#131519; --surface:#1A1D23; --sunk:#22262D;
+    --ink:#ECEAE3; --ink-2:#B4B9C1; --ink-3:#868B93;
+    --line:#2A2F37; --line-2:#363C45;
+    --brand:#8FB3D1; --brand-2:#6E93B2;
+    --accent:#E56A54; --accent-ink:#E56A54; --accent-soft:#3A211C;
+    --map-fill:#2A2F37; --map-fill-2:#333941; --map-stroke:#3E454F;
+    --gold:#D3A24A; --good:#5FB88A; --good-soft:#1E3329;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35);
+    --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 18px 48px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2.5rem);}
+  a{color:var(--accent-ink); text-decoration-thickness:1px; text-underline-offset:2px;}
+  a:hover{color:var(--accent);}
+  :focus-visible{outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px;}
+  h1,h2,h3{font-family:var(--serif); font-weight:500; color:var(--ink); text-wrap:balance; margin:0;}
+  .tnum{font-variant-numeric:tabular-nums;}
+
+  .ribbon{background:var(--brand); color:#F3F1EC;}
+  :root[data-theme="dark"] .ribbon,:root:not([data-theme="light"]) .ribbon{background:#1B2E42;}
+  @media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .ribbon{background:var(--brand);}}
+  .ribbon .wrap{display:flex; align-items:center; gap:.7rem; padding-block:.55rem; font-size:.82rem;}
+  .ribbon .tag{background:var(--gold); color:#20160A; font-weight:700; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; padding:.16rem .5rem; border-radius:100px; white-space:nowrap;}
+  .ribbon b{font-weight:600;}
+  .ribbon a{color:#fff; margin-left:auto; white-space:nowrap; font-weight:600;}
+  .ribbon a:hover{color:var(--gold);}
+
+  header.site{position:sticky; top:0; z-index:20; background:color-mix(in srgb,var(--paper) 88%,transparent); backdrop-filter:saturate(1.1) blur(8px); border-bottom:1px solid var(--line);}
+  header.site .wrap{display:flex; align-items:center; gap:1.4rem; padding-block:.85rem;}
+  .brand{display:flex; align-items:center; gap:.55rem; font-family:var(--serif); font-weight:600; font-size:1.18rem; color:var(--ink); text-decoration:none; letter-spacing:-.01em;}
+  .brand .mk{width:26px; height:26px; flex:0 0 auto;}
+  nav.main{display:none; gap:1.35rem; margin-left:.5rem;}
+  nav.main a{color:var(--ink-2); text-decoration:none; font-size:.9rem; font-weight:500;}
+  nav.main a:hover{color:var(--accent);}
+  nav.main a.active{color:var(--ink); box-shadow:inset 0 -2px 0 var(--accent);}
+  .hspace{margin-left:auto;}
+  .tbtn{display:inline-grid; place-items:center; width:38px; height:38px; border-radius:9px; border:1px solid var(--line-2); background:var(--surface); color:var(--ink-2); cursor:pointer;}
+  .tbtn:hover{color:var(--accent); border-color:var(--accent);}
+  @media(min-width:940px){nav.main{display:flex;}}
+
+  .hero{padding-top:clamp(1.8rem,4vw,3rem); padding-bottom:1.5rem;}
+  .hero-grid{display:grid; gap:clamp(1.5rem,4vw,3rem); grid-template-columns:1fr;}
+  @media(min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr; align-items:center;}}
+  .eyebrow{font-size:.76rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink);}
+  .hero h1{font-size:clamp(2.6rem,6vw,4rem); line-height:1.02; letter-spacing:-.02em; margin:.5rem 0 .15rem;}
+  .hero h1 em{font-style:italic; font-weight:400; color:var(--brand-2);}
+  .kicker{font-size:.9rem; color:var(--ink-3); font-weight:600; letter-spacing:.02em;}
+  .lede{margin:1.1rem 0 0; max-width:46ch; color:var(--ink-2); font-size:1.06rem;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.5rem;}
+  .btn{display:inline-flex; align-items:center; gap:.5rem; font-family:var(--sans); font-weight:600; font-size:.92rem; padding:.7rem 1.15rem; border-radius:10px; cursor:pointer; text-decoration:none; border:1px solid transparent;}
+  .btn.primary{background:var(--accent); color:#fff;}
+  .btn.primary:hover{background:var(--accent-ink); color:#fff;}
+  :root[data-theme="dark"] .btn.primary,:root:not([data-theme="light"]) .btn.primary{color:#20120E;}
+  @media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .btn.primary{color:#fff;}}
+  .btn.ghost{background:var(--surface); color:var(--ink); border-color:var(--line-2);}
+  .btn.ghost:hover{border-color:var(--accent); color:var(--accent);}
+
+  .mapcard{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-lg); padding:1.1rem 1.1rem 1rem; position:relative;}
+  .mapcard h2{font-size:.95rem; font-family:var(--sans); font-weight:600; color:var(--ink-2); margin-bottom:.6rem; display:flex; align-items:center; justify-content:space-between; gap:.5rem;}
+  .mapcard .compass{font-size:.66rem; letter-spacing:.1em; color:var(--ink-3); font-weight:700;}
+  .mapwrap{position:relative;}
+  svg.districtmap{width:100%; height:auto; display:block;}
+  svg.districtmap path{cursor:pointer; transition:fill .15s ease;}
+  path.dist{fill:var(--map-fill); stroke:var(--surface); stroke-width:2.4; vector-effect:non-scaling-stroke;}
+  path.dist:hover{fill:var(--map-fill-2);}
+  path.dist.here{fill:var(--accent); stroke:var(--surface);}
+  path.dist.here:hover{fill:var(--accent);}
+  .maplegend{display:flex; gap:1.1rem; margin-top:.7rem; font-size:.78rem; color:var(--ink-3);}
+  .maplegend span{display:inline-flex; align-items:center; gap:.4rem;}
+  .swatch{width:12px; height:12px; border-radius:3px; display:inline-block;}
+  .maptip{position:absolute; pointer-events:none; opacity:0; transform:translate(-50%,-120%); background:var(--ink); color:var(--paper); font-size:.76rem; font-weight:600; padding:.34rem .55rem; border-radius:7px; white-space:nowrap; transition:opacity .12s ease; z-index:3; box-shadow:var(--shadow);}
+  .maptip .sub{font-weight:400; opacity:.8;}
+  .maptip::after{content:""; position:absolute; left:50%; top:100%; transform:translateX(-50%); border:5px solid transparent; border-top-color:var(--ink);}
+  .provenance{font-size:.72rem; color:var(--ink-3); margin-top:.7rem; display:flex; align-items:center; gap:.4rem;}
+  .provenance .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto;}
+
+  .snapshot{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--sunk);}
+  .snap-grid{display:grid; grid-template-columns:repeat(2,1fr);}
+  @media(min-width:640px){.snap-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(min-width:960px){.snap-grid{grid-template-columns:repeat(6,1fr);}}
+  .snap{padding:1.1rem 1rem; border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .snap:nth-child(2n){border-right:0;}
+  @media(min-width:640px){.snap{border-right:1px solid var(--line);} .snap:nth-child(2n){border-right:1px solid var(--line);} .snap:nth-child(3n){border-right:0;}}
+  @media(min-width:960px){.snap:nth-child(3n){border-right:1px solid var(--line);} .snap:nth-child(6n){border-right:0;} .snap{border-bottom:0;}}
+  .snap .v{font-family:var(--serif); font-size:1.7rem; line-height:1; color:var(--ink); letter-spacing:-.01em;}
+  .snap .l{font-size:.72rem; color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em; margin-top:.4rem; font-weight:600;}
+
+  section.block{padding-block:clamp(2rem,5vw,3.4rem);}
+  .sec-head{display:flex; align-items:baseline; gap:.8rem; margin-bottom:1.3rem;}
+  .sec-head h2{font-size:clamp(1.5rem,3vw,1.95rem); letter-spacing:-.01em;}
+  .sec-head .n{font-family:var(--sans); font-size:.74rem; font-weight:700; letter-spacing:.12em; color:var(--accent-ink); text-transform:uppercase; padding-top:.5rem;}
+  .sec-sub{color:var(--ink-2); max-width:64ch; margin:-.6rem 0 1.4rem; font-size:.98rem;}
+  .divider{height:1px; background:var(--line);}
+
+  .council{display:grid; gap:1.4rem; grid-template-columns:1fr; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;}
+  @media(min-width:720px){.council{grid-template-columns:auto 1fr;}}
+  .council .side{background:linear-gradient(160deg,var(--brand),#16283a); color:#EAF0F6; padding:1.6rem; display:flex; flex-direction:column; gap:.5rem; min-width:230px;}
+  :root[data-theme="dark"] .council .side,:root:not([data-theme="light"]) .council .side{background:linear-gradient(160deg,#1c3346,#101a26);}
+  .avatar{width:74px; height:74px; border-radius:50%; background:rgba(255,255,255,.14); display:grid; place-items:center; font-family:var(--serif); font-size:1.9rem; color:#fff; border:1px solid rgba(255,255,255,.25);}
+  .council .side .role{font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; opacity:.8; font-weight:700;}
+  .council .side .nm{font-family:var(--serif); font-size:1.5rem; line-height:1.1;}
+  .council .side .meta{font-size:.85rem; opacity:.9; margin-top:.2rem;}
+  .council .side .contact{margin-top:auto; padding-top:1rem; display:flex; flex-direction:column; gap:.35rem; font-size:.86rem;}
+  .council .side .contact a{color:#fff; text-decoration:underline; text-underline-offset:2px;}
+  .council .side .contact a:hover{color:var(--gold);}
+  .council .body{padding:1.6rem;}
+  .council .body h3{font-family:var(--sans); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:700; margin:0 0 .6rem;}
+  .chips{display:flex; flex-wrap:wrap; gap:.5rem;}
+  .chip{font-size:.85rem; padding:.4rem .7rem; border-radius:8px; background:var(--sunk); border:1px solid var(--line); color:var(--ink-2); font-weight:500;}
+  .chip.lead{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft);}
+  .term{display:flex; margin-top:1.4rem; border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .term div{flex:1; padding:.7rem .8rem; border-right:1px solid var(--line);}
+  .term div:last-child{border-right:0;}
+  .term .tl{font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3); font-weight:700;}
+  .term .tv{font-family:var(--serif); font-size:1.3rem; color:var(--ink); margin-top:.15rem;}
+
+  .cols{display:grid; gap:clamp(1.6rem,4vw,3rem); grid-template-columns:1fr;}
+  @media(min-width:820px){.cols.poi{grid-template-columns:1.6fr 1fr;}}
+  .nbhd{display:flex; flex-wrap:wrap; gap:.55rem;}
+  .nbhd .chip{background:var(--surface);}
+  .poi-list{list-style:none; margin:0; padding:0; display:grid;}
+  .poi-list li{display:flex; gap:.8rem; padding:.85rem 0; border-bottom:1px solid var(--line);}
+  .poi-list li:last-child{border-bottom:0;}
+  .poi-list .pin{flex:0 0 auto; width:22px; height:22px; color:var(--accent); margin-top:.15rem;}
+  .poi-list .nm{font-weight:600; color:var(--ink); text-decoration:none;}
+  .poi-list .nm:hover{color:var(--accent);}
+  .poi-list .ds{color:var(--ink-2); font-size:.92rem;}
+  .aside-card{background:var(--sunk); border:1px solid var(--line); border-radius:var(--radius); padding:1.2rem;}
+  .aside-card h3{font-family:var(--sans); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:700; margin:0 0 .7rem;}
+  .commish{padding:.7rem 0; border-bottom:1px solid var(--line);}
+  .commish:last-child{border-bottom:0;}
+  .commish .cn{font-weight:600; color:var(--ink);}
+  .commish .cd{font-size:.84rem; color:var(--ink-2);}
+
+  .vintage-bar{display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1rem; margin-bottom:1.4rem;}
+  .vpill{display:inline-flex; align-items:center; gap:.45rem; background:var(--brand); color:#EAF0F6; font-size:.78rem; font-weight:600; padding:.35rem .7rem; border-radius:100px;}
+  :root[data-theme="dark"] .vpill,:root:not([data-theme="light"]) .vpill{background:#203a52;color:#dbe6f0;}
+  .vintage-bar .note{font-size:.82rem; color:var(--ink-3);}
+
+  .changegrid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; margin-bottom:2rem;}
+  @media(min-width:680px){.changegrid{grid-template-columns:repeat(5,1fr);}}
+  .cstat{background:var(--surface); padding:1.05rem 1rem;}
+  .cstat .v{font-family:var(--serif); font-size:1.55rem; color:var(--ink); line-height:1;}
+  .cstat .l{font-size:.72rem; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em; margin-top:.4rem; font-weight:600;}
+  .cstat .chg{display:inline-flex; align-items:center; gap:.3rem; margin-top:.55rem; font-size:.76rem; color:var(--ink-2); font-weight:600; background:var(--sunk); padding:.2rem .45rem; border-radius:6px;}
+  .cstat .chg .ar{color:var(--accent-ink); font-size:.7rem;}
+
+  .cmp-grid{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  @media(min-width:560px){.cmp-grid{grid-template-columns:1fr 1fr;}}
+  @media(min-width:900px){.cmp-grid{grid-template-columns:repeat(4,1fr);}}
+  .cmp{background:var(--surface); padding:1.15rem 1.15rem 1.3rem;}
+  .cmp .l{font-size:.72rem; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em; font-weight:700;}
+  .cmp .v{font-family:var(--serif); font-size:1.75rem; color:var(--ink); line-height:1; margin-top:.35rem;}
+  .cmp .rank{display:inline-block; margin-top:.6rem; font-size:.74rem; font-weight:700; color:var(--accent-ink); background:var(--accent-soft); padding:.2rem .5rem; border-radius:100px;}
+  .cmp .vs{font-size:.76rem; color:var(--ink-2); margin-top:.55rem;}
+  .cmp .vs b{color:var(--ink);}
+  .strip{position:relative; height:8px; background:var(--sunk); border-radius:5px; margin-top:.95rem;}
+  .strip .rangefill{position:absolute; top:0; bottom:0; background:linear-gradient(90deg,color-mix(in srgb,var(--brand-2) 25%,transparent),var(--brand-2)); border-radius:5px;}
+  .strip .city{position:absolute; top:-3px; bottom:-3px; width:2px; background:var(--ink-3);}
+  .strip .d1{position:absolute; top:50%; width:13px; height:13px; border-radius:50%; background:var(--accent); border:2px solid var(--surface); transform:translate(-50%,-50%); box-shadow:0 0 0 1px var(--accent);}
+  .strip-ends{display:flex; justify-content:space-between; font-size:.66rem; color:var(--ink-3); margin-top:.4rem;}
+  .cmp-legend{display:flex; flex-wrap:wrap; gap:1.2rem; font-size:.76rem; color:var(--ink-3); margin-top:1rem;}
+  .cmp-legend span{display:inline-flex; align-items:center; gap:.4rem;}
+  .cmp-legend .kd{width:11px;height:11px;border-radius:50%;background:var(--accent);display:inline-block;}
+  .cmp-legend .kc{width:2px;height:12px;background:var(--ink-3);display:inline-block;}
+
+  .demo-2col{display:grid; gap:clamp(1.6rem,4vw,2.6rem); grid-template-columns:1fr; margin-top:2rem;}
+  @media(min-width:820px){.demo-2col{grid-template-columns:1fr 1fr;}}
+  .panel h3{font-family:var(--sans); font-size:.95rem; font-weight:700; color:var(--ink); margin:0 0 .1rem;}
+  .panel .sub{font-size:.8rem; color:var(--ink-3); margin-bottom:1rem;}
+
+  .bars{display:flex; flex-direction:column; gap:.9rem;}
+  .bar{display:grid; grid-template-columns:104px 1fr 44px; align-items:center; gap:.7rem;}
+  .bar .bl{font-size:.84rem; color:var(--ink-2);}
+  .bar .track{position:relative; height:16px; background:var(--sunk); border-radius:4px;}
+  .bar .fill{position:absolute; top:0; bottom:0; left:0; background:var(--brand-2); border-radius:4px; min-width:3px;}
+  .bar .citytick{position:absolute; top:-3px; bottom:-3px; width:2px; background:var(--ink); opacity:.55;}
+  .bar .bv{font-size:.84rem; font-weight:600; color:var(--ink); text-align:right;}
+  .bars .foot{font-size:.72rem; color:var(--ink-3); display:flex; align-items:center; gap:.4rem; margin-top:.2rem;}
+  .bars .foot .kc{width:2px;height:11px;background:var(--ink);opacity:.55;display:inline-block;}
+
+  .crime-wrap{display:flex; flex-direction:column; gap:.7rem;}
+  .crime-row{display:grid; grid-template-columns:130px 1fr 62px; align-items:center; gap:.8rem;}
+  .crime-row .cl{font-size:.86rem; color:var(--ink-2);}
+  .crime-track{position:relative; height:20px; background:var(--sunk); border-radius:5px; overflow:hidden;}
+  .crime-track .mid{position:absolute; left:50%; top:0; bottom:0; width:1.5px; background:var(--ink-3); opacity:.6; z-index:2;}
+  .crime-bar{position:absolute; top:3px; bottom:3px; border-radius:3px;}
+  .crime-bar.below{background:var(--good); right:50%;}
+  .crime-bar.above{background:var(--accent); left:50%;}
+  .crime-row .cv{font-size:.86rem; font-weight:700; text-align:right; font-variant-numeric:tabular-nums;}
+  .crime-row .cv.below{color:var(--good);}
+  .crime-row .cv.above{color:var(--accent-ink);}
+  .crime-scale{display:grid; grid-template-columns:130px 1fr 62px; gap:.8rem; font-size:.68rem; color:var(--ink-3); margin-bottom:.5rem;}
+  .crime-scale .mids{text-align:center;}
+
+  .datanote{font-size:.82rem; color:var(--ink-3); margin-top:1.6rem; padding-top:1rem; border-top:1px solid var(--line); max-width:78ch;}
+
+  .involve{display:grid; gap:1rem; grid-template-columns:1fr;}
+  @media(min-width:760px){.involve{grid-template-columns:repeat(3,1fr);}}
+  .icard{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:1.3rem; box-shadow:var(--shadow);}
+  .icard .ic{width:26px;height:26px;color:var(--accent);margin-bottom:.6rem;}
+  .icard h3{font-family:var(--serif); font-size:1.2rem; margin:0 0 .4rem;}
+  .icard p{margin:0 0 .8rem; font-size:.9rem; color:var(--ink-2);}
+  .icard a{font-weight:600; font-size:.9rem;}
+
+  .form-wrap{background:var(--sunk); border:1px solid var(--line); border-radius:var(--radius); padding:clamp(1.3rem,3vw,2rem); max-width:640px;}
+  .form-wrap label{display:block; font-size:.8rem; font-weight:600; color:var(--ink-2); margin:.9rem 0 .35rem;}
+  .form-wrap input,.form-wrap textarea{width:100%; padding:.7rem .8rem; border:1px solid var(--line-2); border-radius:9px; background:var(--surface); color:var(--ink); font-family:inherit; font-size:.95rem;}
+  .form-wrap textarea{min-height:110px; resize:vertical;}
+  .form-wrap .btn{margin-top:1.1rem;}
+
+  footer.site{background:var(--brand); color:#C9D4DF; margin-top:2rem;}
+  :root[data-theme="dark"] footer.site,:root:not([data-theme="light"]) footer.site{background:#101820;}
+  @media(prefers-color-scheme:light){:root:not([data-theme="dark"]) footer.site{background:var(--brand);}}
+  footer.site .wrap{padding-block:2.6rem;}
+  .foot-grid{display:grid; gap:1.6rem; grid-template-columns:1fr;}
+  @media(min-width:700px){.foot-grid{grid-template-columns:2fr 1fr 1fr 1fr;}}
+  footer.site h4{font-family:var(--sans); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:#8FA3B5; margin:0 0 .7rem;}
+  footer.site a{color:#D7E0E9; text-decoration:none; font-size:.9rem; display:block; margin-bottom:.4rem;}
+  footer.site a:hover{color:#fff;}
+  footer .brandline{font-family:var(--serif); font-size:1.3rem; color:#fff; margin-bottom:.5rem;}
+  footer .fine{margin-top:1.8rem; padding-top:1.2rem; border-top:1px solid rgba(255,255,255,.12); font-size:.78rem; color:#8FA3B5; display:flex; flex-wrap:wrap; gap:.6rem; justify-content:space-between;}
+  .concept-tag{position:fixed; bottom:12px; left:12px; z-index:50; background:var(--ink); color:var(--paper); font-size:.7rem; font-weight:600; padding:.35rem .6rem; border-radius:100px; opacity:.82; box-shadow:var(--shadow);}
+  @media(prefers-reduced-motion:no-preference){
+    .fade{opacity:0; transform:translateY(10px); animation:fu .7s cubic-bezier(.2,.7,.2,1) forwards;}
+    .fade.d1{animation-delay:.06s;} .fade.d2{animation-delay:.14s;}
+    @keyframes fu{to{opacity:1; transform:none;}}
+  }
+</style>
+<style>
+.vhist{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 2rem;}
+.vchip{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);background:var(--surface);border-radius:100px;padding:.4rem .8rem;font-size:.82rem;color:var(--ink-2);}
+.vchip .vd{width:9px;height:9px;border-radius:50%;}
+.vchip.old .vd{background:var(--ink-3);} .vchip.new .vd{background:var(--accent);}
+.dumb{display:flex;flex-direction:column;gap:.55rem;margin:1.1rem 0 .4rem;}
+.dumb-row{display:grid;grid-template-columns:92px 1fr 118px;align-items:center;gap:.8rem;}
+.dumb-lab{font-size:.86rem;color:var(--ink-2);font-weight:600;}
+.dumb-track{position:relative;height:22px;}
+.dumb-track .base{position:absolute;top:50%;left:0;right:0;height:1px;background:var(--line);}
+.dumb-track .conn{position:absolute;top:50%;height:3px;transform:translateY(-50%);background:var(--brand-2);opacity:.5;border-radius:2px;}
+.dumb-track .d0,.dumb-track .d1{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;transform:translate(-50%,-50%);}
+.dumb-track .d0{background:var(--surface);border:2px solid var(--ink-3);}
+.dumb-track .d1{background:var(--accent);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--accent);}
+.dumb-chg{font-size:.82rem;font-weight:600;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums;}
+.dumb-chg .ar{color:var(--accent-ink);font-size:.7rem;}
+.dumb-scale{display:grid;grid-template-columns:92px 1fr 118px;gap:.8rem;font-size:.68rem;color:var(--ink-3);margin-top:.3rem;}
+.dumb-scale .ends{display:flex;justify-content:space-between;}
+.viz-legend{display:flex;gap:1.3rem;font-size:.78rem;color:var(--ink-3);margin:.4rem 0 0;}
+.viz-legend span{display:inline-flex;align-items:center;gap:.4rem;}
+.viz-legend .k0{width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--ink-3);}
+.viz-legend .k1{width:12px;height:12px;border-radius:50%;background:var(--accent);}
+.vizcard{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:1.3rem 1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow);}
+.vizcard h3{font-family:var(--serif);font-weight:500;font-size:1.3rem;margin:0 0 .2rem;}
+.vizcard .vsub{font-size:.84rem;color:var(--ink-3);margin-bottom:.6rem;}
+.method{max-width:75ch;}
+.method h3{font-family:var(--serif);font-weight:600;font-size:1.3rem;margin:1.8rem 0 .5rem;}
+.method p{font-size:1rem;line-height:1.7;color:var(--ink-2);margin:0 0 1rem;}
+.method p strong{color:var(--ink);}
+.flag{border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;background:var(--sunk);padding:1rem 1.2rem;margin:1rem 0;font-size:.92rem;color:var(--ink-2);}
+.flag b{color:var(--ink);}
+</style>
+<style>
+.super{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:1.8rem;}
+@media(min-width:560px){.super{grid-template-columns:1fr 1fr;}}
+@media(min-width:920px){.super{grid-template-columns:repeat(4,1fr);}}
+.sup{background:var(--surface);padding:1.1rem 1.2rem;}
+.sup .sk{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:700;}
+.sup .sv{font-family:var(--serif);font-size:1.5rem;color:var(--ink);margin:.3rem 0 .1rem;line-height:1;}
+.sup .sd{font-size:.82rem;color:var(--ink-2);}
+.sup .sd b{color:var(--accent-ink);}
+.cmptable-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);-webkit-overflow-scrolling:touch;}
+table.cmpt{width:100%;min-width:900px;border-collapse:collapse;font-size:.92rem;}
+table.cmpt th,table.cmpt td{padding:.7rem .8rem;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line);}
+table.cmpt thead th{position:sticky;top:0;background:var(--sunk);font-family:var(--sans);font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:700;z-index:2;}
+table.cmpt th.dcol,table.cmpt td.dcol{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;}
+table.cmpt thead th.dcol{z-index:3;background:var(--sunk);}
+table.cmpt td.mcol{text-align:left;color:var(--ink);}
+table.cmpt tbody tr:hover td{background:var(--sunk);}
+table.cmpt tbody tr:hover td.dcol{background:var(--sunk);}
+table.cmpt .dlink{font-weight:700;color:var(--accent-ink);text-decoration:none;}
+table.cmpt .dlink:hover{color:var(--accent);}
+table.cmpt td .num{font-variant-numeric:tabular-nums;color:var(--ink);}
+table.cmpt td.lead .num{color:var(--accent-ink);font-weight:700;}
+table.cmpt tr.city td{border-top:2px solid var(--line-2);background:var(--sunk);font-weight:600;}
+table.cmpt tr.city td.dcol{background:var(--sunk);font-family:var(--serif);}
+.legend-note{font-size:.78rem;color:var(--ink-3);margin-top:.7rem;display:flex;gap:1.2rem;flex-wrap:wrap;}
+.legend-note b{color:var(--accent-ink);}
+</style>
+
+<div class="ribbon"><div class="wrap"><span class="tag">On the 2026 ballot</span><span><b>Columbus will vote this November</b> on how City Council is elected.</span><a href="#">Read the explainer &rarr;</a></div></div>
+<header class="site"><div class="wrap"><a class="brand" href="#"><svg class="mk" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M16 3 A13 13 0 0 1 16 29" fill="none" stroke="var(--brand)" stroke-width="2"/><circle cx="16" cy="16" r="3.2" fill="var(--accent)"/></svg> Columbus Districts</a>
+<nav class="main"><a href="#">Home</a><a href="#">Districts</a><a href="#">All Districts</a><a href="#" class="active">Data</a><a href="#">How It Works</a><a href="#">Elections</a></nav>
+<button class="tbtn hspace" id="themeBtn" aria-label="Toggle light and dark theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></svg></button></div></header>
+<div class="wrap">
+<section class="block" style="padding-bottom:1rem;">
+  <div class="sec-head"><span class="n">Data &amp; methodology</span><h2>How the districts are changing</h2></div>
+  <p class="sec-sub">Columbus Districts tracks each district across American Community Survey (ACS) 5-year vintages, so you can see change over time &mdash; not just a single snapshot. Two vintages are loaded today; a new one is added each December as the Census Bureau releases it.</p>
+  <div class="vhist"><span class="vchip old"><i class="vd"></i> ACS 2017&ndash;2021 <span style="color:var(--ink-3)">&middot; baseline</span></span><span class="vchip new"><i class="vd"></i> ACS 2019&ndash;2023 <span style="color:var(--ink-3)">&middot; current</span></span><span class="vchip" style="border-style:dashed;color:var(--ink-3)">ACS 2020&ndash;2024 &middot; expected Dec 2026</span></div>
+
+  <div class="vizcard"><h3>Median household income</h3><div class="vsub">Change from the 2017&ndash;21 baseline to the current 2019&ndash;23 estimate, by district</div><div class="dumb"><div class="dumb-row"><div class="dumb-lab">District 1</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:70.03045404208194%;width:18.673864894795145%"></div>
+<div class="d0" style="left:70.03045404208194%"></div><div class="d1" style="left:88.70431893687709%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 12%</div></div><div class="dumb-row"><div class="dumb-lab">District 2</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:80.85894241417498%;width:19.141057585825024%"></div>
+<div class="d0" style="left:80.85894241417498%"></div><div class="d1" style="left:100.0%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 12%</div></div><div class="dumb-row"><div class="dumb-lab">District 3</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:44.18258582502769%;width:10.375138427464002%"></div>
+<div class="d0" style="left:44.18258582502769%"></div><div class="d1" style="left:54.55772425249169%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 8%</div></div><div class="dumb-row"><div class="dumb-lab">District 4</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:0.0%;width:16.741071428571427%"></div>
+<div class="d0" style="left:0.0%"></div><div class="d1" style="left:16.741071428571427%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 21%</div></div><div class="dumb-row"><div class="dumb-lab">District 5</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:55.374446290143965%;width:10.574127906976742%"></div>
+<div class="d0" style="left:55.374446290143965%"></div><div class="d1" style="left:65.9485741971207%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 8%</div></div><div class="dumb-row"><div class="dumb-lab">District 6</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:24.72487541528239%;width:14.457018272425252%"></div>
+<div class="d0" style="left:24.72487541528239%"></div><div class="d1" style="left:39.18189368770764%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 14%</div></div><div class="dumb-row"><div class="dumb-lab">District 7</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:28.154415836101883%;width:12.619393687707642%"></div>
+<div class="d0" style="left:28.154415836101883%"></div><div class="d1" style="left:40.773809523809526%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 12%</div></div><div class="dumb-row"><div class="dumb-lab">District 8</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:14.256298449612403%;width:10.300733665559248%"></div>
+<div class="d0" style="left:14.256298449612403%"></div><div class="d1" style="left:24.55703211517165%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 11%</div></div><div class="dumb-row"><div class="dumb-lab">District 9</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:36.82516611295681%;width:17.171926910299007%"></div>
+<div class="d0" style="left:36.82516611295681%"></div><div class="d1" style="left:53.997093023255815%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 15%</div></div></div><div class="dumb-scale"><span></span><div class="ends"><span>$46,185</span><span>$103,977</span></div><span></span></div><div class="viz-legend"><span><i class="k0"></i> ACS 2017&ndash;2021</span><span><i class="k1"></i> ACS 2019&ndash;2023</span><span>Each row is a district; the line shows the change</span></div></div>
+  <div class="vizcard"><h3>Median home value</h3><div class="vsub">Change from the 2017&ndash;21 baseline to the current 2019&ndash;23 estimate, by district</div><div class="dumb"><div class="dumb-row"><div class="dumb-lab">District 1</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:50.26514486391571%;width:28.687006145741876%"></div>
+<div class="d0" style="left:50.26514486391571%"></div><div class="d1" style="left:78.95215100965758%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 27%</div></div><div class="dumb-row"><div class="dumb-lab">District 2</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:63.97805092186128%;width:26.372695346795425%"></div>
+<div class="d0" style="left:63.97805092186128%"></div><div class="d1" style="left:90.3507462686567%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 22%</div></div><div class="dumb-row"><div class="dumb-lab">District 3</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:61.303775241439865%;width:27.464442493415277%"></div>
+<div class="d0" style="left:61.303775241439865%"></div><div class="d1" style="left:88.76821773485514%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 24%</div></div><div class="dumb-row"><div class="dumb-lab">District 4</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:0.0%;width:17.948200175592625%"></div>
+<div class="d0" style="left:0.0%"></div><div class="d1" style="left:17.948200175592625%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 33%</div></div><div class="dumb-row"><div class="dumb-lab">District 5</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:39.27831431079895%;width:28.136084284460054%"></div>
+<div class="d0" style="left:39.27831431079895%"></div><div class="d1" style="left:67.414398595259%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 30%</div></div><div class="dumb-row"><div class="dumb-lab">District 6</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:4.090430201931519%;width:18.998244073748904%"></div>
+<div class="d0" style="left:4.090430201931519%"></div><div class="d1" style="left:23.08867427568042%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 32%</div></div><div class="dumb-row"><div class="dumb-lab">District 7</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:57.376646180860405%;width:42.623353819139595%"></div>
+<div class="d0" style="left:57.376646180860405%"></div><div class="d1" style="left:100.0%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 38%</div></div><div class="dumb-row"><div class="dumb-lab">District 8</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:0.5228270412642669%;width:21.397278314310796%"></div>
+<div class="d0" style="left:0.5228270412642669%"></div><div class="d1" style="left:21.920105355575064%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 39%</div></div><div class="dumb-row"><div class="dumb-lab">District 9</div>
+<div class="dumb-track"><div class="base"></div><div class="conn" style="left:20.205882352941178%;width:25.893327480245826%"></div>
+<div class="d0" style="left:20.205882352941178%"></div><div class="d1" style="left:46.099209833187004%"></div></div>
+<div class="dumb-chg"><span class="ar">&#9650;</span> 34%</div></div></div><div class="dumb-scale"><span></span><div class="ends"><span>$125,342</span><span>$353,142</span></div><span></span></div><div class="viz-legend"><span><i class="k0"></i> ACS 2017&ndash;2021</span><span><i class="k1"></i> ACS 2019&ndash;2023</span><span>Each row is a district; the line shows the change</span></div></div>
+
+  <h3 style="font-family:var(--serif);font-weight:500;font-size:1.3rem;margin:1.4rem 0 .3rem;">Population, rent &amp; unemployment</h3>
+  <p style="font-size:.86rem;color:var(--ink-3);margin:0 0 1rem;">Current value with change since the prior vintage. Scroll sideways for all nine districts.</p>
+  <div class="cmptable-wrap"><table class="cmpt" style="min-width:820px"><thead><tr><th class="dcol" style="text-align:left">Metric (2019&ndash;23, change since 2017&ndash;21)</th><th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th><th>D9</th></tr></thead><tbody><tr><td class="dcol" style="text-align:left">Population</td><td><span class="num">97923</span><span style="color:var(--ink-3);font-size:.72rem"> -1%</span></td><td><span class="num">143899</span><span style="color:var(--ink-3);font-size:.72rem"> +2%</span></td><td><span class="num">100809</span><span style="color:var(--ink-3);font-size:.72rem"> -0%</span></td><td><span class="num">105383</span><span style="color:var(--ink-3);font-size:.72rem"> -1%</span></td><td><span class="num">122385</span><span style="color:var(--ink-3);font-size:.72rem"> +2%</span></td><td><span class="num">113932</span><span style="color:var(--ink-3);font-size:.72rem"> +0%</span></td><td><span class="num">105185</span><span style="color:var(--ink-3);font-size:.72rem"> +1%</span></td><td><span class="num">112781</span><span style="color:var(--ink-3);font-size:.72rem"> -0%</span></td><td><span class="num">109388</span><span style="color:var(--ink-3);font-size:.72rem"> +0%</span></td></tr><tr><td class="dcol" style="text-align:left">Median rent</td><td><span class="num">$1,378</span><span style="color:var(--ink-3);font-size:.72rem"> +14%</span></td><td><span class="num">$1,459</span><span style="color:var(--ink-3);font-size:.72rem"> +14%</span></td><td><span class="num">$1,255</span><span style="color:var(--ink-3);font-size:.72rem"> +12%</span></td><td><span class="num">$1,099</span><span style="color:var(--ink-3);font-size:.72rem"> +17%</span></td><td><span class="num">$1,364</span><span style="color:var(--ink-3);font-size:.72rem"> +17%</span></td><td><span class="num">$1,242</span><span style="color:var(--ink-3);font-size:.72rem"> +23%</span></td><td><span class="num">$1,278</span><span style="color:var(--ink-3);font-size:.72rem"> +19%</span></td><td><span class="num">$1,144</span><span style="color:var(--ink-3);font-size:.72rem"> +16%</span></td><td><span class="num">$1,348</span><span style="color:var(--ink-3);font-size:.72rem"> +25%</span></td></tr><tr><td class="dcol" style="text-align:left">Unemployment</td><td><span class="num">3.8%</span><span style="color:var(--ink-3);font-size:.72rem"> -0.3</span></td><td><span class="num">3.0%</span><span style="color:var(--ink-3);font-size:.72rem"> +0.1</span></td><td><span class="num">4.8%</span><span style="color:var(--ink-3);font-size:.72rem"> -0.2</span></td><td><span class="num">8.8%</span><span style="color:var(--ink-3);font-size:.72rem"> -0.4</span></td><td><span class="num">3.9%</span><span style="color:var(--ink-3);font-size:.72rem"> +0.0</span></td><td><span class="num">5.9%</span><span style="color:var(--ink-3);font-size:.72rem"> +0.0</span></td><td><span class="num">4.5%</span><span style="color:var(--ink-3);font-size:.72rem"> -0.5</span></td><td><span class="num">7.1%</span><span style="color:var(--ink-3);font-size:.72rem"> +0.0</span></td><td><span class="num">4.0%</span><span style="color:var(--ink-3);font-size:.72rem"> -1.2</span></td></tr></tbody></table></div>
+</section>
+
+<section class="block" style="padding-top:1rem;"><div class="method">
+  <div class="sec-head"><span class="n">Methodology</span><h2>How to read these figures</h2></div>
+  <h3>About the ACS 5-year estimates</h3>
+  <p>The American Community Survey 5-year estimate is a rolling average over five years of surveys, not a single-year count. It's the most reliable Census source for areas the size of a council district, but because it's an average, it lags fast-moving change by a couple of years.</p>
+  <h3>Why district figures are aggregated</h3>
+  <p>Council districts don't line up with Census geographies, so every district figure here is <strong>built up from census block groups</strong> assigned to that district. Median income, rent, and home value are <strong>population-weighted averages of block-group medians</strong> &mdash; close approximations, not true district medians. Treat them as directional and comparative rather than exact.</p>
+  <h3>ACS vs. Esri current-year estimates</h3>
+  <p>Where available, each district page also shows Esri's current-year estimate for comparison. Esri projects forward from the 2020 Census using building permits and migration data, so in fast-growing districts it can run ahead of the backward-looking ACS average. Neither is "wrong" &mdash; they answer slightly different questions.</p>
+  <div class="flag"><b>Known items under review.</b> A small number of figures are flagged pending a boundary re-derivation from official council polygons &mdash; notably District 2's aggregated population and District 3's Asian-population count near the OSU campus, where block-group splits can distort a hand-built crosswalk. These will be corrected as the data pipeline moves onto the parcel-resolved boundaries.</p></div>
+  <h3>Sources &amp; corrections</h3>
+  <p>Demographics: U.S. Census Bureau ACS via CivicWorth. Boundaries: official City of Columbus 2023 council map. Found an error? Every district page has a &ldquo;Suggest an edit&rdquo; form, and corrections are made quickly.</p>
+</div></section>
+</div>
+<footer class="site"><div class="wrap"><div class="foot-grid"><div><div class="brandline">Columbus Districts</div><p style="color:#A9B7C4;font-size:.9rem;max-width:34ch;margin:.2rem 0 0;">An independent civic resource for Columbus residents.</p></div><div><h4>Civic resources</h4><a href="#">Council Directory</a><a href="#">Meeting Calendar</a><a href="#">Find Your District</a><a href="#">Official District Map</a></div><div><h4>Elections &amp; data</h4><a href="#">Franklin County BOE</a><a href="#">Voter Registration</a><a href="#">Data &amp; Methodology</a><a href="#">2026 Ballot Measure</a></div><div><h4>About</h4><a href="#">About this site</a><a href="#">Suggest an edit</a></div></div><div class="fine"><span>&copy; 2026 Columbus Districts. All rights reserved.</span><span>Data via CivicWorth &middot; Last reviewed August 2026</span></div></div></footer>
+<div class="concept-tag">Design concept &middot; Data &amp; Trends</div>
+<script>(function(){var b=document.getElementById("themeBtn");if(!b)return;b.addEventListener("click",function(){var c=document.documentElement.getAttribute("data-theme");var n=c==="dark"?"light":(c==="light"?"dark":(matchMedia("(prefers-color-scheme: dark)").matches?"light":"dark"));document.documentElement.setAttribute("data-theme",n);});})();</script>

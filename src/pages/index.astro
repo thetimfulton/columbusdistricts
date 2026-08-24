@@ -1,221 +1,142 @@
 ---
 /**
- * index.astro — Columbus Districts homepage.
- * Hero copy, district card grid, and primary CTAs.
+ * index.astro — Homepage. Rebuilt from design-concepts/home.html.
+ * Interactive nine-district map hero + "who represents you" grid + ballot band + quick links.
+ * Data-driven from the district JSONs + district-boundaries.json.
  */
-import Layout from '../components/Layout.astro';
-import DistrictCard from '../components/DistrictCard.astro';
+import Layout from "../components/Layout.astro";
+import boundaries from "../data/district-boundaries.json";
+import { districts, currentSnapshot } from "../lib/districts";
 
-import d1 from '../data/districts/district-1.json';
-import d2 from '../data/districts/district-2.json';
-import d3 from '../data/districts/district-3.json';
-import d4 from '../data/districts/district-4.json';
-import d5 from '../data/districts/district-5.json';
-import d6 from '../data/districts/district-6.json';
-import d7 from '../data/districts/district-7.json';
-import d8 from '../data/districts/district-8.json';
-import d9 from '../data/districts/district-9.json';
-
-const allDistricts = [d1, d2, d3, d4, d5, d6, d7, d8, d9];
 const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
+
+const numberWords = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+
+// One card per district
+const cards = districts.map((d: any) => ({
+  number: d.number,
+  slug: d.slug,
+  member: d.councilMember.name,
+  neighborhoods: d.neighborhoods.slice(0, 3).join(" · "),
+  pop2020: d.population2020 ?? currentSnapshot(d).data.total_population,
+}));
+
+const members: Record<string, string> = {};
+for (const d of districts) members[String(d.number)] = d.councilMember.name;
+const membersJSON = JSON.stringify(members);
+const slugs: Record<string, string> = {};
+for (const d of districts) slugs[String(d.number)] = d.slug;
+const slugsJSON = JSON.stringify(slugs);
+const centroids = boundaries.centroids as Record<string, [number, number]>;
 ---
-<Layout title="Home" description="Columbus City Council represents more than 900,000 residents across nine districts. Find yours, meet your council member, and explore district demographics.">
-
-  {/* Hero */}
-  <section class="hero">
-    <h1>Columbus Districts</h1>
-    <p class="hero-lead">Columbus City Council represents more than 900,000 residents across nine districts. Find yours, meet your council member, and learn how to get involved.</p>
-    <p class="hero-sub">Columbus Districts is an independent civic resource from <a href="https://www.theconfluencecast.com" target="_blank" rel="noopener">The Confluence Cast</a> and <a href="https://www.columbusunderground.com" target="_blank" rel="noopener">Columbus Underground</a>.</p>
-
-    <div class="hero-ctas">
-      <a href="https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189" target="_blank" rel="noopener" class="cta-primary">Find Your District</a>
-      <a href={`${base}how-it-works/`} class="cta-secondary">How does the council work?</a>
+<Layout
+  title="Find your Columbus City Council district"
+  description="Look up who represents you on Columbus City Council, see how your district compares, and learn how the council works — an independent, nonpartisan civic resource."
+  active="home"
+>
+  {/* ---- Hero + interactive map ---- */}
+  <section class="hero home-hero"><div class="wrap"><div class="hero-grid">
+    <div>
+      <div class="eyebrow fade">Columbus City Council</div>
+      <h1 class="fade d1">Find your <em>district</em>.</h1>
+      <p class="lede fade d2">Nine districts. More than 900,000 residents. Look up who represents you, see how your district compares, and find out what's on the 2026 ballot.</p>
+      <div class="cta-row fade d2">
+        <a class="btn primary" href={`${b}all-districts/`} data-ev="find_district_click" data-ev-label="home-hero">Find your district
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href={`${b}how-it-works/`}>How the council works</a>
+      </div>
     </div>
-  </section>
+    <div class="mapcard home-map fade d1">
+      <h2>The nine districts <span class="compass">&#9650; N</span></h2>
+      <div class="mapwrap">
+        <svg class="districtmap home" id="dmap" viewBox={boundaries.viewBox} role="img" aria-label="Interactive map of the nine Columbus City Council districts">
+          {Object.keys(boundaries.paths).sort().map((n) => (
+            <g class="grp" data-d={n}>
+              <a href={`${b}districts/${slugs[n]}/`}>
+                <path class="dist" data-d={n} d={(boundaries.paths as Record<string,string>)[n]} />
+                <g class="dlab" data-d={n}>
+                  <circle cx={centroids[n][0]} cy={centroids[n][1]} r="17" />
+                  <text x={centroids[n][0]} y={centroids[n][1] + 6.5} text-anchor="middle">{n}</text>
+                </g>
+              </a>
+            </g>
+          ))}
+        </svg>
+        <div class="maptip" id="maptip"></div>
+      </div>
+      <div class="maplegend">
+        <span>Hover a district to see its council member &middot; click to explore</span>
+      </div>
+      <div class="provenance"><span class="dot"></span> Boundaries from CivicWorth &middot; official 2023 council map</div>
+    </div>
+  </div></div></section>
 
-  {/* District Grid */}
-  <section class="district-grid-section">
-    <h2 class="section-heading">All Nine Districts</h2>
-    <div class="district-grid">
-      {allDistricts.map((d) => (
-        <DistrictCard district={d} />
+  {/* ---- Who represents you ---- */}
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><span class="n">All nine</span><h2>Who represents you</h2></div>
+    <div class="dgrid">
+      {cards.map((c) => (
+        <a class="dcard" href={`${b}districts/${c.slug}/`} aria-label={`District ${c.number}: ${c.member}`}>
+          <div class="dc-top"><span class="dc-num">District {c.number}</span><span class="dc-arr">&rarr;</span></div>
+          <div class="dc-mem">{c.member}</div>
+          <div class="dc-nb">{c.neighborhoods}</div>
+          <div class="dc-stat"><b class="tnum">{c.pop2020.toLocaleString("en-US")}</b> residents <span class="dc-src">2020 Census</span></div>
+        </a>
       ))}
     </div>
-    <p class="grid-footnote">Population figures from ACS 2019-2023 5-Year Estimates. <a href={`${base}data/`}>View methodology and data sources.</a></p>
-  </section>
+  </div></section>
 
-  {/* Quick Links */}
-  <section class="quick-links">
-    <div class="quick-link-card">
-      <h3><a href={`${base}all-districts/`}>Compare All Districts</a></h3>
-      <p>Side-by-side demographics, income, and election data for all nine districts.</p>
-    </div>
-    <div class="quick-link-card">
-      <h3><a href={`${base}elections/`}>Elections</a></h3>
-      <p>Results from 2023 and 2025, plus what to know about the 2027 cycle.</p>
-    </div>
-    <div class="quick-link-card">
-      <h3><a href={`${base}data/`}>Data &amp; Methodology</a></h3>
-      <p>Longitudinal trends, ACS vs. Esri comparison, and full source documentation.</p>
-    </div>
-  </section>
+  <div class="wrap"><div class="divider"></div></div>
 
+  {/* ---- Two-band: how it works + ballot ---- */}
+  <section class="block"><div class="wrap">
+    <div class="twoband">
+      <div class="bandcard dark">
+        <span class="k">New to the district system?</span>
+        <h3>How Columbus City Council works</h3>
+        <p>Columbus uses a hybrid system: members must live in the district they represent, but every voter in the city votes on all nine seats. Here's why &mdash; and what it means for you.</p>
+        <a href={`${b}how-it-works/`}>Read the explainer &rarr;</a>
+      </div>
+      <div class="bandcard ballot">
+        <span class="k">On the November 2026 ballot</span>
+        <h3>A vote on how council is elected</h3>
+        <p>Columbus voters will decide whether to switch from the current hybrid system to true single-member districts. Understand what's on your ballot before you vote.</p>
+        <a href={`${b}2026-ballot/`} data-ev="ballot_engagement" data-ev-label="home-band">See what's on the ballot &rarr;</a>
+      </div>
+    </div>
+  </div></section>
+
+  {/* ---- Quick links ---- */}
+  <section class="block" style="padding-top:0;"><div class="wrap">
+    <div class="quick">
+      <a href={`${b}all-districts/`}><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span class="ql">Find your district</span><span class="qd">Compare all nine</span></a>
+      <a href="https://www.ohiosos.gov/elections/voters/" target="_blank" rel="noopener"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><span class="ql">Register to vote</span><span class="qd">Ohio Secretary of State</span></a>
+      <a href="https://www.columbus.gov/Government/City-Council" target="_blank" rel="noopener"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg><span class="ql">Council meetings</span><span class="qd">Calendar &amp; public comment</span></a>
+      <a href={`${b}data/`}><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M10 19V9M16 19v-6M22 19H2"/></svg><span class="ql">District data</span><span class="qd">Trends &amp; methodology</span></a>
+    </div>
+  </div></section>
+
+  <script is:inline set:html={`
+    (function(){
+      var MEMBERS = ${membersJSON};
+      var svg = document.getElementById('dmap'); if(!svg) return;
+      var tip = document.getElementById('maptip'); var wrap = svg.parentElement;
+      svg.querySelectorAll('g.grp').forEach(function(g){
+        var d = g.getAttribute('data-d');
+        var p = g.querySelector('path.dist');
+        function show(){
+          var r = wrap.getBoundingClientRect(), bb = p.getBoundingClientRect();
+          tip.innerHTML = '<b>District '+d+'</b> <span class="sub">\\u00B7 '+MEMBERS[d]+'</span>';
+          tip.style.left = (bb.left - r.left + bb.width/2)+'px';
+          tip.style.top = (bb.top - r.top + bb.height/2)+'px';
+          tip.style.opacity = 1;
+          g.classList.add('on');
+        }
+        function hide(){ tip.style.opacity = 0; g.classList.remove('on'); }
+        g.addEventListener('mouseenter', show); g.addEventListener('mouseleave', hide);
+        g.addEventListener('focusin', show); g.addEventListener('focusout', hide);
+      });
+    })();
+  `}></script>
 </Layout>
-
-<style>
-  /* Hero */
-  .hero {
-    margin-bottom: 2.5rem;
-  }
-
-  .hero h1 {
-    font-size: 2.2rem;
-    margin-bottom: 0.6rem;
-  }
-
-  .hero-lead {
-    font-size: 1.15rem;
-    line-height: 1.65;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
-    max-width: 700px;
-  }
-
-  .hero-sub {
-    font-size: 0.92rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-sub a {
-    color: var(--color-accent);
-  }
-
-  .hero-ctas {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-
-  .cta-primary {
-    font-family: var(--font-heading);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #fff;
-    background: var(--color-accent);
-    padding: 0.6rem 1.5rem;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.15s;
-  }
-  .cta-primary:hover {
-    background: var(--color-accent-hover);
-    color: #fff;
-  }
-
-  .cta-secondary {
-    font-family: var(--font-heading);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-accent);
-    background: transparent;
-    padding: 0.6rem 1.5rem;
-    border: 1px solid var(--color-accent);
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.15s, color 0.15s;
-  }
-  .cta-secondary:hover {
-    background: var(--color-accent);
-    color: #fff;
-  }
-
-  /* District Grid */
-  .district-grid-section {
-    margin-bottom: 2.5rem;
-  }
-
-  .section-heading {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 2px solid var(--color-accent);
-  }
-
-  .district-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .grid-footnote {
-    font-family: var(--font-heading);
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-    margin-top: 0.5rem;
-  }
-
-  .grid-footnote a {
-    color: var(--color-accent);
-    font-size: 0.78rem;
-  }
-
-  /* Quick Links */
-  .quick-links {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .quick-link-card {
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--color-border-light);
-    border-radius: 4px;
-    background: var(--color-bg-subtle);
-  }
-
-  .quick-link-card h3 {
-    font-size: 0.95rem;
-    margin-bottom: 0.35rem;
-  }
-
-  .quick-link-card h3 a {
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-  .quick-link-card h3 a:hover {
-    text-decoration: underline;
-  }
-
-  .quick-link-card p {
-    font-size: 0.88rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 0;
-    line-height: 1.5;
-  }
-
-  @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 1.7rem;
-    }
-
-    .district-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .quick-links {
-      grid-template-columns: 1fr;
-    }
-
-    .hero-ctas {
-      flex-direction: column;
-    }
-
-    .cta-primary,
-    .cta-secondary {
-      text-align: center;
-    }
-  }
-</style>

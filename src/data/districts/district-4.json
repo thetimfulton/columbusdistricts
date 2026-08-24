@@ -12,7 +12,7 @@
     "firstElected": 2023,
     "termEnds": 2029,
     "nextElection": 2029,
-    "contactEmail": "pdmejia@columbus.gov",
+    "contactEmail": "ColumbusCouncil@columbus.gov",
     "contactPhone": "(614) 645-7565"
   },
   "neighborhoods": [
@@ -74,30 +74,30 @@
     "snapshots": [
       {
         "vintage": "ACS 2017-2021",
-        "pull_date": "2026-04-02",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API (backfill_2021.py)",
+        "pull_date": "2026-08-23",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
         "esri_estimates": null,
         "data": {
-          "total_population": 106740,
-          "total_households": 41973,
-          "pct_family_households": 57.2,
-          "median_hh_income_est": 46185,
+          "total_population": 102563,
+          "total_households": 40240,
+          "pct_family_households": 56.7,
+          "median_hh_income_est": 45044,
           "median_gross_rent_est": 940,
-          "median_home_value_est": 125342,
-          "unemployment_rate": 9.2,
-          "pct_nh_white": 36.8,
-          "pct_nh_black": 44.1,
+          "median_home_value_est": 123335,
+          "unemployment_rate": 9.4,
+          "pct_nh_white": 36.4,
+          "pct_nh_black": 44.5,
           "pct_hispanic": 8.7,
-          "pct_nh_asian": 4.7,
+          "pct_nh_asian": 4.6,
           "pct_nh_american_indian": 0.1,
-          "pct_other": 5.6,
+          "pct_other": 5.7,
           "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
         }
       },
       {
         "vintage": "ACS 2019-2023",
-        "pull_date": "2026-04-02",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API (build_district_profiles.py)",
+        "pull_date": "2026-08-23",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
         "esri_estimates": {
           "pull_date": "2026-04-02",
           "source": "Esri current-year estimates (Comparisons.xlsx)",
@@ -113,17 +113,17 @@
           "pct_hispanic": 13.4
         },
         "data": {
-          "total_population": 105383,
-          "total_households": 41266,
-          "pct_family_households": 57.2,
-          "median_hh_income_est": 55860,
-          "median_gross_rent_est": 1099,
-          "median_home_value_est": 166228,
-          "unemployment_rate": 8.8,
-          "pct_nh_white": 35.2,
-          "pct_nh_black": 43.7,
-          "pct_hispanic": 11.5,
-          "pct_nh_asian": 3.8,
+          "total_population": 101341,
+          "total_households": 39526,
+          "pct_family_households": 56.9,
+          "median_hh_income_est": 54572,
+          "median_gross_rent_est": 1104,
+          "median_home_value_est": 163291,
+          "unemployment_rate": 8.9,
+          "pct_nh_white": 34.6,
+          "pct_nh_black": 44.3,
+          "pct_hispanic": 11.6,
+          "pct_nh_asian": 3.7,
           "pct_nh_american_indian": 0.1,
           "pct_other": 5.7,
           "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
@@ -132,17 +132,22 @@
     ]
   },
   "crimeRisk": {
-    "totalCrime": null,
-    "personalCrime": null,
-    "murder": null,
-    "rape": null,
-    "robbery": null,
-    "assault": null,
-    "propertyCrime": null,
-    "burglary": null,
-    "larceny": null,
-    "motorVehicleTheft": null,
+    "totalCrime": 15,
+    "personalCrime": 43,
+    "murder": 76,
+    "rape": 50,
+    "robbery": 27,
+    "assault": 57,
+    "propertyCrime": 11,
+    "burglary": 38,
+    "larceny": 2,
+    "motorVehicleTheft": 20,
     "dataSource": "Applied Geographic Solutions CrimeRisk",
     "pull_date": null
+  },
+  "population2020": 100288,
+  "enrichment": {
+    "block_groups": 90,
+    "voting_precincts": 61
   }
 }
