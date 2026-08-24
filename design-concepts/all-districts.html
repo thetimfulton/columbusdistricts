@@ -281,11 +281,20 @@ table.cmpt tbody tr:hover td.dcol{background:var(--sunk);}
 table.cmpt .dlink{font-weight:700;color:var(--accent-ink);text-decoration:none;}
 table.cmpt .dlink:hover{color:var(--accent);}
 table.cmpt td .num{font-variant-numeric:tabular-nums;color:var(--ink);}
-table.cmpt td.lead .num{color:var(--accent-ink);font-weight:700;}
+/* Per-column extreme markers: neutral hi/lo, no good/bad color. Accent = highest,
+   slate --brand-2 = lowest, each with a small directional glyph so meaning survives
+   without color. Both read cleanly in light and dark. */
+table.cmpt td.hi .num,table.cmpt td.lo .num{font-weight:700;}
+table.cmpt td.hi .num{color:var(--accent-ink);}
+table.cmpt td.lo .num{color:var(--brand-2);}
+table.cmpt td.hi .num::before,table.cmpt td.lo .num::before{font-size:.66em;font-weight:400;margin-right:.3em;vertical-align:.05em;}
+table.cmpt td.hi .num::before{content:"\25B2";color:var(--accent-ink);}
+table.cmpt td.lo .num::before{content:"\25BC";color:var(--brand-2);}
 table.cmpt tr.city td{border-top:2px solid var(--line-2);background:var(--sunk);font-weight:600;}
 table.cmpt tr.city td.dcol{background:var(--sunk);font-family:var(--serif);}
 .legend-note{font-size:.78rem;color:var(--ink-3);margin-top:.7rem;display:flex;gap:1.2rem;flex-wrap:wrap;}
 .legend-note b{color:var(--accent-ink);}
+.legend-note .lo-mark{color:var(--brand-2);}
 </style>
 
 <div class="ribbon"><div class="wrap">
@@ -325,9 +334,9 @@ table.cmpt tr.city td.dcol{background:var(--sunk);font-family:var(--serif);}
 <td class="dcol"><a class="dlink" href="#">District 2</a></td>
 <td class="mcol">Nancy Day-Achauer</td>
 <td><span class="num">100,572</span></td>
-<td class=" lead"><span class="num">$103,977</span></td>
-<td><span class="num">$1,459</span></td>
-<td class=" lead"><span class="num">3.0%</span></td>
+<td class="hi"><span class="num">$103,977</span></td>
+<td class="hi"><span class="num">$1,459</span></td>
+<td class="lo"><span class="num">3.0%</span></td>
 <td><span class="num">70.4%</span></td>
 <td><span class="num">7.7%</span></td>
 <td><span class="num">7.3%</span></td>
@@ -339,18 +348,18 @@ table.cmpt tr.city td.dcol{background:var(--sunk);font-family:var(--serif);}
 <td class=""><span class="num">$77,715</span></td>
 <td><span class="num">$1,255</span></td>
 <td class=""><span class="num">4.8%</span></td>
-<td><span class="num">75.8%</span></td>
-<td><span class="num">5.5%</span></td>
-<td><span class="num">4.5%</span></td>
+<td class="hi"><span class="num">75.8%</span></td>
+<td class="lo"><span class="num">5.5%</span></td>
+<td class="lo"><span class="num">4.5%</span></td>
 <td><span class="num">2029</span></td></tr>
 <tr>
 <td class="dcol"><a class="dlink" href="#">District 4</a></td>
 <td class="mcol">Emmanuel V. Remy</td>
 <td><span class="num">100,288</span></td>
-<td class=""><span class="num">$55,860</span></td>
-<td><span class="num">$1,099</span></td>
-<td class=""><span class="num">8.8%</span></td>
-<td><span class="num">35.2%</span></td>
+<td class="lo"><span class="num">$55,860</span></td>
+<td class="lo"><span class="num">$1,099</span></td>
+<td class="hi"><span class="num">8.8%</span></td>
+<td class="lo"><span class="num">35.2%</span></td>
 <td><span class="num">43.7%</span></td>
 <td><span class="num">11.5%</span></td>
 <td><span class="num">2027</span></td></tr>
@@ -374,7 +383,7 @@ table.cmpt tr.city td.dcol{background:var(--sunk);font-family:var(--serif);}
 <td class=""><span class="num">5.9%</span></td>
 <td><span class="num">61.2%</span></td>
 <td><span class="num">16.3%</span></td>
-<td><span class="num">13.6%</span></td>
+<td class="hi"><span class="num">13.6%</span></td>
 <td><span class="num">2027</span></td></tr>
 <tr>
 <td class="dcol"><a class="dlink" href="#">District 7</a></td>
@@ -406,7 +415,7 @@ table.cmpt tr.city td.dcol{background:var(--sunk);font-family:var(--serif);}
 <td><span class="num">$1,348</span></td>
 <td class=""><span class="num">4.0%</span></td>
 <td><span class="num">35.6%</span></td>
-<td><span class="num">45.7%</span></td>
+<td class="hi"><span class="num">45.7%</span></td>
 <td><span class="num">6.3%</span></td>
 <td><span class="num">2027</span></td></tr>
       <tr class="city">
@@ -421,7 +430,7 @@ table.cmpt tr.city td.dcol{background:var(--sunk);font-family:var(--serif);}
 <td>&mdash;</td></tr>
       </tbody></table>
     </div>
-    <div class="legend-note"><span><b>Accent</b> marks the leading district in a column</span><span>Scroll the table sideways to see every measure &rarr;</span></div>
+    <div class="legend-note"><span><b>&#9650;</b> highest of the nine districts &middot; <b class="lo-mark">&#9660;</b> lowest</span><span>Scroll the table sideways to see every measure &rarr;</span></div>
     <p class="datanote"><strong>About these figures.</strong> Demographics are aggregated from census block groups; median income, rent, and home value are population-weighted averages of block-group medians &mdash; approximations, not true district medians. The Columbus row is a population-weighted average of the nine districts. <a href="#">See full methodology &rarr;</a></p>
   </section>
 </div>

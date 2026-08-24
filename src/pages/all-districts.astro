@@ -30,9 +30,21 @@ const rows = districts.map((d: any) => {
   };
 });
 
-// Column leaders (accent): highest median income, lowest unemployment (matches concept)
-const leadIncome = Math.max(...rows.map((r) => r.income));
-const leadUnemp = Math.min(...rows.map((r) => r.unemp));
+// Per-column extremes (districts only — the Columbus row is excluded). Each numeric
+// column marks its highest ("hi") and lowest ("lo") district; population and next
+// election are left unmarked. Neutral markers, not good/bad — see global.css.
+const extremes = (sel: (r: typeof rows[number]) => number) => {
+  const vals = rows.map(sel);
+  return { hi: Math.max(...vals), lo: Math.min(...vals) };
+};
+const xIncome = extremes((r) => r.income);
+const xRent = extremes((r) => r.rent);
+const xUnemp = extremes((r) => r.unemp);
+const xWhite = extremes((r) => r.white);
+const xBlack = extremes((r) => r.black);
+const xHispanic = extremes((r) => r.hispanic);
+const mark = (v: number, x: { hi: number; lo: number }) =>
+  x.hi !== x.lo && v === x.hi ? "hi" : x.hi !== x.lo && v === x.lo ? "lo" : "";
 
 // Columbus weighted-average row
 const city = {
@@ -86,12 +98,12 @@ const nextDistricts = rows.filter((r) => r.next === nextYear).map((r) => r.numbe
                 <td class="dcol"><a class="dlink" href={`${b}districts/${r.slug}/`}>District {r.number}</a></td>
                 <td class="mcol">{r.member}</td>
                 <td><span class="num">{num(r.pop2020)}</span></td>
-                <td class={r.income === leadIncome ? "lead" : ""}><span class="num">{money(r.income)}</span></td>
-                <td><span class="num">{money(r.rent)}</span></td>
-                <td class={r.unemp === leadUnemp ? "lead" : ""}><span class="num">{pct(r.unemp)}</span></td>
-                <td><span class="num">{pct(r.white)}</span></td>
-                <td><span class="num">{pct(r.black)}</span></td>
-                <td><span class="num">{pct(r.hispanic)}</span></td>
+                <td class={mark(r.income, xIncome)}><span class="num">{money(r.income)}</span></td>
+                <td class={mark(r.rent, xRent)}><span class="num">{money(r.rent)}</span></td>
+                <td class={mark(r.unemp, xUnemp)}><span class="num">{pct(r.unemp)}</span></td>
+                <td class={mark(r.white, xWhite)}><span class="num">{pct(r.white)}</span></td>
+                <td class={mark(r.black, xBlack)}><span class="num">{pct(r.black)}</span></td>
+                <td class={mark(r.hispanic, xHispanic)}><span class="num">{pct(r.hispanic)}</span></td>
                 <td><span class="num">{r.next}</span></td>
               </tr>
             ))}
@@ -110,7 +122,7 @@ const nextDistricts = rows.filter((r) => r.next === nextYear).map((r) => r.numbe
           </tbody>
         </table>
       </div>
-      <div class="legend-note"><span><b>Accent</b> marks the leading district in a column</span><span>Scroll the table sideways to see every measure &rarr;</span></div>
+      <div class="legend-note"><span><b>&#9650;</b> highest of the nine districts &middot; <b class="lo-mark">&#9660;</b> lowest</span><span>Scroll the table sideways to see every measure &rarr;</span></div>
       <p class="datanote"><strong>About these figures.</strong> Demographics are aggregated from census block groups; median income, rent, and home value are population-weighted averages of block-group medians &mdash; approximations, not true district medians. The Columbus row is a population-weighted average of the nine districts. <a href={`${b}data/`}>See full methodology &rarr;</a></p>
     </section>
   </div>
