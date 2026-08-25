@@ -39,7 +39,7 @@ the method (it fixes the D2 population and D3 Asian bugs), env, and December cad
 
 - **Build command:** `npm run build` · **Output directory:** `dist`
 - `astro.config.mjs` is set for the domain root (`base: '/'`,
-  `site: 'https://www.columbusdistricts.com'`). The old GitHub Pages workflow and `netlify.toml`
+  `site: 'https://columbusdistricts.com'`). The old GitHub Pages workflow and `netlify.toml`
   have been removed.
 - The `functions/` directory is deployed alongside the static assets as **Pages Functions**
   (the two form endpoints below). No Astro adapter is needed — the site is fully static.

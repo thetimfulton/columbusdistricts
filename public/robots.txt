@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.columbusdistricts.com/sitemap-index.xml
+Sitemap: https://columbusdistricts.com/sitemap-index.xml
