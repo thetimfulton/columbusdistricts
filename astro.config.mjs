@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 // Cloudflare Pages target: served from the domain root (no subpath).
 export default defineConfig({
-  site: 'https://www.columbusdistricts.com',
+  site: 'https://columbusdistricts.com',
   base: '/',
   trailingSlash: 'always',
   integrations: [
