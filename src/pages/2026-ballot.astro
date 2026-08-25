@@ -13,29 +13,70 @@
  * banner is removed — the "No. 1 / No. 2" labels here are the proposals' own, not final.
  */
 import Layout from "../components/Layout.astro";
+import { SITE_LAUNCHED, LAST_REVIEWED, formatReviewDate } from "../lib/site";
 const base = import.meta.env.BASE_URL;
 const b = base.endsWith("/") ? base : base + "/";
+const reviewed = formatReviewDate();
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+
+// Structured data: the explainer as an Article, plus the on-page FAQ.
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "How Columbus elects its City Council is on the 2026 ballot",
+  description:
+    "A nonpartisan explainer of the two 2026 Columbus charter amendments on how City Council is elected.",
+  datePublished: SITE_LAUNCHED,
+  dateModified: LAST_REVIEWED,
+  mainEntityOfPage: pageUrl,
+  author: { "@type": "Organization", name: "Columbus Districts" },
+  publisher: { "@type": "Organization", name: "Columbus Districts" },
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Can I vote yes on both amendments?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The two amendments appear as separate ballot questions, and you vote on each one independently — you can support one, both, or neither.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does Columbus elect its City Council today?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Columbus uses a hybrid system, in place since the 2023 elections: nine council members who must live in the district they represent, but every voter in the city votes in all nine district races.",
+      },
+    },
+  ],
+};
 ---
 <Layout
   title="How Columbus elects its City Council is on the 2026 ballot"
   description="A nonpartisan explainer of the two 2026 Columbus charter amendments on how City Council is elected — the citizen district-only amendment (No. 1) and Council's 13-member hybrid expansion (No. 2), both on the November ballot."
   ribbon={false}
+  ogType="article"
+  jsonLd={[articleLd, faqLd]}
 >
   <div class="draftbar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
-    <span><strong>On the ballot; wording still to be certified.</strong> As of Aug.&nbsp;24,&nbsp;2026 both amendments below are headed to the November&nbsp;4 ballot. What isn&rsquo;t final is the certified ballot language and the official issue numbers &mdash; those are assigned by the Franklin County Board of Elections, so the &ldquo;No.&nbsp;1&rdquo; and &ldquo;No.&nbsp;2&rdquo; labels used here are the proposals&rsquo; own and may differ on your ballot.</span>
+    <span><strong>On the ballot; wording still to be certified.</strong> As of Aug.&nbsp;24,&nbsp;2026 both amendments below are headed to the November&nbsp;3 ballot. What isn&rsquo;t final is the certified ballot language and the official issue numbers &mdash; those are assigned by the Franklin County Board of Elections, so the &ldquo;No.&nbsp;1&rdquo; and &ldquo;No.&nbsp;2&rdquo; labels used here are the proposals&rsquo; own and may differ on your ballot.</span>
   </div>
 
   <div class="wrap"><div class="article">
     <section class="art-hero">
-      <div class="eyebrow">Ballot Measures &middot; General Election, November 4, 2026</div>
+      <div class="eyebrow">Ballot Measures &middot; General Election, November 3, 2026</div>
       <h1>How Columbus elects its City Council is on the ballot</h1>
       <p class="dek">This November, Columbus voters will decide <strong>two proposed charter amendments</strong> that would change how City Council is elected &mdash; one placed on the ballot by a citizen petition, one referred by Council itself. Both start from the same arrangement: today&rsquo;s nine members each represent a district but are elected by the whole city. After talks over a single compromise fell short, Council members and the petition&rsquo;s organizers now describe the two measures as <strong>complementary rather than competing</strong>.</p>
       <div class="asof"><span class="dot"></span> As of August 24, 2026 &middot; ballot wording and issue numbers not yet certified</div>
       <div class="keyfacts">
         <div class="kf"><div class="kfl">What&rsquo;s on the ballot</div><div class="kfv">Two proposed charter amendments</div></div>
         <div class="kf"><div class="kfl">How they qualified</div><div class="kfv">One by citizen petition, one referred by Council</div></div>
-        <div class="kf"><div class="kfl">When you vote</div><div class="kfv">Tuesday, November 4, 2026</div></div>
+        <div class="kf"><div class="kfl">When you vote</div><div class="kfv">Tuesday, November 3, 2026</div></div>
       </div>
     </section>
 
@@ -82,7 +123,7 @@ const b = base.endsWith("/") ? base : base + "/";
       <div class="tl"><div class="tdate">Summer 2026</div><div class="ty">A petition qualifies</div><div class="td">The group Our City, Our Say submits about 23,000 signatures for single-member districts; the Board of Elections validates 15,945 &mdash; enough to reach the ballot.</div></div>
       <div class="tl"><div class="tdate">Aug. 2026</div><div class="ty">No single compromise &mdash; but a cooperative turn</div><div class="td">The two sides don&rsquo;t reach a formal middle-ground deal in time. Rather than counter the petition, Council President Pro Tem Rob Dorans develops a second amendment &mdash; a 13-member hybrid council &mdash; that he says is meant to complement the citizen measure, not oppose it.</div></div>
       <div class="tl now"><div class="tdate">Aug. 24, 2026</div><div class="ty">Both measures head to the ballot</div><div class="td">At its first meeting back from summer recess, City Council places both amendments on the November ballot. The Columbus Dispatch reports each passed 8&ndash;0, with Councilmember Melissa Green absent but on record supporting both.</div></div>
-      <div class="tl future"><div class="tdate">November 4, 2026</div><div class="ty">Columbus votes</div><div class="td">Voters decide each measure that appears on the certified ballot.</div></div>
+      <div class="tl future"><div class="tdate">November 3, 2026</div><div class="ty">Columbus votes</div><div class="td">Voters decide each measure that appears on the certified ballot.</div></div>
     </div>
 
     <h2>What each side says</h2>
@@ -110,9 +151,20 @@ const b = base.endsWith("/") ? base : base + "/";
     <div class="vote-cta">
       <div class="vc"><div class="vk">Step 1</div><div class="vv">Check your registration</div><a href="https://www.ohiosos.gov/elections/voters/" target="_blank" rel="noopener">Ohio Secretary of State &rarr;</a></div>
       <div class="vc"><div class="vk">Step 2</div><div class="vv">Find your district</div><a href={`${b}all-districts/`}>Look up your address &rarr;</a></div>
-      <div class="vc"><div class="vk">Step 3</div><div class="vv">Know the key dates</div><a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County BOE &rarr;</a></div>
+      <div class="vc"><div class="vk">Step 3</div><div class="vv">Vote by Tue, Nov 3, 2026</div><a href={`${b}elections/`}>See all key dates &rarr;</a></div>
     </div>
 
+    <h3 style="margin-top:1.6rem;">Key 2026 dates</h3>
+    <div class="keyfacts">
+      <div class="kf"><div class="kfl">Register or update by</div><div class="kfv">Mon, Oct&nbsp;5, 2026</div></div>
+      <div class="kf"><div class="kfl">Early in-person voting begins</div><div class="kfv">Tue, Oct&nbsp;6, 2026</div></div>
+      <div class="kf"><div class="kfl">Request a mail ballot by</div><div class="kfv">Tue, Oct&nbsp;27, 2026</div></div>
+      <div class="kf"><div class="kfl">Election Day</div><div class="kfv">Tue, Nov&nbsp;3, 2026</div></div>
+    </div>
+    <p style="font-size:.82rem;color:var(--ink-3);margin-top:.7rem;">Dates from the <a href="https://www.ohiosos.gov/assets/election-calendar-2026.pdf" target="_blank" rel="noopener">Ohio Secretary of State 2026 election calendar</a>; polls are open 6:30&nbsp;a.m.–7:30&nbsp;p.m. on Election Day. Confirm details with the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a>.</p>
+
     <p class="datanote"><strong>Sources.</strong> City Council&rsquo;s Aug.&nbsp;24, 2026 votes and the &ldquo;encourage both&rdquo; and 8&ndash;0 details: <a href="https://www.dispatch.com/story/news/politics/2026/08/24/two-columbus-city-council-reform-amendments-headed-to-november-ballot/91389533007/" target="_blank" rel="noopener">Columbus Dispatch, Aug. 24, 2026</a>. The 13-member structure, 2027/2029 at-large phase-in, 2028 commission redraw, and 250&rarr;150 district-signature change: <a href="https://www.wosu.org/politics-government/2026-08-21/columbus-city-council-proposes-a-13-member-council-with-new-district-map-and-more-reforms" target="_blank" rel="noopener">WOSU Public Media, Aug. 21, 2026</a>. For the authoritative, certified ballot language and official issue numbers, see the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a> and the City Council legislative record.</p>
+
+    <p style="font-size:.82rem;color:var(--ink-3);margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);">Last reviewed: {reviewed}</p>
   </div></div>
 </Layout>

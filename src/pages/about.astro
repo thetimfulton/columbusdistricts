@@ -3,8 +3,10 @@
  * about.astro — About Columbus Districts. Rebuilt in the shared article layout.
  */
 import Layout from "../components/Layout.astro";
+import { formatReviewDate } from "../lib/site";
 const base = import.meta.env.BASE_URL;
 const b = base.endsWith("/") ? base : base + "/";
+const reviewed = formatReviewDate();
 ---
 <Layout
   title="About Columbus Districts"
@@ -31,7 +33,7 @@ const b = base.endsWith("/") ? base : base + "/";
     <p>The site uses a <strong>snapshot/vintage system</strong> that stores demographic data from each ACS release as a separate snapshot, so districts can be compared across time as new ACS vintages are published. See the <a href={`${b}data/`}>Data &amp; Methodology</a> page for full detail.</p>
 
     <h2>How are election results sourced?</h2>
-    <p>Election results come from the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a>, cross-referenced with local reporting. Certified vote totals are added as they become available; unofficial results are labeled accordingly.</p>
+    <p>Election results come from the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a>, cross-referenced with local reporting. The council-district vote totals shown on the <a href={`${b}elections/`}>Elections</a> page are <strong>certified</strong> figures taken from the Board's official post-election canvass, and each election links to the certified canvass document it came from. Where a race is still awaiting certification, it is labeled as such rather than shown as final.</p>
 
     <h2>Who maintains this site?</h2>
     <p>Columbus Districts is an independent, nonpartisan project. It is not affiliated with the City of Columbus, Columbus City Council, or any political campaign.</p>
@@ -39,6 +41,6 @@ const b = base.endsWith("/") ? base : base + "/";
     <h2>I found an error. How do I report it?</h2>
     <p>Every district page has a <strong>Suggest an Edit</strong> form at the bottom. Corrections to demographic data, election results, council-member information, and area-commission details are all welcome.</p>
 
-    <p style="font-size:.82rem;color:var(--ink-3);margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);">Last reviewed: August 2026</p>
+    <p style="font-size:.82rem;color:var(--ink-3);margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);">Last reviewed: {reviewed}</p>
   </div></div>
 </Layout>

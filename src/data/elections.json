@@ -5,72 +5,72 @@
       "type": "General",
       "date": "2023-11-07",
       "description": "First Columbus City Council district elections under the 2018 charter amendment. All nine seats filled simultaneously. All Columbus voters voted in all nine races.",
-      "source": "Franklin County Board of Elections",
-      "source_url": "https://boe.franklincountyohio.gov",
+      "source": "Franklin County Board of Elections — certified Official Canvass",
+      "source_url": "https://vote.franklincountyohio.gov/getmedia/88f8e129-564f-4373-927b-4883fbbe1e5a/Franklin-s-Official-Canvass-MP",
       "districts": [
         {
           "district": 1,
           "candidates": [
-            {"name": "Chris Wyche", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Chris Wyche", "party": "Democratic", "votes": 143059, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed"
         },
         {
           "district": 2,
           "candidates": [
-            {"name": "Nancy Day-Achauer", "party": "Democratic", "votes": null, "pct": 72.0, "winner": true},
-            {"name": "Luis Gil", "party": "Democratic", "votes": null, "pct": 28.0, "winner": false}
+            {"name": "Nancy Day-Achauer", "party": "Democratic", "votes": 122930, "pct": 71.61, "winner": true},
+            {"name": "Luis Gil", "party": "Democratic", "votes": 48746, "pct": 28.39, "winner": false}
           ],
           "notes": null
         },
         {
           "district": 3,
           "candidates": [
-            {"name": "Rob Dorans", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Rob Dorans", "party": "Democratic", "votes": 142045, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed"
         },
         {
           "district": 4,
           "candidates": [
-            {"name": "Emmanuel Remy", "party": "Democratic", "votes": null, "pct": null, "winner": true},
-            {"name": "Adrienne Hood", "party": "Democratic", "votes": null, "pct": null, "winner": false}
+            {"name": "Emmanuel Remy", "party": "Democratic", "votes": 102069, "pct": 59.47, "winner": true},
+            {"name": "Adrienne Hood", "party": "Democratic", "votes": 69576, "pct": 40.53, "winner": false}
           ],
-          "notes": "Exact vote totals to be confirmed from Franklin County BOE records"
+          "notes": null
         },
         {
           "district": 5,
           "candidates": [
-            {"name": "Nick Bankston", "party": "Democratic", "votes": null, "pct": 69.2, "winner": true},
-            {"name": "Farxaan Jeyte", "party": "Democratic", "votes": null, "pct": 30.8, "winner": false}
+            {"name": "Nick Bankston", "party": "Democratic", "votes": 120634, "pct": 69.77, "winner": true},
+            {"name": "Farxaan Jeyte", "party": "Democratic", "votes": 52265, "pct": 30.23, "winner": false}
           ],
           "notes": null
         },
         {
           "district": 6,
           "candidates": [
-            {"name": "Melissa Green", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Melissa Green", "party": "Democratic", "votes": 144327, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed"
         },
         {
           "district": 7,
           "candidates": [
-            {"name": "Shayla Favor", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Shayla Favor", "party": "Democratic", "votes": 145504, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed. Favor drew a 2-year term in the January 2024 lot; did not seek re-election in 2025."
         },
         {
           "district": 8,
           "candidates": [
-            {"name": "Lourdes Barroso de Padilla", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Lourdes Barroso de Padilla", "party": "Democratic", "votes": 141637, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed"
         },
         {
           "district": 9,
           "candidates": [
-            {"name": "Shannon Hardin", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Shannon Hardin", "party": "Democratic", "votes": 141205, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed. Elected Council President. Previously served on council under the at-large system."
         }
@@ -82,46 +82,69 @@
       "type": "General",
       "date": "2025-11-04",
       "description": "Second district election cycle. Districts 1, 3, 4, and 7 on ballot — the four members who drew 2-year terms in the January 2024 lot drawing.",
-      "source": "Franklin County Board of Elections",
-      "source_url": "https://boe.franklincountyohio.gov",
+      "source": "Franklin County Board of Elections — certified Official Canvass",
+      "source_url": "https://vote.franklincountyohio.gov/getmedia/f4f35cc1-4104-4531-8efc-54ebb3d5c6d1/Franklin-s-Official-Canvass-with-group-detail",
       "primary": {
         "date": "2025-05-06",
-        "notes": "Primary canceled for Districts 1, 3, and 4 — only one candidate filed in each. District 7 had a contested primary.",
+        "notes": "Primary canceled for Districts 1, 3, and 4 — only one candidate filed in each. District 7 had a contested primary; the top two advanced to November.",
+        "source_url": "https://vote.franklincountyohio.gov/getmedia/5a4aacaa-068e-42f5-8529-104de8c2c9f4/Franklin-s-Official-Canvass-Group-Detail",
         "district_7_primary": [
-          {"name": "Tiara Ross", "party": "Democratic", "votes": null, "pct": null, "winner": true},
-          {"name": "Jesse Vogel", "party": "Democratic", "votes": null, "pct": null, "winner": true},
-          {"name": "Kate Curry-Da-Souza", "party": "Democratic", "votes": null, "pct": null, "winner": false}
+          {"name": "Tiara Ross", "party": "Democratic", "votes": 16142, "pct": 40.95, "winner": true},
+          {"name": "Jesse Vogel", "party": "Democratic", "votes": 15433, "pct": 39.15, "winner": true},
+          {"name": "Kate Curry-Da-Souza", "party": "Democratic", "votes": 7848, "pct": 19.91, "winner": false}
         ]
       },
       "districts": [
         {
           "district": 1,
           "candidates": [
-            {"name": "Chris Wyche", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Chris Wyche", "party": "Democratic", "votes": 78939, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed. Wyche re-elected to a 4-year term ending 2029."
         },
         {
           "district": 3,
           "candidates": [
-            {"name": "Rob Dorans", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Rob Dorans", "party": "Democratic", "votes": 78837, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed. Dorans re-elected to a 4-year term ending 2029. Serves as President Pro Tem."
         },
         {
           "district": 4,
           "candidates": [
-            {"name": "Emmanuel Remy", "party": "Democratic", "votes": null, "pct": 100.0, "winner": true}
+            {"name": "Emmanuel Remy", "party": "Democratic", "votes": 78736, "pct": 100.0, "winner": true}
           ],
           "notes": "Unopposed. Remy re-elected to a 4-year term ending 2029."
         },
         {
           "district": 7,
           "candidates": [
-            {"name": "Tiara Ross", "party": "Democratic", "votes": null, "pct": 50.8, "winner": true},
-            {"name": "Jesse Vogel", "party": "Democratic", "votes": null, "pct": 49.2, "winner": false}
+            {"name": "Tiara Ross", "party": "Democratic", "votes": 54186, "pct": 50.77, "winner": true},
+            {"name": "Jesse Vogel", "party": "Democratic", "votes": 52537, "pct": 49.23, "winner": false}
           ],
           "notes": "Ross won the open seat vacated by Shayla Favor. Elected to a 4-year term ending 2029."
+        }
+      ]
+    },
+    {
+      "year": 2026,
+      "type": "General",
+      "date": "2026-11-03",
+      "description": "No City Council seats are on the ballot. Columbus voters decide two proposed charter amendments on how City Council is elected.",
+      "source": "Franklin County Board of Elections",
+      "source_url": "https://boe.franklincountyohio.gov",
+      "measures": [
+        {
+          "label": "Proposed Amendment No. 1",
+          "title": "Our City, Our Say — district-only elections",
+          "description": "A citizen-petition amendment that would switch to district-only City Council elections, keeping nine districts and the current map.",
+          "path": "2026-ballot/"
+        },
+        {
+          "label": "Proposed Amendment No. 2",
+          "title": "A 13-member hybrid council",
+          "description": "A Council-referred amendment that would expand council to 13 members — the nine district seats plus four elected at-large — with a 2028 district-map redraw.",
+          "path": "2026-ballot/"
         }
       ]
     }

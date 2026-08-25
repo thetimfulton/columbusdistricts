@@ -5,10 +5,15 @@
  */
 import Layout from "../components/Layout.astro";
 import electionsData from "../data/elections.json";
+import { formatReviewDate } from "../lib/site";
+
+const base = import.meta.env.BASE_URL;
+const b = base.endsWith("/") ? base : base + "/";
 
 const elections = electionsData.elections.slice().reverse(); // most recent first
 const upcoming = electionsData.upcoming;
 const fmtPct = (v: number | null) => (v == null ? "" : v.toFixed(1) + "%");
+const reviewed = formatReviewDate();
 ---
 <Layout
   title="Elections"
@@ -36,35 +41,89 @@ const fmtPct = (v: number | null) => (v == null ? "" : v.toFixed(1) + "%");
           <div class="callout"><b>Primary ({election.primary.date}):</b> {election.primary.notes}</div>
         )}
 
-        <div class="result-grid">
-          {election.districts.map((d: any) => (
+        {election.primary?.district_7_primary && (
+          <div class="result-grid">
             <div class="result-card">
-              <h3>District {d.district}</h3>
+              <h3>District 7 Primary ({election.primary.date})</h3>
               <div class="cmptable-wrap" style="box-shadow:none;">
                 <table class="cmpt" style="min-width:0;">
                   <thead><tr>
                     <th class="dcol" style="text-align:left">Candidate</th><th style="text-align:left">Party</th><th>Votes</th><th>%</th><th></th>
                   </tr></thead>
                   <tbody>
-                    {d.candidates.map((c: any) => (
+                    {election.primary.district_7_primary.map((c: any) => (
                       <tr class={c.winner ? "winrow" : ""}>
                         <td class="dcol" style="text-align:left">{c.name}</td>
                         <td class="mcol">{c.party || "—"}</td>
                         <td><span class="num">{c.votes ? c.votes.toLocaleString("en-US") : "—"}</span></td>
                         <td><span class="num">{fmtPct(c.pct)}</span></td>
-                        <td class="mcol" style="color:var(--good);font-weight:700;">{c.winner ? "✓ Elected" : ""}</td>
+                        <td class="mcol" style="color:var(--good);font-weight:700;">{c.winner ? "✓ Advanced" : ""}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              {d.notes && <p style="font-size:.82rem;color:var(--ink-3);font-style:italic;margin-top:.5rem;">{d.notes}</p>}
+              <p style="font-size:.82rem;color:var(--ink-3);font-style:italic;margin-top:.5rem;">Top two advanced to the November general election.</p>
+              {election.primary.source_url && (
+                <p style="font-size:.76rem;color:var(--ink-3);margin-top:.4rem;">Source: <a href={election.primary.source_url} target="_blank" rel="noopener">Franklin County BOE — certified primary canvass</a></p>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
+
+        {election.measures ? (
+          <div class="result-grid">
+            {election.measures.map((m: any) => (
+              <div class="result-card">
+                <div style="font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);">{m.label}</div>
+                <h3>{m.title}</h3>
+                <p style="font-size:.9rem;color:var(--ink-2);margin:.2rem 0 .8rem;">{m.description}</p>
+                <a class="btn ghost" href={`${b}${m.path}`}>Read the explainer &rarr;</a>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="result-grid">
+            {election.districts.map((d: any) => (
+              <div class="result-card">
+                <h3>District {d.district}</h3>
+                <div class="cmptable-wrap" style="box-shadow:none;">
+                  <table class="cmpt" style="min-width:0;">
+                    <thead><tr>
+                      <th class="dcol" style="text-align:left">Candidate</th><th style="text-align:left">Party</th><th>Votes</th><th>%</th><th></th>
+                    </tr></thead>
+                    <tbody>
+                      {d.candidates.map((c: any) => (
+                        <tr class={c.winner ? "winrow" : ""}>
+                          <td class="dcol" style="text-align:left">{c.name}</td>
+                          <td class="mcol">{c.party || "—"}</td>
+                          <td><span class="num">{c.votes ? c.votes.toLocaleString("en-US") : "—"}</span></td>
+                          <td><span class="num">{fmtPct(c.pct)}</span></td>
+                          <td class="mcol" style="color:var(--good);font-weight:700;">{c.winner ? "✓ Elected" : ""}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {d.notes && <p style="font-size:.82rem;color:var(--ink-3);font-style:italic;margin-top:.5rem;">{d.notes}</p>}
+              </div>
+            ))}
+          </div>
+        )}
         <p style="font-size:.78rem;color:var(--ink-3);margin-top:1rem;">Source: <a href={election.source_url} target="_blank" rel="noopener">{election.source}</a></p>
       </section>
     ))}
+
+    <section style="margin-top:2.4rem;">
+      <div class="sec-head"><span class="n">Nov. 3, 2026</span><h2>Key dates for the 2026 general election</h2></div>
+      <p>Ohio's 2026 general election is <strong>Tuesday, November 3, 2026</strong> (polls open 6:30&nbsp;a.m.–7:30&nbsp;p.m.). Deadlines below are from the Ohio Secretary of State's 2026 election calendar.</p>
+      <div class="keyfacts">
+        <div class="kf"><div class="kfl">Register or update by</div><div class="kfv">Mon, Oct 5, 2026</div></div>
+        <div class="kf"><div class="kfl">Early in-person voting begins</div><div class="kfv">Tue, Oct 6, 2026</div></div>
+        <div class="kf"><div class="kfl">Request a mail ballot by</div><div class="kfv">Tue, Oct 27, 2026</div></div>
+      </div>
+      <p style="font-size:.8rem;color:var(--ink-3);margin-top:.8rem;">Source: <a href="https://www.ohiosos.gov/assets/election-calendar-2026.pdf" target="_blank" rel="noopener">Ohio Secretary of State — 2026 Ohio Elections Calendar</a>. Confirm times and any late changes with the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a>.</p>
+    </section>
 
     <section style="margin-top:2.4rem;">
       <div class="sec-head"><span class="n">Resources</span><h2>Voter resources</h2></div>
@@ -73,6 +132,8 @@ const fmtPct = (v: number | null) => (v == null ? "" : v.toFixed(1) + "%");
       <p><strong>Board of Elections:</strong> <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a></p>
       <p><strong>Running for council:</strong> Contact the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a> for petition and filing requirements.</p>
     </section>
+
+    <p style="font-size:.82rem;color:var(--ink-3);margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);">Last reviewed: {reviewed}</p>
   </div></div>
 </Layout>
 
