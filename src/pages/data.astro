@@ -5,9 +5,38 @@
  */
 import Layout from "../components/Layout.astro";
 import { districts, currentSnapshot, priorSnapshot } from "../lib/districts";
+import { formatReviewDate, LAST_REVIEWED } from "../lib/site";
 
 const base = import.meta.env.BASE_URL;
 const b = base.endsWith("/") ? base : base + "/";
+const reviewed = formatReviewDate();
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+
+// Temporal coverage from the ACS vintages actually loaded (e.g. 2017–2021 … 2019–2023).
+const allVintages: string[] = districts[0].demographics.snapshots.map((s: any) => s.vintage);
+const vintageYears = allVintages.join(" ").match(/\d{4}/g)?.map(Number) ?? [];
+const covStart = vintageYears.length ? Math.min(...vintageYears) : null;
+const covEnd = vintageYears.length ? Math.max(...vintageYears) : null;
+
+const datasetLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "Columbus City Council district demographics",
+  description:
+    "Population, income, housing, and demographic estimates for each of the nine Columbus City Council districts, aggregated from U.S. Census American Community Survey 5-year estimates and tracked across ACS vintages.",
+  url: pageUrl,
+  ...(covStart && covEnd ? { temporalCoverage: `${covStart}/${covEnd}` } : {}),
+  spatialCoverage: { "@type": "Place", name: "Columbus, Ohio, United States" },
+  isAccessibleForFree: true,
+  dateModified: LAST_REVIEWED,
+  sourceOrganization: {
+    "@type": "GovernmentOrganization",
+    name: "U.S. Census Bureau",
+    url: "https://www.census.gov/programs-surveys/acs",
+  },
+  provider: { "@type": "Organization", name: "CivicWorth", url: "https://civicworth.com" },
+  measurementTechnique: "American Community Survey 5-year estimates, aggregated to council districts from census block groups",
+};
 const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 const num = (n: number) => Math.round(n).toLocaleString("en-US");
 const pct = (n: number) => n.toFixed(1) + "%";
@@ -73,6 +102,7 @@ const changeRows = changeMetrics.map((m) => ({
   title="District data & trends"
   description="How Columbus's nine council districts are changing across American Community Survey vintages — income, home value, rent, and unemployment trends, with full methodology."
   active="data"
+  jsonLd={datasetLd}
 >
   <div class="wrap">
     <section class="block" style="padding-bottom:1rem;">
@@ -141,6 +171,7 @@ const changeRows = changeMetrics.map((m) => ({
       <h3>Sources &amp; corrections</h3>
       <p>Demographics: U.S. Census Bureau ACS via <a href="https://civicworth.com" target="_blank" rel="noopener">CivicWorth</a>. Boundaries: official City of Columbus 2023 council map. Found an error? Every district page has a &ldquo;Suggest an edit&rdquo; form, and corrections are made quickly.</p>
       <p>These figures stop at the district level. To explore the same underlying data at the individual address and parcel level &mdash; representation, zoning, transit, and 311 &mdash; or to browse Columbus civic maps, see <a href="https://civicworth.com/columbus" target="_blank" rel="noopener">CivicWorth&rsquo;s Columbus hub</a>.</p>
+      <p style="font-size:.82rem;color:var(--ink-3);margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line);">Last reviewed: {reviewed}</p>
     </div></section>
   </div>
 </Layout>

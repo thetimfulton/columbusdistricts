@@ -9,12 +9,18 @@
  *   description — meta description
  *   active      — nav key to highlight: home | districts | all | data | how | elections
  *   ribbon      — show the 2026 ballot ribbon (default true)
+ *   ogType      — Open Graph type (default "website"; use "article" for articles)
+ *   image       — share image, relative to the site root (default the branded og-default.png)
+ *   jsonLd      — optional page-specific JSON-LD (object or array); WebSite is always emitted
  */
 interface Props {
   title: string;
   description?: string;
   active?: string;
   ribbon?: boolean;
+  ogType?: string;
+  image?: string;
+  jsonLd?: Record<string, any> | Record<string, any>[];
 }
 
 const {
@@ -22,9 +28,13 @@ const {
   description = "Columbus City Council district information — demographics, representatives, elections, and civic resources.",
   active = "",
   ribbon = true,
+  ogType = "website",
+  image = "og-default.png",
+  jsonLd,
 } = Astro.props;
 
 import "../styles/global.css";
+import { SITE_NAME, reviewMonthYear } from "../lib/site";
 
 // Analytics + spam-protection config — all from env, never hardcoded (see CLAUDE.md).
 const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;        // e.g. G-KEEV757MNS
@@ -41,6 +51,22 @@ const b = base.endsWith("/") ? base : base + "/";
 const canonicalURL = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : Astro.url.pathname;
+
+// Absolute origin + share image for social meta / JSON-LD.
+const siteOrigin = Astro.site ? Astro.site.origin : "";
+const ogImageURL = /^https?:\/\//.test(image)
+  ? image
+  : `${siteOrigin}${b}${image.replace(/^\//, "")}`;
+
+// JSON-LD: always emit the site-wide WebSite; append any page-specific graph.
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: `${siteOrigin}${b}`,
+};
+const pageLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const allLd = [websiteLd, ...pageLd];
 
 const nav = [
   { key: "home", href: b, label: "Home" },
@@ -59,6 +85,26 @@ const nav = [
   <title>{title} | Columbus Districts</title>
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href={`${b}favicon.svg`} />
+
+  {/* Open Graph + Twitter social meta. og:image is a branded 1200×630 share card. */}
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content="Columbus Districts" />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Columbus Districts — the nine Columbus City Council districts" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+
+  {/* JSON-LD structured data — site-wide WebSite + any page-specific schema. */}
+  {allLd.map((ld) => (
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(ld)}></script>
+  ))}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -141,7 +187,7 @@ const nav = [
       <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County BOE</a>
       <a href="https://www.ohiosos.gov/elections/voters/" target="_blank" rel="noopener">Voter Registration</a>
       <a href={`${b}data/`}>Data &amp; Methodology</a>
-      <a href={`${b}2026-ballot/`}>2026 Ballot Measure</a>
+      <a href={`${b}2026-ballot/`}>2026 Ballot Measures</a>
     </div>
     <div>
       <h4>About</h4>
@@ -151,7 +197,7 @@ const nav = [
   </div>
   <div class="fine">
     <span>&copy; {new Date().getFullYear()} Columbus Districts. All rights reserved.</span>
-    <span>Data via <a href="https://civicworth.com" target="_blank" rel="noopener">CivicWorth</a> &middot; Last reviewed August 2026</span>
+    <span>Data via <a href="https://civicworth.com" target="_blank" rel="noopener">CivicWorth</a> &middot; Last reviewed {reviewMonthYear()}</span>
   </div>
   </div></footer>
 

@@ -13,6 +13,7 @@
 import Layout from "../../components/Layout.astro";
 import SuggestEditForm from "../../components/SuggestEditForm.astro";
 import boundaries from "../../data/district-boundaries.json";
+import { formatReviewDate } from "../../lib/site";
 import {
   districts,
   currentSnapshot,
@@ -201,11 +202,26 @@ const cwNeighborhoodUrl = (n: string) => {
 };
 
 const pageTitle = `District ${district.number}`;
+const reviewed = formatReviewDate();
+
+// BreadcrumbList: Home → Districts → District N.
+const siteOrigin = Astro.site ? Astro.site.origin : "";
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteOrigin}${b}` },
+    { "@type": "ListItem", position: 2, name: "Districts", item: `${siteOrigin}${b}all-districts/` },
+    { "@type": "ListItem", position: 3, name: `District ${district.number}`, item: pageUrl },
+  ],
+};
 ---
 <Layout
   title={pageTitle}
   description={`Columbus City Council District ${district.number} — council member ${member.name}, demographics, neighborhoods, and civic resources.`}
   active="districts"
+  jsonLd={breadcrumbLd}
 >
   {/* ---- Hero + map ---- */}
   <section class="hero"><div class="wrap"><div class="hero-grid">
@@ -443,6 +459,8 @@ const pageTitle = `District ${district.number}`;
 
   {/* ---- 06 Suggest an edit ---- */}
   <SuggestEditForm district={district.number} />
+
+  <div class="wrap"><p style="font-size:.82rem;color:var(--ink-3);margin:0 0 2rem;">Last reviewed: {reviewed}</p></div>
 
   <script is:inline set:html={`
     (function(){

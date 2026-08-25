@@ -4,13 +4,30 @@
  * Rebuilt from design-concepts/how-it-works.html. Static article (shared CSS).
  */
 import Layout from "../components/Layout.astro";
+import { SITE_LAUNCHED, LAST_REVIEWED } from "../lib/site";
 const base = import.meta.env.BASE_URL;
 const b = base.endsWith("/") ? base : base + "/";
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "How Columbus City Council works",
+  description:
+    "A plain-language explainer of how Columbus City Council is structured — nine district members elected citywide under the current hybrid system.",
+  datePublished: SITE_LAUNCHED,
+  dateModified: LAST_REVIEWED,
+  mainEntityOfPage: pageUrl,
+  author: { "@type": "Organization", name: "Columbus Districts" },
+  publisher: { "@type": "Organization", name: "Columbus Districts" },
+};
 ---
 <Layout
   title="How Columbus City Council works"
   description="A plain-language explainer of how Columbus City Council is structured — nine district members elected citywide under the current hybrid system."
   active="how"
+  ogType="article"
+  jsonLd={articleLd}
 >
   <div class="wrap"><div class="article">
     <section class="art-hero">
