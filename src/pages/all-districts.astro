@@ -71,13 +71,14 @@ const nextYear = Math.min(...rows.map((r) => r.next).filter(Boolean));
 const nextDistricts = rows.filter((r) => r.next === nextYear).map((r) => r.number);
 ---
 <Layout
-  title="All nine districts, compared"
-  description="Every Columbus City Council district across the same demographic and civic measures — population, income, rent, unemployment, and race/ethnicity — with a citywide comparison row."
+  fullTitle="Compare All 9 Columbus City Council Districts"
+  title="Compare all nine districts"
+  description="Compare all nine Columbus City Council districts side by side — population, median income, rent, unemployment, and race and ethnicity, with a citywide row."
   active="districts"
 >
   <div class="wrap">
     <section class="block" style="padding-bottom:1.4rem;">
-      <div class="sec-head"><span class="n">Compare</span><h2>All nine districts, side by side</h2></div>
+      <div class="sec-head"><span class="n">Compare</span><h1>Compare all nine Columbus City Council districts</h1></div>
       <p class="sec-sub">Every Columbus City Council district across the same demographic and civic measures. Population is the 2020 Census count; income, rent, unemployment, and race/ethnicity are ACS 2019&ndash;2023 estimates. Tap a district to open its page.</p>
 
       <div class="super">
