@@ -202,7 +202,13 @@ const cwNeighborhoodUrl = (n: string) => {
 };
 
 const pageTitle = `District ${district.number}`;
+// SEO title: ranks for both "district N columbus" and the council member's name.
+const seoTitle = `Columbus City Council District ${district.number} — ${member.name} | Map & Demographics`;
 const reviewed = formatReviewDate();
+
+// Adjacent districts (by number) for internal linking.
+const prevD = districts.find((d: any) => d.number === district.number - 1) || null;
+const nextD = districts.find((d: any) => d.number === district.number + 1) || null;
 
 // BreadcrumbList: Home → Districts → District N.
 const siteOrigin = Astro.site ? Astro.site.origin : "";
@@ -218,8 +224,9 @@ const breadcrumbLd = {
 };
 ---
 <Layout
+  fullTitle={seoTitle}
   title={pageTitle}
-  description={`Columbus City Council District ${district.number} — council member ${member.name}, demographics, neighborhoods, and civic resources.`}
+  description={`Columbus City Council District ${district.number} — council member ${member.name}, a district map, demographics, neighborhoods, and how to get involved.`}
   active="districts"
   jsonLd={breadcrumbLd}
 >
@@ -230,6 +237,7 @@ const breadcrumbLd = {
       <h1 class="fade d1">District <em>{word}</em></h1>
       <div class="kicker fade d1 tnum">District {district.number} of 9{kicker ? ` · ${kicker}` : ""}</div>
       <p class="lede fade d2">{district.geographicSummary}</p>
+      <p class="fade d2" style="margin:.75rem 0 0;color:var(--ink-2);max-width:48ch;">Columbus City Council District {district.number} is represented by <strong>Council Member {member.name}</strong>{member.firstElected ? `, first elected in ${member.firstElected}` : ""}. Under the current system, every Columbus voter helps elect all nine district seats.</p>
       <div class="cta-row fade d2">
         <a class="btn primary" href={`${b}all-districts/`} data-ev="find_district_click" data-ev-label="district-hero">Find your district
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -268,7 +276,7 @@ const breadcrumbLd = {
       <div class="side">
         <div class="avatar" aria-hidden="true">{initials}</div>
         <div class="role">Council Member</div>
-        <div class="nm">{member.name}</div>
+        <h3 class="nm">{member.name}</h3>
         {member.firstElected && <div class="meta">First elected {member.firstElected}</div>}
         <div class="contact">
           <a href="mailto:ColumbusCouncil@columbus.gov">ColumbusCouncil@columbus.gov</a>
@@ -452,6 +460,18 @@ const breadcrumbLd = {
         <p>This November, Columbus voters decide two charter amendments on how council is elected. Understand what's on your ballot.</p>
         <a href={`${b}2026-ballot/`} data-ev="ballot_engagement" data-ev-label="district-getinvolved">Read the ballot explainer &rarr;</a>
       </div>
+    </div>
+  </div></section>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  {/* ---- Explore more districts (internal linking) ---- */}
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><span class="n">Explore</span><h2>More Columbus City Council districts</h2></div>
+    <div style="display:flex;flex-wrap:wrap;gap:.6rem;">
+      {prevD && <a class="btn ghost" href={`${b}districts/${prevD.slug}/`}>&larr; District {prevD.number}: {prevD.councilMember.name}</a>}
+      {nextD && <a class="btn ghost" href={`${b}districts/${nextD.slug}/`}>District {nextD.number}: {nextD.councilMember.name} &rarr;</a>}
+      <a class="btn ghost" href={`${b}all-districts/`}>Compare all nine districts</a>
     </div>
   </div></section>
 

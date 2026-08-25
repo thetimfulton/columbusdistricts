@@ -116,7 +116,7 @@
 
   section.block{padding-block:clamp(2rem,5vw,3.4rem);}
   .sec-head{display:flex; align-items:baseline; gap:.8rem; margin-bottom:1.3rem;}
-  .sec-head h2{font-size:clamp(1.5rem,3vw,1.95rem); letter-spacing:-.01em;}
+  .sec-head h2,.sec-head h1{font-size:clamp(1.5rem,3vw,1.95rem); letter-spacing:-.01em;}
   .sec-head .n{font-family:var(--sans); font-size:.74rem; font-weight:700; letter-spacing:.12em; color:var(--accent-ink); text-transform:uppercase; padding-top:.5rem;}
   .sec-sub{color:var(--ink-2); max-width:64ch; margin:-.6rem 0 1.4rem; font-size:.98rem;}
   .divider{height:1px; background:var(--line);}
@@ -127,7 +127,7 @@
   :root[data-theme="dark"] .council .side,:root:not([data-theme="light"]) .council .side{background:linear-gradient(160deg,#1c3346,#101a26);}
   .avatar{width:74px; height:74px; border-radius:50%; background:rgba(255,255,255,.14); display:grid; place-items:center; font-family:var(--serif); font-size:1.9rem; color:#fff; border:1px solid rgba(255,255,255,.25);}
   .council .side .role{font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; opacity:.8; font-weight:700;}
-  .council .side .nm{font-family:var(--serif); font-size:1.5rem; line-height:1.1;}
+  .council .side .nm{font-family:var(--serif); font-size:1.5rem; line-height:1.1; color:inherit; font-weight:500; margin:0;}
   .council .side .meta{font-size:.85rem; opacity:.9; margin-top:.2rem;}
   .council .side .contact{margin-top:auto; padding-top:1rem; display:flex; flex-direction:column; gap:.35rem; font-size:.86rem;}
   .council .side .contact a{color:#fff; text-decoration:underline; text-underline-offset:2px;}

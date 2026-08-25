@@ -29,17 +29,56 @@ const slugs: Record<string, string> = {};
 for (const d of districts) slugs[String(d.number)] = d.slug;
 const slugsJSON = JSON.stringify(slugs);
 const centroids = boundaries.centroids as Record<string, [number, number]>;
+
+// Homepage FAQ — answers the real "what district am I in / who represents me" lookups.
+// Visible copy below and this JSON-LD are kept in sync (Google requires they match).
+const faqs = [
+  {
+    q: "What City Council district am I in?",
+    a: "Columbus is divided into nine City Council districts. To find which one you live in, look up your home address with the City of Columbus district finder, or compare all nine districts to see their neighborhoods and boundaries.",
+    more: [
+      { href: "https://columbus.maps.arcgis.com/apps/webappviewer/index.html?id=7db35f3529294a6d8eaff9dac0958189", text: "City of Columbus district finder", external: true },
+      { href: `${b}all-districts/`, text: "compare all nine districts", external: false },
+    ],
+  },
+  {
+    q: "Who is my Columbus city council member?",
+    a: "Because Columbus currently elects its council members citywide, all nine members represent you — but each one must live in, and is tied to, a specific district. You can see who represents each of the nine districts on this page.",
+    more: [{ href: `${b}all-districts/`, text: "see all nine council members", external: false }],
+  },
+  {
+    q: "How many City Council districts does Columbus have?",
+    a: "Columbus has nine City Council districts. They were created by a 2018 charter amendment that expanded the council from seven at-large seats to nine district-based seats, first filled in the 2023 election.",
+    more: [{ href: `${b}how-it-works/`, text: "how Columbus City Council works", external: false }],
+  },
+  {
+    q: "Do I vote for one council member or all nine?",
+    a: "Right now, all nine. Columbus uses a hybrid system in which every voter votes in all nine district races. That may change: two charter amendments on the November 3, 2026 ballot would move toward district-only elections and/or expand the council. Read the 2026 ballot explainer for details.",
+    more: [{ href: `${b}2026-ballot/`, text: "2026 ballot explainer", external: false }],
+  },
+];
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 ---
 <Layout
+  fullTitle="Find Your Columbus, Ohio City Council District"
   title="Find your Columbus City Council district"
-  description="Look up who represents you on Columbus City Council, see how your district compares, and learn how the council works — an independent, nonpartisan civic resource."
+  description="Look up your address to see who represents you on Columbus City Council, compare all nine districts, and find out what's on the 2026 ballot."
   active="home"
+  jsonLd={faqLd}
 >
   {/* ---- Hero + interactive map ---- */}
   <section class="hero home-hero"><div class="wrap"><div class="hero-grid">
     <div>
       <div class="eyebrow fade">Columbus City Council</div>
-      <h1 class="fade d1">Find your <em>district</em>.</h1>
+      <h1 class="fade d1">Find your Columbus City Council <em>district</em>.</h1>
       <p class="lede fade d2">Nine districts. More than 900,000 residents. Look up who represents you, see how your district compares, and find out what's on the 2026 ballot.</p>
       <div class="cta-row fade d2">
         <a class="btn primary" href={`${b}all-districts/`} data-ev="find_district_click" data-ev-label="home-hero">Find your district
@@ -108,6 +147,29 @@ const centroids = boundaries.centroids as Record<string, [number, number]>;
     </div>
   </div></section>
 
+  {/* ---- FAQ ---- */}
+  <section class="block" style="padding-top:0;"><div class="wrap">
+    <div class="sec-head"><span class="n">FAQ</span><h2>Columbus City Council districts, answered</h2></div>
+    <div class="faq">
+      {faqs.map((f) => (
+        <div class="faq-item">
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+          {f.more && (
+            <p class="faq-more">
+              {f.more.map((m, i) => (
+                <Fragment>
+                  {i > 0 && <span class="sep"> &middot; </span>}
+                  <a href={m.href} {...(m.external ? { target: "_blank", rel: "noopener" } : {})}>{m.text} &rarr;</a>
+                </Fragment>
+              ))}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+  </div></section>
+
   {/* ---- Quick links ---- */}
   <section class="block" style="padding-top:0;"><div class="wrap">
     <div class="quick">
@@ -140,4 +202,15 @@ const centroids = boundaries.centroids as Record<string, [number, number]>;
       });
     })();
   `}></script>
+
+<style>
+  .faq { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .faq { grid-template-columns: 1fr 1fr; } }
+  .faq-item { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem; background: var(--surface); }
+  .faq-item h3 { font-family: var(--serif); font-weight: 500; font-size: 1.12rem; margin: 0 0 .4rem; }
+  .faq-item p { margin: 0; color: var(--ink-2); font-size: .94rem; line-height: 1.55; }
+  .faq-item .faq-more { margin: .7rem 0 0; font-size: .86rem; }
+  .faq-item .faq-more a { font-weight: 600; }
+  .faq-item .faq-more .sep { color: var(--ink-3); }
+</style>
 </Layout>

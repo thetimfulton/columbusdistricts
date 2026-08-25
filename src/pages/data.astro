@@ -99,14 +99,15 @@ const changeRows = changeMetrics.map((m) => ({
 }));
 ---
 <Layout
+  fullTitle="Columbus Council District Demographics & Trends"
   title="District data & trends"
-  description="How Columbus's nine council districts are changing across American Community Survey vintages — income, home value, rent, and unemployment trends, with full methodology."
+  description="Demographics and trends for the nine Columbus City Council districts — income, rent, home value, and unemployment across ACS vintages, with full methodology."
   active="data"
   jsonLd={datasetLd}
 >
   <div class="wrap">
     <section class="block" style="padding-bottom:1rem;">
-      <div class="sec-head"><span class="n">Data &amp; methodology</span><h2>How the districts are changing</h2></div>
+      <div class="sec-head"><span class="n">Data &amp; methodology</span><h1>Columbus City Council district demographics &amp; trends</h1></div>
       <p class="sec-sub">Columbus Districts tracks each district across American Community Survey (ACS) 5-year vintages, so you can see change over time &mdash; not just a single snapshot. Two vintages are loaded today; a new one is added each December as the Census Bureau releases it.</p>
       <div class="vhist">
         <span class="vchip old"><i class="vd"></i> {enDash(priorV)} <span style="color:var(--ink-3)">&middot; baseline</span></span>
