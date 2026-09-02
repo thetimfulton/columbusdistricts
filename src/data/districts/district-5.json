@@ -86,16 +86,16 @@
     "snapshots": [
       {
         "vintage": "ACS 2017-2021",
-        "pull_date": "2026-08-23",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
+        "pull_date": "2026-09-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block groups apportioned to districts by 2020 block population (official block-to-district equivalency); medians pooled from distribution tables (sync_from_civicworth.py)",
         "esri_estimates": null,
         "data": {
           "total_population": 103133,
           "total_households": 42392,
           "pct_family_households": 57.5,
-          "median_hh_income_est": 70327,
-          "median_gross_rent_est": 1151,
-          "median_home_value_est": 191359,
+          "median_hh_income_est": 66965,
+          "median_gross_rent_est": 1137,
+          "median_home_value_est": 187718,
           "unemployment_rate": 4.0,
           "pct_nh_white": 44.1,
           "pct_nh_black": 39.7,
@@ -103,13 +103,13 @@
           "pct_nh_asian": 5.8,
           "pct_nh_american_indian": 0.0,
           "pct_other": 5.0,
-          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
+          "data_note": "Median income, rent, and home value are pooled medians interpolated from ACS block-group distribution tables aggregated to the district. See /data/ for methodology."
         }
       },
       {
         "vintage": "ACS 2019-2023",
-        "pull_date": "2026-08-23",
-        "source": "U.S. Census Bureau ACS 5-Year via Census API; block-group assignment area-weighted against CivicWorth council polygons (sync_from_civicworth.py)",
+        "pull_date": "2026-09-02",
+        "source": "U.S. Census Bureau ACS 5-Year via Census API; block groups apportioned to districts by 2020 block population (official block-to-district equivalency); medians pooled from distribution tables (sync_from_civicworth.py)",
         "esri_estimates": {
           "pull_date": "2026-04-02",
           "source": "Esri current-year estimates (Comparisons.xlsx)",
@@ -128,9 +128,9 @@
           "total_population": 104633,
           "total_households": 43653,
           "pct_family_households": 55.4,
-          "median_hh_income_est": 75946,
-          "median_gross_rent_est": 1330,
-          "median_home_value_est": 247497,
+          "median_hh_income_est": 72368,
+          "median_gross_rent_est": 1317,
+          "median_home_value_est": 244522,
           "unemployment_rate": 3.9,
           "pct_nh_white": 43.0,
           "pct_nh_black": 38.5,
@@ -138,7 +138,7 @@
           "pct_nh_asian": 5.9,
           "pct_nh_american_indian": 0.0,
           "pct_other": 5.6,
-          "data_note": "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
+          "data_note": "Median income, rent, and home value are pooled medians interpolated from ACS block-group distribution tables aggregated to the district. See /data/ for methodology."
         }
       }
     ]

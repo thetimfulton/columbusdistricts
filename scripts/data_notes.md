@@ -8,12 +8,12 @@ These variances reflect known differences in data collection and estimation meth
 
 ### Median Household Income (All Districts D1-D9)
 - **Variance range:** +12.4% to +36.5% (ACS > Esri)
-- **Cause:** ACS values are population-weighted averages of block-group medians. This methodology systematically produces higher figures than Esri's direct estimation approach, which estimates median income at the district level without aggregating from smaller geographies.
+- **Cause:** At the time of this analysis, ACS values were population-weighted averages of block-group medians, which systematically ran high. *Update 2026-09-02:* the sync now derives pooled medians from the B19001 distribution table (validated against the Bureau's citywide figures within ~1%); this lowered district incomes by 3–17% and narrows, but does not eliminate, the gap with Esri.
 - **Status:** Expected variance. No action required.
 
 ### Median Gross Rent (All Districts D1-D9)
 - **Variance range:** +30.1% to +54.2% (ACS > Esri)
-- **Cause:** Same methodology issue as median household income. ACS aggregates block-group medians using population weights; Esri applies a different estimation model.
+- **Cause:** Same methodology issue as median household income (now pooled from B25063 as of 2026-09-02, which lowered rents 0–14%). The remaining gap is likely definitional: ACS gross rent includes utilities; Esri's figure appears closer to contract rent.
 - **Status:** Expected variance. No action required.
 
 ### Median Home Value (Most Districts)

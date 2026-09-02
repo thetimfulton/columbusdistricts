@@ -10,7 +10,7 @@ export const SITE_NAME = "Columbus Districts";
 export const SITE_URL = "https://columbusdistricts.com";
 
 /** ISO 8601. When the site's data-bearing pages were last reviewed against sources. */
-export const LAST_REVIEWED = "2026-08-24";
+export const LAST_REVIEWED = "2026-09-02";
 
 /** ISO 8601. First public launch — the datePublished baseline for page schemas. */
 export const SITE_LAUNCHED = "2026-08-24";

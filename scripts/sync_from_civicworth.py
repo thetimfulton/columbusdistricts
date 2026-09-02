@@ -19,6 +19,13 @@ and writes it into src/data/districts/district-N.json + src/data/district-bounda
      D2 over-count (was 143,899; true ~100.5k) and the D3 Asian count. The demographics
      `snapshots` structure is preserved (each vintage's `data` is recomputed in place;
      `esri_estimates` and `current_vintage` are kept).
+  5. District medians (income, home value, gross rent) are POOLED medians: the ACS
+     distribution tables (B19001 / B25075 / B25063) are aggregated to the district with the
+     same crosswalk shares and the median is linearly interpolated within its bin. This
+     replaces the earlier population-weighted average of block-group medians, which
+     overstated district income by ~11% overall (up to 17% in D3) and D7 home value by ~23%.
+     Pooling all nine districts reproduces the Bureau's published citywide Columbus medians
+     (B19013 / B25077 / B25064 for place 18000) within ~1%.
 
 Run as a committed data refresh, NOT at runtime. See scripts/README.md.
 
@@ -37,6 +44,7 @@ import math
 import os
 import sys
 import time
+from datetime import date
 from pathlib import Path
 
 import requests
@@ -69,9 +77,6 @@ VARIABLES = {
     "B03002_005E": "nh_american_indian",
     "B03002_006E": "nh_asian",
     "B03002_012E": "hispanic",
-    "B19013_001E": "median_hh_income",
-    "B25064_001E": "median_gross_rent",
-    "B25077_001E": "median_home_value",
     "B23025_001E": "pop_16plus",
     "B23025_003E": "labor_force_civilian",
     "B23025_005E": "unemployed",
@@ -83,7 +88,59 @@ SUMMABLE = [
     "total_population", "nh_white", "nh_black", "nh_american_indian", "nh_asian", "hispanic",
     "labor_force_civilian", "unemployed", "total_households", "family_households",
 ]
-MEDIANS = ["median_hh_income", "median_gross_rent", "median_home_value"]
+
+# Distribution tables used to derive POOLED district medians (see docstring, item 5).
+# Each entry: (ACS table, first/last variable index, [(bin lower bound, bin upper bound), ...]).
+# Upper bound None = open-ended top bin. Bin edges match the ACS 5-year tables for 2015+.
+_INCOME_BINS = [(0, 10000), (10000, 15000), (15000, 20000), (20000, 25000), (25000, 30000),
+                (30000, 35000), (35000, 40000), (40000, 45000), (45000, 50000), (50000, 60000),
+                (60000, 75000), (75000, 100000), (100000, 125000), (125000, 150000),
+                (150000, 200000), (200000, None)]
+_VALUE_BINS = [(0, 10000), (10000, 15000), (15000, 20000), (20000, 25000), (25000, 30000),
+               (30000, 35000), (35000, 40000), (40000, 50000), (50000, 60000), (60000, 70000),
+               (70000, 80000), (80000, 90000), (90000, 100000), (100000, 125000),
+               (125000, 150000), (150000, 175000), (175000, 200000), (200000, 250000),
+               (250000, 300000), (300000, 400000), (400000, 500000), (500000, 750000),
+               (750000, 1000000), (1000000, 1500000), (1500000, 2000000), (2000000, None)]
+_RENT_BINS = [(0, 100), (100, 150), (150, 200), (200, 250), (250, 300), (300, 350), (350, 400),
+              (400, 450), (450, 500), (500, 550), (550, 600), (600, 650), (650, 700), (700, 750),
+              (750, 800), (800, 900), (900, 1000), (1000, 1250), (1250, 1500), (1500, 2000),
+              (2000, 2500), (2500, 3000), (3000, 3500), (3500, None)]
+MEDIAN_TABLES = {
+    # B19001: household income in the past 12 months (16 bins, _002E.._017E)
+    "median_hh_income": ("B19001", 2, 17, _INCOME_BINS),
+    # B25075: value of owner-occupied housing units (26 bins, _002E.._027E)
+    "median_home_value": ("B25075", 2, 27, _VALUE_BINS),
+    # B25063: gross rent, cash-rent bins only (_003E.._026E; _027E "no cash rent" excluded,
+    # matching how B25064 median gross rent is defined)
+    "median_gross_rent": ("B25063", 3, 26, _RENT_BINS),
+}
+MEDIANS = list(MEDIAN_TABLES.keys())
+for _m, (_tbl, _lo, _hi, _bins) in MEDIAN_TABLES.items():
+    assert _hi - _lo + 1 == len(_bins), f"{_tbl}: bin count mismatch"
+    for _j, _i in enumerate(range(_lo, _hi + 1)):
+        VARIABLES[f"{_tbl}_{_i:03d}E"] = f"{_m}__bin{_j}"
+
+
+def pooled_median(counts, bins):
+    """Median of a binned distribution, linearly interpolated within the median bin.
+
+    Same approach the Bureau documents for estimating medians from published interval
+    tables. Returns the lower bound if the median falls in the open-ended top bin, and
+    None when the distribution is empty.
+    """
+    total = sum(counts)
+    if total <= 0:
+        return None
+    half = total / 2.0
+    cum = 0.0
+    for n, (lo, hi) in zip(counts, bins):
+        if cum + n >= half:
+            if hi is None or n <= 0:
+                return lo
+            return lo + (half - cum) / n * (hi - lo)
+        cum += n
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -267,10 +324,17 @@ def fetch_acs(year, counties=COUNTIES):
 
 
 def aggregate(crosswalk, acs):
-    """Area-weighted aggregation of ACS block groups into the 9 districts."""
+    """Population-share aggregation of ACS block groups into the 9 districts.
+
+    Counts are apportioned by crosswalk share. Medians are pooled: each block group's
+    distribution-table bins (households / owner units / renter units) are apportioned by the
+    same share, summed per district, and the district median is interpolated from the pooled
+    distribution (see pooled_median). Returns {district: data} plus a 'citywide' entry with
+    the medians pooled across all nine districts, for reconciliation against the Bureau's
+    published Columbus figures.
+    """
     dist = {d: {c: 0.0 for c in SUMMABLE} for d in range(1, 10)}
-    med_num = {d: {m: 0.0 for m in MEDIANS} for d in range(1, 10)}
-    med_wt = {d: {m: 0.0 for m in MEDIANS} for d in range(1, 10)}
+    bins = {d: {m: [0.0] * len(MEDIAN_TABLES[m][3]) for m in MEDIANS} for d in range(1, 10)}
     for geoid, d, share in crosswalk:
         rec = acs.get(geoid)
         if not rec:
@@ -279,12 +343,17 @@ def aggregate(crosswalk, acs):
             v = rec.get(c)
             if v is not None:
                 dist[d][c] += v * share
-        pop_w = (rec.get("total_population") or 0) * share
         for m in MEDIANS:
-            v = rec.get(m)
-            if v is not None and v >= 0:
-                med_num[d][m] += v * pop_w
-                med_wt[d][m] += pop_w
+            b = bins[d][m]
+            for j in range(len(b)):
+                v = rec.get(f"{m}__bin{j}")
+                if v is not None and v >= 0:
+                    b[j] += v * share
+
+    def median_of(bin_counts, m):
+        v = pooled_median(bin_counts, MEDIAN_TABLES[m][3])
+        return round(v) if v is not None else None
+
     result = {}
     for d in range(1, 10):
         s = dist[d]
@@ -296,9 +365,9 @@ def aggregate(crosswalk, acs):
             "total_population": round(s["total_population"]),
             "total_households": round(s["total_households"]),
             "pct_family_households": round(s["family_households"] / hh * 100, 1),
-            "median_hh_income_est": round(med_num[d]["median_hh_income"] / med_wt[d]["median_hh_income"]) if med_wt[d]["median_hh_income"] else None,
-            "median_gross_rent_est": round(med_num[d]["median_gross_rent"] / med_wt[d]["median_gross_rent"]) if med_wt[d]["median_gross_rent"] else None,
-            "median_home_value_est": round(med_num[d]["median_home_value"] / med_wt[d]["median_home_value"]) if med_wt[d]["median_home_value"] else None,
+            "median_hh_income_est": median_of(bins[d]["median_hh_income"], "median_hh_income"),
+            "median_gross_rent_est": median_of(bins[d]["median_gross_rent"], "median_gross_rent"),
+            "median_home_value_est": median_of(bins[d]["median_home_value"], "median_home_value"),
             "unemployment_rate": round(s["unemployed"] / lf * 100, 1),
             "pct_nh_white": pct(s["nh_white"]),
             "pct_nh_black": pct(s["nh_black"]),
@@ -309,11 +378,37 @@ def aggregate(crosswalk, acs):
         data["pct_other"] = round(100 - data["pct_nh_white"] - data["pct_nh_black"]
                                   - data["pct_nh_asian"] - data["pct_nh_american_indian"]
                                   - data["pct_hispanic"], 1)
-        data["data_note"] = ("Median income, rent, and home value are population-weighted "
-                             "averages of block-group medians — approximations, not true "
-                             "district medians. See /data/ for methodology.")
+        data["data_note"] = ("Median income, rent, and home value are pooled medians "
+                             "interpolated from ACS block-group distribution tables aggregated "
+                             "to the district. See /data/ for methodology.")
         result[d] = data
+    # Citywide reconciliation figure: pool every district's bins together.
+    result["citywide"] = {}
+    for m in MEDIANS:
+        tot = [0.0] * len(MEDIAN_TABLES[m][3])
+        for d in range(1, 10):
+            tot = [a + b for a, b in zip(tot, bins[d][m])]
+        result["citywide"][m] = median_of(tot, m)
     return result
+
+
+def fetch_city_medians(year):
+    """Bureau-published Columbus city (place 18000) medians, for the reconciliation print."""
+    try:
+        params = {"get": "B19013_001E,B25077_001E,B25064_001E", "for": "place:18000",
+                  "in": "state:39", "key": CENSUS_API_KEY}
+        r = requests.get(f"https://api.census.gov/data/{year}/acs/acs5", params=params, timeout=60)
+        if "Invalid Key" in r.text:
+            params.pop("key")
+            r = requests.get(f"https://api.census.gov/data/{year}/acs/acs5", params=params, timeout=60)
+        r.raise_for_status()
+        hdr, row = r.json()
+        v = dict(zip(hdr, row))
+        return {"median_hh_income": int(v["B19013_001E"]), "median_home_value": int(v["B25077_001E"]),
+                "median_gross_rent": int(v["B25064_001E"])}
+    except Exception as e:  # reconciliation is diagnostic only; never block the sync
+        print(f"  (could not fetch citywide medians for {year}: {e})", file=sys.stderr)
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -362,6 +457,14 @@ def sync():
         demo[vintage] = aggregate(crosswalk, acs)
         print(f"  {vintage}: D2 pop={demo[vintage][2]['total_population']:,} "
               f"D3 Asian={demo[vintage][3]['pct_nh_asian']}%")
+        # Reconcile pooled medians against the Bureau's published citywide figures.
+        city = fetch_city_medians(year)
+        pooled = demo[vintage].pop("citywide")
+        for m in MEDIANS:
+            if city and pooled.get(m):
+                gap = (pooled[m] - city[m]) / city[m] * 100
+                flag = "" if abs(gap) < 2 else "  <-- CHECK"
+                print(f"    {m:<18} pooled {pooled[m]:>8,} vs published Columbus {city[m]:>8,} ({gap:+.1f}%){flag}")
 
     # Optional boundary regeneration (DB only)
     if conn:
@@ -382,10 +485,11 @@ def sync():
             v = snap["vintage"]
             if v in demo:
                 snap["data"] = demo[v][n]
-                snap["pull_date"] = "2026-08-23"
-                snap["source"] = ("U.S. Census Bureau ACS 5-Year via Census API; block-group "
-                                  "assignment area-weighted against CivicWorth council polygons "
-                                  "(sync_from_civicworth.py)")
+                snap["pull_date"] = date.today().isoformat()
+                snap["source"] = ("U.S. Census Bureau ACS 5-Year via Census API; block groups "
+                                  "apportioned to districts by 2020 block population (official "
+                                  "block-to-district equivalency); medians pooled from "
+                                  "distribution tables (sync_from_civicworth.py)")
         f.write_text(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
         print(f"  wrote district-{n}.json")
 
