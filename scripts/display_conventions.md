@@ -52,12 +52,13 @@ The `/data/` methodology page:
 ### Standard Data Note on Every District Page
 Each district page's demographics section includes the following data note:
 
-> "Median income, rent, and home value are population-weighted averages of block-group medians — approximations, not true district medians. See /data/ for methodology."
+> "Median income, rent, and home value are pooled medians interpolated from ACS block-group distribution tables aggregated to the district. See /data/ for methodology."
 
 **Rationale:**
 - Users commonly misinterpret aggregated median values as true district-level medians
-- ACS data is collected at the block-group level; district-level medians are created by weighting block-group medians by population
-- This is a defensible approximation but is not equivalent to calculating the true median from individual household data
+- ACS data is published at the block-group level; district-level medians are derived by apportioning each block group's distribution table (B19001 / B25075 / B25063) to the district and interpolating the median of the pooled distribution
+- This reconciles to the Bureau's published citywide medians within ~1%, but it is still an estimate built from survey data rather than a median of individual household records
+- Before September 2026 these were population-weighted averages of block-group medians, which ran ~10% high on income; the JSON keys (`median_*_est`) were kept, only the derivation changed
 - Transparency about this limitation is essential for correct interpretation
 
 **Display convention:** This disclaimer appears in a data_note field on every district page where median income, rent, or home value is displayed.
@@ -91,7 +92,7 @@ When both ACS and Esri are presented, the site uses this standard explanatory la
 > "ACS provides a 5-year backward average of population survey data (2019-2023). Esri provides a current-year projection incorporating 2020 Census baseline, updated with building permits and recent IRS migration data. The difference between the two reflects both this time lag and differences in estimation methodology."
 
 **For income, rent, and home value:**
-> "ACS figures are population-weighted averages of block-group medians from the 5-year survey period (2019-2023). Esri figures are current-year estimates using proprietary models. Differences may reflect both the time lag and methodological differences in how medians are estimated."
+> "ACS figures are pooled medians derived from block-group distribution tables for the 5-year survey period (2019-2023). Esri figures are current-year estimates using proprietary models. Differences may reflect both the time lag and methodological differences in how medians are estimated."
 
 **For race/ethnicity:**
 > "ACS uses Census Bureau definitions from the decennial Census replication in the 5-year survey. Esri applies current-year estimation models. Small populations may show larger percentage differences due to estimation differences and classification methodology."

@@ -28,6 +28,15 @@ crosswalk, which over-counted **D2 (143,899 → ~99,400)** and mis-stated the **
 The crosswalk is cross-validated against CivicWorth's authoritative `population2020` (agreement
 within 0.7% for every district; re-derived ACS totals land within ~0.4% citywide).
 
+**Medians (pooled, since 2026-09-02):** median household income, home value, and gross rent are
+*pooled medians*. The script pulls the ACS distribution tables (`B19001`, `B25075`, `B25063`)
+per block group, apportions each bin to districts with the same crosswalk shares, and
+interpolates the median within its bin from the pooled district distribution
+(`pooled_median()`). The earlier population-weighted average of block-group medians
+(`B19013`/`B25077`/`B25064`) overstated income by ~11% overall (17% in D3) and D7 home value
+by ~23%. On every run the script prints the all-district pooled median next to the Bureau's
+published Columbus figure for each vintage; they agree within ~1% and a gap over 2% is flagged.
+
 **Counties:** Columbus spans Franklin (`049`) plus Delaware (`041`, in D1) and Fairfield
 (`045`, in D9). All three are pulled for both block populations and ACS.
 
