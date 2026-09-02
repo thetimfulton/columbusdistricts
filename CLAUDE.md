@@ -94,24 +94,31 @@ surge. Analytics is not optional here; it's the reason to get the cutover timing
 - **QA before cutover:** confirm pageviews + each event fire (GA DebugView) and the Cloudflare
   beacon reports, on staging, BEFORE DNS cutover. Do not launch without analytics verified live.
 
-## Forms (need a backend — they do NOT work as static HTML)
-Two forms: **Suggest an edit** (on every district page) and **Name the district**. In the concepts
-they're visual stubs, and on the old GitHub Pages deploy they submit nowhere. To make them work on
-Cloudflare Pages:
-- Add a **Cloudflare Pages Function** (e.g. `functions/api/suggest.ts`, `functions/api/name.ts`)
-  that receives the POST, validates, and delivers the submission.
-- **Destination (confirmed): `info@columbusdistricts.com`.** Email each submission there from the
-  Function (via MailChannels/Resend). Optionally also persist to Cloudflare KV/D1 for a record.
-- **Spam protection:** honeypot field + Cloudflare Turnstile (free). A public civic form gets bots.
-- Progressive enhancement: the form posts normally and shows the existing thank-you page; JS optional.
-- QA both forms end-to-end on staging before launch.
+## Forms (shipped — Pages Functions → Formspree)
+Two forms: **Suggest an edit** (on every district page) and **Name the district**. They are live
+and wired as follows — keep this pipeline, don't rebuild it:
+- Each form POSTs to a **Cloudflare Pages Function**: `functions/api/suggest.ts` (`/api/suggest`)
+  and `functions/api/name.ts` (`/api/name`), sharing `functions/api/_lib.ts`.
+- The Function validates, checks the honeypot (`company`) and the Turnstile token, then delivers
+  via **Formspree** (`submitToFormspree()` in `_lib.ts`) and 303-redirects to the thank-you page.
+  Formspree emails **info@columbusdistricts.com** (a Google Workspace mailbox) and keeps a record.
+- **Runtime env vars** (Cloudflare Pages → Settings → Environment variables, Production):
+  `FORMSPREE_SUGGEST_ID`, `FORMSPREE_NAME_ID` (per-form; `FORMSPREE_FORM_ID` is the shared
+  fallback), `TURNSTILE_SECRET_KEY`; plus `PUBLIC_TURNSTILE_SITE_KEY` at build time.
+  If no Formspree id is set, `_lib.ts` logs and drops the submission while still showing the
+  thank-you page — so verify the vars after any project re-creation.
+- **Where to see submissions:** formspree.io → Forms → "Columbus Districts – Suggest an Edit" /
+  "Columbus Districts – Name the District" → Submissions (check the Spam tab too), and the info@
+  inbox. There is no KV/D1 copy.
+- **Spam protection:** honeypot field + Cloudflare Turnstile. A public civic form gets bots.
+- Progressive enhancement: the form posts normally and shows the thank-you page; JS optional.
 
 ## Deploy
 - Target **Cloudflare Pages** (matches CivicWorth's Cloudflare stack). Set `astro.config.mjs`
   `base: '/'` and `site` to the production domain; remove the GitHub Pages subpath config and
   the `.github/workflows/deploy.yml` GH-Pages workflow.
-- **Forms** ("Suggest an edit", "Name the district"): Netlify Forms do NOT work here. Use a
-  Cloudflare Pages Function (or a hosted form service). Both forms currently point at nothing.
+- **Forms** ("Suggest an edit", "Name the district"): Netlify Forms do NOT work here. Both run
+  through Cloudflare Pages Functions → Formspree (see Forms above).
 - Do not cut over DNS until Phase D QA passes; back up the old WordPress site first.
 
 ## Conventions

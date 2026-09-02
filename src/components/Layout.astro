@@ -52,9 +52,13 @@ const base = import.meta.env.BASE_URL;
 // Normalize base so links join cleanly whether base is "/" or "/subpath/".
 const b = base.endsWith("/") ? base : base + "/";
 
-// Canonical URL — always the www host from astro.config `site`, even when the page is
-// served on the apex (columbusdistricts.com serves 200; a Cloudflare dashboard rule to
-// 301 apex -> www is still needed — _redirects can't do cross-host on Pages).
+// Canonical URL — always the bare apex from astro.config `site` (columbusdistricts.com,
+// no www; see commit 81f9641). www must 301 to the apex, never the reverse. That redirect
+// has to be configured at the Cloudflare Pages custom-domain / zone redirect-rule level —
+// public/_redirects only rewrites paths within one already-resolved host, it can't redirect
+// across hostnames (apex vs. www are separate custom domains on the Pages project, each
+// serving the build independently unless a rule says otherwise). Don't reintroduce a
+// www-first redirect here.
 const canonicalURL = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : Astro.url.pathname;
