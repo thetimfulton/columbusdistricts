@@ -12,9 +12,10 @@ and page mockups, and `LAUNCH.md` is the launch record plus the remaining open i
 ## Current state (important)
 - **This repo is what's live.** Cloudflare Pages (project `columbusdistricts`) builds from this
   GitHub repo: `main` deploys to production at columbusdistricts.com, and other branches get
-  preview URLs at `<branch>.columbusdistricts.pages.dev`. Verified 2026-09-25: the live homepage
-  matches a local build of `main` @ `676aa75`, apart from the analytics and Turnstile scripts
-  that only the Pages build injects from env vars.
+  preview URLs at `<branch>.columbusdistricts.pages.dev`. Verified 2026-09-25: all 18 live pages
+  match a local build of `main` @ `dffd3f1`. The only differences are the analytics and Turnstile
+  scripts (the Pages build adds them from env vars) and two Cloudflare edge rewrites: email
+  obfuscation of `mailto:` links, and an auto-injected second Web Analytics beacon.
 - **Treat every merge to `main` as a production change**, especially on `/2026-ballot/`, which
   covers a live political topic.
 - **Cutover happened 2026-08-24:** nameservers moved from AWS Route 53 to Cloudflare. The bare
