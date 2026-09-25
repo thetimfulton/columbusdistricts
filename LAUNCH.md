@@ -41,12 +41,18 @@ See [`.env.example`](.env.example). Set for **Production** (and Preview if you s
 > Submissions (check the **Spam** tab too — one Aug 24 test landed there). Inbox arrival at
 > info@ was not re-verified from here; glance at that mailbox once to close the loop.
 
-## 4. Analytics — verify on production (open — captures the fall ballot surge)
+## 4. Analytics — verify on production
 The GA4 tag (`G-KEEV757MNS`) and the Cloudflare beacon are both present on live pages (checked
-2026-09-25). What's left is confirming the data arrives:
-- [ ] GA4 **DebugView** / Realtime shows pageviews from columbusdistricts.com
-- [ ] Events fire: `find_district_click`, `ballot_engagement`, `form_submit`, `outbound_click`
-- [ ] Cloudflare Web Analytics shows the production beacon reporting
+2026-09-25). Data arrival verified 2026-09-25 with test traffic on production (`?cdverify=1|2`):
+- [x] GA4 **Realtime** shows pageviews from columbusdistricts.com (2026-09-25)
+- [x] Events arrive in GA4 Realtime: `find_district_click`, `ballot_engagement`, `form_submit`,
+      `outbound_click` (2026-09-25; `form_submit` tested with a synthetic submit, nothing sent to Formspree)
+- [ ] Cloudflare Web Analytics shows the production beacon reporting. The beacon's
+      `/cdn-cgi/rum` call returns 204 (accepted); the dashboard itself isn't checked yet.
+- [ ] Double counting: GA's enhanced measurement also sends its own `form_submit` (plus
+      `form_start`) and a generic `click` for outbound links, so `form_submit` counts each
+      submission twice. Fix in GA → Admin → Data streams → Enhanced measurement: turn off
+      "Form interactions" (and optionally "Outbound clicks"). Tim's call; not done.
 - [x] Decide whether to add a cookie/privacy notice. **Decided (Tim, 2026-09-25): no notice.**
       Analytics default on (`analytics_storage` granted; ad signals denied).
 

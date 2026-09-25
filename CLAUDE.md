@@ -93,9 +93,10 @@ history continues through the relaunch and the fall 2026 ballot surge.
   cookie gate without asking Tim.
 - **Events:** `find_district_click`, `ballot_engagement`, `form_submit` and `outbound_click`
   (fired from `Layout.astro`, `index.astro` and `districts/[district].astro`).
-- **Open item:** both tags are present on live pages (checked 2026-09-25). Still to confirm in
-  GA DebugView/Realtime that pageviews and each event arrive from production, and that the
-  Cloudflare beacon reports (`LAUNCH.md` §4).
+- **Verified 2026-09-25:** pageviews and all four events arrive in GA4 Realtime from production.
+  Still open (`LAUNCH.md` §4): check the Cloudflare Web Analytics dashboard, and GA's enhanced
+  measurement double-counts `form_submit` (and adds a generic `click` for outbound links) until
+  "Form interactions" is turned off in the GA data stream settings.
 
 ## Forms (shipped — Pages Functions → Formspree)
 Two forms: **Suggest an edit** (on every district page) and **Name the district**. They are live
