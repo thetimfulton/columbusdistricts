@@ -54,9 +54,11 @@ The GA4 tag (`G-KEEV757MNS`) and the Cloudflare beacon are both present on live 
 - [x] Populate `crimeRisk` in `src/data/districts/*.json` (% vs. citywide average per category)
       and confirm the Public Safety bars render. Done with the prior site's AGS figures
       (`f2a8411`). Swap in refreshed AGS numbers when available.
-- [ ] Verify the **2026 ballot** copy against the certified ballot language; remove the draft banner.
+- [x] Verify the **2026 ballot** copy against the certified ballot language; remove the draft banner.
       (2026-09-25: the Franklin County BOE has certified the measures as **Issue 8** (by petition)
-      and **Issue 9** (by Council). The live page still shows the pre-certification copy.)
+      and **Issue 9** (by Council). Ballot language checked verbatim against the BOE notices of
+      election (Sept. 14), draft banner removed, outbound links UTM-tagged. Went live 2026-09-25
+      via PR #10.)
 - [ ] Port any content still only on the live WordPress site
 - [ ] Re-run `scripts/sync_from_civicworth.py` if CivicWorth data or membership changed
 
