@@ -1,33 +1,84 @@
 ---
 /**
- * 2026-ballot.astro — the 2026 council-structure ballot explainer.
+ * 2026-ballot.astro — explainer for Columbus Issues 8 and 9 (Nov. 3, 2026 general election).
  *
- * ⚠ TIME-SENSITIVE copy — a live political topic. Updated Aug. 24, 2026, after City Council
- * placed BOTH charter amendments on the November ballot. The earlier "competing" framing is
- * obsolete: both sides now describe the measures as complementary. Nonpartisan and dated.
- * Structural details (13 members, 9+4, 2027/2029 at-large phase-in, 2028 commission redraw,
- * 250→150 district-signature threshold) are corroborated by WOSU; facts unique to the
- * Columbus Dispatch's Aug. 24 report (the two 8-0 votes, Green's absence, the "encourage
- * both" quotes) are attributed to the Dispatch in-text. MUST be re-verified against the
- * certified ballot language and the Franklin County BOE's official issue numbers before this
- * banner is removed — the "No. 1 / No. 2" labels here are the proposals' own, not final.
+ * ⚠ TIME-SENSITIVE, nonpartisan copy on a live political topic. Updated Sept. 25, 2026, after the
+ * Franklin County Board of Elections certified the two council-structure charter amendments as
+ * Issue 8 (by petition) and Issue 9 (by Council) and published their ballot language and full text.
+ *
+ * - The ballot language in the blockquotes is VERBATIM from the Board's Notices of Election
+ *   (Form 126, dated Sept. 14, 2026). Never paraphrase inside them.
+ * - Structural facts (seat counts, 2027/2029 at-large phase-in, 2027 map redraw, 1% -> 7.5%
+ *   population variance, 150/250 signatures, recall) come from the certified full text.
+ *   Early press (WOSU, Aug. 21 and Sept. 23) put the redraw in 2028; the certified text appoints
+ *   the districting commission by March 1, 2027, and the Board's ballot language says the redraw
+ *   occurs in 2027. This page follows the certified text.
+ * - Claims unique to one outlet are attributed in-text. ABC6 (Sept. 24) reported that Issue 9's
+ *   language would override conflicting provisions of Issue 8; no such clause appears in the
+ *   certified text, so that claim is intentionally NOT repeated here.
+ * - Every outbound link carries UTM parameters via utm() in src/lib/site.ts.
+ * - Bump BALLOT_UPDATED in src/lib/site.ts whenever this page is re-verified.
  */
 import Layout from "../components/Layout.astro";
-import { SITE_LAUNCHED, LAST_REVIEWED, formatReviewDate } from "../lib/site";
+import { SITE_LAUNCHED, BALLOT_UPDATED, formatReviewDate, utm } from "../lib/site";
 const base = import.meta.env.BASE_URL;
 const b = base.endsWith("/") ? base : base + "/";
-const reviewed = formatReviewDate();
+const updated = formatReviewDate(BALLOT_UPDATED);
 const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 
-// Structured data: the explainer as an Article, plus the on-page FAQ.
+// Primary sources and press coverage. Link with u(key, "slot") so each click carries UTMs.
+const SRC = {
+  cqi: "https://vote.franklincountyohio.gov/getmedia/4001b052-1b90-4f73-b030-2d981e6ec8fa/2026-General-Certified-Questions-and-Issues",
+  notice8: "https://vote.franklincountyohio.gov/getmedia/258ab3a2-ddef-42a8-a869-c38b6c068a06/Notice-of-Election-Columbus-Charter-Amendment-1-Petition",
+  notice9: "https://vote.franklincountyohio.gov/getmedia/a3d9d75e-83ff-492a-98c4-a8cc09e1cd60/Notice-of-Election-Columbus-Charter-Amendment-2-Council",
+  full8: "https://vote.franklincountyohio.gov/getmedia/a7a2dd78-e53f-4e74-933a-0ba0de9aaa4c/8-Full-OCOS-Charter-Amendment",
+  full9: "https://vote.franklincountyohio.gov/getmedia/6ea104b7-9ca4-4f85-8712-40ca51d2d4e9/9-Full-Charter-Amendment-No-2",
+  boe2026: "https://vote.franklincountyohio.gov/election-info/2026",
+  wosu0923: "https://www.wosu.org/politics-government/2026-09-23/franklin-county-democrats-endorse-both-ballot-issues-to-reform-columbus-city-council",
+  abc60924: "https://abc6onyourside.com/news/local/issue-8-vs-issue-9-what-columbus-voters-need-to-know-before-election-day-november-ballot-amendment-city-council",
+  dispatch0824: "https://www.dispatch.com/story/news/politics/2026/08/24/two-columbus-city-council-reform-amendments-headed-to-november-ballot/91389533007/",
+  wosu0824: "https://www.wosu.org/politics-government/2026-08-24/columbus-city-council-sends-two-council-reform-amendments-to-november-ballot",
+  wosu0821: "https://www.wosu.org/politics-government/2026-08-21/columbus-city-council-proposes-a-13-member-council-with-new-district-map-and-more-reforms",
+  wosu0818: "https://www.wosu.org/politics-government/2026-08-18/labor-and-black-leaders-raise-concerns-on-columbus-city-council-reform-effort",
+  wosu0716: "https://www.wosu.org/politics-government/2026-07-16/our-city-our-say-submits-23-000-signatures-to-force-a-vote-on-how-columbus-elects-city-council",
+  sosVoters: "https://www.ohiosos.gov/elections/voters/",
+  sosCalendar: "https://www.ohiosos.gov/assets/election-calendar-2026.pdf",
+} as const;
+const u = (key: keyof typeof SRC, slot: string) => utm(SRC[key], slot);
+
+// Verbatim ballot language — Franklin County BOE Notices of Election, dated Sept. 14, 2026.
+const QUESTION = "Shall the proposed charter amendment be approved?";
+const ballot8 = [
+  "This proposed charter amendment would limit the ability to vote for candidates for Columbus City Council to only those electors living within the districts that those candidates seek to represent.",
+  "The amendment specifies that ballots within council districts will include both citywide races as well as the district race.",
+  "The amendment allows for the initiation of a recall election of a council district representative if a petition is submitted bearing the signatures of the electors of that district in an amount that is at least fifteen (15%) percent of the votes cast within the district in the preceding mayoral election.",
+];
+const ballot9Lead = [
+  "This proposed charter amendment would limit the ability to vote for candidates for Columbus City Council to only those electors living within the districts that those candidates seek to represent.",
+  "The amendment adds two (2) at-large council representatives to be elected in 2027 and seated in 2028, and an additional two (2) at-large council representatives to be elected in 2029 and seated in 2030. All at-large council representatives will be elected for four (4) year terms.",
+  "The amendment includes provisions for transitioning from the current nine (9) member Council to an eleven (11) member Council and then subsequently to a thirteen (13) member Council, allowing for the ongoing staggering of terms.",
+];
+const ballot9Rest = [
+  "The amendment allows councilmembers representing districts whose boundaries are redrawn but who still have at least two years remaining in their term to serve the remainder of their term representing a newly-drawn district.",
+  "The amendment specifies that candidates for council district seats must have resided within their district for at least one year prior to the primary election.",
+  "The amendment calls for a redraw of the current council district map to occur in 2027, and increases the maximum population variance between districts from 1% to 7.5%.",
+  "The amendment updates the vote requirements for expelling and/or removing councilmembers for misconduct, malfeasance, misfeasance, or nonfeasance. The amendment updates the expulsion vote threshold for conduct from “six” to “2/3rds,” and the expulsion vote for absences from “three-fifths” to “2/3rds.”",
+  "The amendment updates the charter to reflect the minimum number of councilmembers necessary to achieve a quorum for the purposes of meeting for business.",
+  "The amendment increases the number of affirmative votes that would be needed to adopt ordinances or resolutions in concert with expanding the size of the legislature.",
+  "The amendment specifies that candidates for district councilmember must collect at least 150 signatures of electors from within their district, and that at-large candidates must collect at least 250 signatures of electors from within the city limits.",
+  "The amendment specifies that ballots within council districts will include both citywide races as well as the district race.",
+  "The amendment allows for the initiation of a recall election of a council district representative if a petition is submitted bearing the signatures of the electors of that district in an amount equal to or greater than fifteen (15%) percent of the votes cast within the district in the preceding mayoral election. The amendment allows for the initiation of a recall election of an at-large representative if a petition is submitted bearing the signatures of the electors citywide in an amount equal to or greater than fifteen (15%) percent of the votes cast within the district in the preceding mayoral election.",
+];
+
+// Structured data: the explainer as an Article, plus the on-page FAQ (answers mirror visible copy).
 const articleLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "How Columbus elects its City Council is on the 2026 ballot",
+  headline: "Columbus Issues 8 and 9: how City Council is elected is on the 2026 ballot",
   description:
-    "A nonpartisan explainer of the two 2026 Columbus charter amendments on how City Council is elected.",
+    "A nonpartisan explainer of Columbus Issues 8 and 9, the two charter amendments on how City Council is elected, with the certified ballot language.",
   datePublished: SITE_LAUNCHED,
-  dateModified: LAST_REVIEWED,
+  dateModified: BALLOT_UPDATED,
   mainEntityOfPage: pageUrl,
   author: { "@type": "Organization", name: "Columbus Districts" },
   publisher: { "@type": "Organization", name: "Columbus Districts" },
@@ -38,10 +89,26 @@ const faqLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Can I vote yes on both amendments?",
+      name: "What are Columbus Issues 8 and 9?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. The two amendments appear as separate ballot questions, and you vote on each one independently — you can support one, both, or neither.",
+        text: "Two proposed amendments to the Columbus City Charter on the November 3, 2026 ballot. Issue 8, placed on the ballot by citizen petition, would have each City Council member elected only by voters in their own district. Issue 9, referred by City Council, makes the same change and adds four members elected citywide, growing council to 13 members by 2030.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I vote yes on both Issue 8 and Issue 9?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Issue 8 and Issue 9 are separate questions on your ballot, and you vote on each one independently — you can support one, both, or neither.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What happens if both Issue 8 and Issue 9 pass?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Both amendments make the same change to how district seats are elected, and Issue 9 adds four at-large seats and other changes on top. WOSU reports the combined result would be a 13-member council: nine members elected only by the voters in their districts plus four elected citywide.",
       },
     },
     {
@@ -56,78 +123,117 @@ const faqLd = {
 };
 ---
 <Layout
-  fullTitle="Columbus 2026 Ballot: Both City Council Amendments, Explained"
-  title="How Columbus elects its City Council is on the 2026 ballot"
-  description="A nonpartisan guide to the two Columbus charter amendments on the November 3, 2026 ballot — Proposed Amendment No. 1 (Our City, Our Say) and No. 2."
+  fullTitle="Columbus Issue 8 & Issue 9 (2026): Ballot Language, Explained"
+  title="Issues 8 and 9: how Columbus elects its City Council is on the ballot"
+  description="A nonpartisan guide to Columbus Issues 8 and 9 on the Nov. 3, 2026 ballot: the certified ballot language, what each charter amendment does, and what happens if both pass."
   ribbon={false}
   ogType="article"
   jsonLd={[articleLd, faqLd]}
 >
-  <div class="draftbar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
-    <span><strong>On the ballot; wording still to be certified.</strong> As of Aug.&nbsp;24,&nbsp;2026 both amendments below are headed to the November&nbsp;3 ballot. What isn&rsquo;t final is the certified ballot language and the official issue numbers &mdash; those are assigned by the Franklin County Board of Elections, so the &ldquo;No.&nbsp;1&rdquo; and &ldquo;No.&nbsp;2&rdquo; labels used here are the proposals&rsquo; own and may differ on your ballot.</span>
-  </div>
-
   <div class="wrap"><div class="article">
-    {/* SEO — WHEN THE FRANKLIN COUNTY BOE ASSIGNS OFFICIAL ISSUE NUMBERS: add them
-        ("Columbus Issue N") to the fullTitle, this H1, and the meta description RIGHT AWAY.
-        "Columbus Issue N 2026" will become the dominant search query once ballots are certified. */}
     <section class="art-hero">
-      <div class="eyebrow">Ballot Measures &middot; General Election, November 3, 2026</div>
-      <h1>How Columbus elects its City Council is on the ballot</h1>
-      <p class="dek">This November, Columbus voters will decide <strong>two proposed charter amendments</strong> that would change how City Council is elected &mdash; one placed on the ballot by a citizen petition, one referred by Council itself. Both start from the same arrangement: today&rsquo;s nine members each represent a district but are elected by the whole city. After talks over a single compromise fell short, Council members and the petition&rsquo;s organizers now describe the two measures as <strong>complementary rather than competing</strong>.</p>
-      <div class="asof"><span class="dot"></span> As of August 24, 2026 &middot; ballot wording and issue numbers not yet certified</div>
+      <div class="eyebrow">Columbus Issues 8 &amp; 9 &middot; General Election, November 3, 2026</div>
+      <h1>Issues 8 and 9: how Columbus elects its City Council is on the ballot</h1>
+      <p class="dek">This November, Columbus voters will decide <strong>two proposed charter amendments</strong> on how City Council is elected. <strong>Issue&nbsp;8</strong>, placed on the ballot by citizen petition, would have each council member elected only by the voters in their own district. <strong>Issue&nbsp;9</strong>, referred by Council, makes the same change and also adds four members elected citywide, for a 13-member council. Council members and the petition&rsquo;s organizers describe the two as <strong>complementary rather than competing</strong>.</p>
+      <div class="asof"><span class="dot"></span> Updated {updated} &middot; ballot language certified by the Franklin County Board of Elections</div>
       <div class="keyfacts">
-        <div class="kf"><div class="kfl">What&rsquo;s on the ballot</div><div class="kfv">Two proposed charter amendments</div></div>
-        <div class="kf"><div class="kfl">How they qualified</div><div class="kfv">One by citizen petition, one referred by Council</div></div>
-        <div class="kf"><div class="kfl">When you vote</div><div class="kfv">Tuesday, November 3, 2026</div></div>
+        <div class="kf"><div class="kfl">What&rsquo;s on the ballot</div><div class="kfv">Issue 8 and Issue 9</div></div>
+        <div class="kf"><div class="kfl">How they qualified</div><div class="kfv">Issue 8 by citizen petition; Issue 9 referred by Council</div></div>
+        <div class="kf"><div class="kfl">When you vote</div><div class="kfv">Tue, Nov.&nbsp;3, 2026 &middot; early voting from Oct.&nbsp;6</div></div>
       </div>
     </section>
 
-    <div class="callout"><b>Where things stand.</b> The two sides did not reach a formal compromise in time, so both measures are going to voters &mdash; but the posture is now cooperative rather than adversarial. On Aug.&nbsp;24,&nbsp;2026 City Council placed both amendments on the November ballot. What remains is the certified ballot wording and the official issue numbers from the Franklin County Board of Elections. This page will be updated as those are finalized; every claim should be checked against a primary source.</div>
+    <div class="callout"><b>What&rsquo;s new.</b> The Franklin County Board of Elections has certified both measures: the citizen petition is <strong>Issue&nbsp;8</strong> and Council&rsquo;s amendment is <strong>Issue&nbsp;9</strong>. The Board&rsquo;s official ballot language is quoted below, with links to the full text of each amendment. On Sept.&nbsp;22, the Franklin County Democratic Party endorsed both issues (<a href={u("wosu0923", "whats_new")} target="_blank" rel="noopener">WOSU</a>).</div>
 
     <h2>The system today</h2>
-    <p>Columbus uses a <strong>hybrid</strong> system, in place since the 2023 elections. There are nine council members, and each must <strong>live in the district they represent</strong> &mdash; but every voter in the city votes in <strong>all nine</strong> district races. So members represent a district geographically while answering to the whole city. Both amendments below would change that arrangement in different ways.</p>
+    <p>Columbus uses a <strong>hybrid</strong> system, in place since the 2023 elections. There are nine council members, and each must <strong>live in the district they represent</strong> &mdash; but every voter in the city votes in <strong>all nine</strong> district races. So members represent a district geographically while answering to the whole city. Both issues would end citywide voting for district seats; Issue&nbsp;9 would also add seats elected citywide.</p>
 
-    <h2>The two measures, side by side</h2>
-    <div class="compare2">
-      <div class="sys prop">
-        <div class="sh"><div class="lab">Proposed Amendment No. 1 &middot; Citizen petition (Our City, Our Say)</div><div class="nm">District-only elections</div></div>
-        <div class="srow"><div class="sq">What it changes</div><div class="sa">Keeps nine districts and the existing map, but switches to district-only elections.</div></div>
-        <div class="srow"><div class="sq">How you&rsquo;d vote</div><div class="sa">Only residents of your district vote for your representative &mdash; one council race on your ballot.</div></div>
-        <div class="srow"><div class="sq">Council size</div><div class="sa">Stays at nine members.</div></div>
-        <div class="srow"><div class="sq">At-large seats</div><div class="sa">None.</div></div>
-        <div class="srow"><div class="sq">District map</div><div class="sa">Uses the current district boundaries &mdash; no redraw.</div></div>
-        <div class="srow"><div class="sq">Signature threshold</div><div class="sa">Unchanged.</div></div>
-        <div class="srow"><div class="sq">Phase-in</div><div class="sa">No new seats to phase in.</div></div>
-        <div class="srow"><div class="sq">Status</div><div class="sa">Placed on the November ballot Aug.&nbsp;24,&nbsp;2026. It qualified after the Franklin County Board of Elections validated 15,945 petition signatures, above the required threshold.</div></div>
-      </div>
-      <div class="sys today">
-        <div class="sh"><div class="lab">Proposed Amendment No. 2 &middot; Referred by City Council</div><div class="nm">A 13-member hybrid council</div></div>
-        <div class="srow"><div class="sq">What it changes</div><div class="sa">Expands council to 13 members &mdash; the nine district seats plus four members elected at-large citywide &mdash; and sets a 2028 redraw of the district map.</div></div>
-        <div class="srow"><div class="sq">How you&rsquo;d vote</div><div class="sa">You&rsquo;d vote for your district&rsquo;s seat and, as the at-large seats are added, for those citywide seats too.</div></div>
-        <div class="srow"><div class="sq">Council size</div><div class="sa">Grows from nine to 13 members.</div></div>
-        <div class="srow"><div class="sq">At-large seats</div><div class="sa">Four, elected citywide.</div></div>
-        <div class="srow"><div class="sq">District map</div><div class="sa">A citizen commission appointed by Council would redraw the map in 2028 &mdash; with greater flexibility to balance district populations &mdash; for use starting with the 2029 election; the current map stays through 2027.</div></div>
-        <div class="srow"><div class="sq">Signature threshold</div><div class="sa">Lowers the district-candidate petition requirement from 250 signatures to 150.</div></div>
-        <div class="srow"><div class="sq">Phase-in</div><div class="sa">Two at-large seats added in 2027, two more in 2029.</div></div>
-        <div class="srow"><div class="sq">Status</div><div class="sa">Placed on the November ballot Aug.&nbsp;24,&nbsp;2026, introduced by Council President Pro Tempore Rob Dorans.</div></div>
+    <h2>The ballot language</h2>
+    <p>This is the wording you&rsquo;ll see on your ballot, as published in the Board of Elections&rsquo; official notices of election. Each issue is a separate yes-or-no question.</p>
+
+    <div class="ballot-lang">
+      <div class="bh"><span class="iss">Issue 8</span><span class="who">Proposed charter amendment &middot; by petition</span></div>
+      <blockquote>
+        {ballot8.map((t) => <p>{t}</p>)}
+        <p class="q">{QUESTION}</p>
+      </blockquote>
+      <div class="docs">
+        <a href={u("notice8", "issue8_notice")} target="_blank" rel="noopener">Official notice of election (PDF) &rarr;</a>
+        <a href={u("full8", "issue8_full_text")} target="_blank" rel="noopener">Full text of the amendment (PDF) &rarr;</a>
       </div>
     </div>
-    <p style="font-size:.86rem;color:var(--ink-3);">According to the <a href="https://www.dispatch.com/story/news/politics/2026/08/24/two-columbus-city-council-reform-amendments-headed-to-november-ballot/91389533007/" target="_blank" rel="noopener">Columbus Dispatch</a>, Council placed each amendment on the ballot by an 8&ndash;0 vote on Aug.&nbsp;24; Councilmember Melissa Green was absent but had indicated support for sending both to voters. Dorans said he worked with the City Attorney&rsquo;s office so that No.&nbsp;2 would not conflict with No.&nbsp;1. The <strong>final ballot issue numbers are assigned by the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a></strong> and may differ from the &ldquo;No.&nbsp;1 / No.&nbsp;2&rdquo; labels used here.</p>
+
+    <div class="ballot-lang">
+      <div class="bh"><span class="iss">Issue 9</span><span class="who">Proposed charter amendment &middot; by Council</span></div>
+      <blockquote>
+        {ballot9Lead.map((t) => <p>{t}</p>)}
+      </blockquote>
+      <details>
+        <summary>Show the rest of the ballot language ({ballot9Rest.length} more paragraphs)</summary>
+        <blockquote>
+          {ballot9Rest.map((t) => <p>{t}</p>)}
+        </blockquote>
+      </details>
+      <blockquote class="qwrap"><p class="q">{QUESTION}</p></blockquote>
+      <div class="docs">
+        <a href={u("notice9", "issue9_notice")} target="_blank" rel="noopener">Official notice of election (PDF) &rarr;</a>
+        <a href={u("full9", "issue9_full_text")} target="_blank" rel="noopener">Full text of the amendment (PDF) &rarr;</a>
+      </div>
+    </div>
+
+    <h2>The two issues, side by side</h2>
+    <div class="compare2">
+      <div class="sys prop">
+        <div class="sh"><div class="lab">Issue 8 &middot; Citizen petition (Our City, Our Say)</div><div class="nm">District-only elections</div></div>
+        <div class="srow"><div class="sq">What it changes</div><div class="sa">Switches council to district-only elections: only voters who live in a district elect that district&rsquo;s member. Keeps nine seats and the current map.</div></div>
+        <div class="srow"><div class="sq">How you&rsquo;d vote</div><div class="sa">One council race on your ballot &mdash; your district&rsquo;s &mdash; alongside citywide races such as mayor.</div></div>
+        <div class="srow"><div class="sq">Council size</div><div class="sa">Stays at nine members.</div></div>
+        <div class="srow"><div class="sq">At-large seats</div><div class="sa">None.</div></div>
+        <div class="srow"><div class="sq">District map</div><div class="sa">Keeps the current map. Under the existing charter, the next redistricting commission is appointed in 2031.</div></div>
+        <div class="srow"><div class="sq">Recall</div><div class="sa">Only a district&rsquo;s own voters could recall its member. A petition would need signatures equal to 15% of the district&rsquo;s turnout in the last mayoral election.</div></div>
+        <div class="srow"><div class="sq">Candidate petitions</div><div class="sa">Unchanged: 250 signatures for district candidates.</div></div>
+        <div class="srow"><div class="sq">Council rules</div><div class="sa">Unchanged.</div></div>
+        <div class="srow"><div class="sq">Status</div><div class="sa">Certified as Issue&nbsp;8. It qualified after the Board of Elections validated 15,945 petition signatures. The Board&rsquo;s notice says Council passed the ordinance submitting it on Aug.&nbsp;31, 2026.</div></div>
+      </div>
+      <div class="sys today">
+        <div class="sh"><div class="lab">Issue 9 &middot; Referred by City Council</div><div class="nm">District-only elections plus four at-large seats</div></div>
+        <div class="srow"><div class="sq">What it changes</div><div class="sa">Makes the same switch to district-only elections for the nine district seats, adds four seats elected citywide, redraws the district map, and updates council rules.</div></div>
+        <div class="srow"><div class="sq">How you&rsquo;d vote</div><div class="sa">Your district&rsquo;s race, plus the at-large races citywide once they begin in 2027.</div></div>
+        <div class="srow"><div class="sq">Council size</div><div class="sa">Grows from nine to 11 in January 2028, then to 13 in January 2030.</div></div>
+        <div class="srow"><div class="sq">At-large seats</div><div class="sa">Four, with four-year terms: two elected in 2027 (seated 2028) and two elected in 2029 (seated 2030).</div></div>
+        <div class="srow"><div class="sq">District map</div><div class="sa">Redrawn in 2027. A citizen-led districting commission, appointed by March&nbsp;1, 2027, has nine months to submit three plans, and Council must adopt one by the end of that year. The new map is first used in the 2029 elections. The allowed population gap between districts rises from 1% to 7.5%.</div></div>
+        <div class="srow"><div class="sq">Recall</div><div class="sa">The same district-only recall as Issue&nbsp;8. At-large members could be recalled by voters citywide.</div></div>
+        <div class="srow"><div class="sq">Candidate petitions</div><div class="sa">District candidates need 150 signatures (down from 250) and one year of residency in the district before the primary. At-large candidates need 250 signatures citywide.</div></div>
+        <div class="srow"><div class="sq">Council rules</div><div class="sa">Expelling a member takes a two-thirds vote. The quorum and the votes needed to pass legislation rise as council grows.</div></div>
+        <div class="srow"><div class="sq">Status</div><div class="sa">Certified as Issue&nbsp;9. Council passed the ordinance placing it on the ballot on Aug.&nbsp;24, 2026; it was introduced by Council President Pro Tempore Rob Dorans.</div></div>
+      </div>
+    </div>
+    <p class="fine">According to the <a href={u("dispatch0824", "compare_note")} target="_blank" rel="noopener">Columbus Dispatch</a>, Council voted 8&ndash;0 on Aug.&nbsp;24 to send each amendment to voters; Councilmember Melissa Green was absent but had indicated support for both. Dorans said he worked with the City Attorney&rsquo;s office so that Council&rsquo;s amendment would not conflict with the citizen petition. The redraw timeline follows the <a href={u("full9", "compare_note")} target="_blank" rel="noopener">certified text</a>; some earlier news coverage described the redraw as happening in 2028.</p>
+
+    <h2>What happens if one or both pass?</h2>
+    <div class="outcomes">
+      <div class="oc"><div class="ok">Both fail</div><div class="ov">No change</div><p>Today&rsquo;s hybrid system stays: nine district seats, with every voter voting in all nine races.</p></div>
+      <div class="oc"><div class="ok">Only Issue 8 passes</div><div class="ov">Nine members, district-only</div><p>Each member is elected only by the voters in their district, starting with the 2027 council elections. The current map stays.</p></div>
+      <div class="oc"><div class="ok">Only Issue 9 passes</div><div class="ov">Nine district seats plus four at-large</div><p>District seats become district-only, and four citywide seats are phased in: two elected in 2027 and two in 2029. A new map is drawn in 2027 for the 2029 elections.</p></div>
+      <div class="oc"><div class="ok">Both pass</div><div class="ov">A 13-member council</div><p>Both make the same change to how district seats are elected, using identical charter wording, and Issue&nbsp;9 adds the at-large seats and other changes on top. <a href={u("wosu0923", "both_pass")} target="_blank" rel="noopener">WOSU reports</a> the result would be nine members elected only by their districts plus four elected citywide.</p></div>
+    </div>
 
     <h2>Can I vote yes on both?</h2>
-    <p>Yes. The two amendments appear as separate ballot questions, and you vote on each one independently &mdash; you can support one, both, or neither. Council President Shannon Hardin and several members have said they will encourage voters to approve both, and, the Columbus Dispatch reports, Council drafted its measure with the City Attorney&rsquo;s office specifically so it would not conflict with the citizen petition. If both pass, how the two fit together is governed by the amendments&rsquo; certified text &mdash; check the final ballot language and the Franklin County Board of Elections for the authoritative wording.</p>
+    <p>Yes. Issue&nbsp;8 and Issue&nbsp;9 are separate questions on your ballot, and you vote on each one independently &mdash; you can support one, both, or neither. Council President Shannon Hardin and several members have said they will encourage voters to approve both, and on Sept.&nbsp;22 the Franklin County Democratic Party endorsed both (<a href={u("wosu0923", "vote_both")} target="_blank" rel="noopener">WOSU</a>). A spokesperson for Our City, Our Say has said the group won&rsquo;t spend its energy opposing Issue&nbsp;9, because it doesn&rsquo;t contradict their amendment (<a href={u("wosu0821", "vote_both")} target="_blank" rel="noopener">WOSU, Aug.&nbsp;21</a>).</p>
 
     <h2>How we got here</h2>
     <div class="timeline">
       <div class="tl"><div class="tdate">2018</div><div class="ty">Voters approve districts</div><div class="td">Columbus ends its century-old fully at-large council, adopting the hybrid district system and expanding council from seven seats to nine.</div></div>
       <div class="tl"><div class="tdate">2023</div><div class="ty">First district elections</div><div class="td">All nine district seats are filled for the first time under the new system.</div></div>
-      <div class="tl"><div class="tdate">2025</div><div class="ty">Second cycle</div><div class="td">Districts 1, 3, 4, and 7 are up; the staggered four-year terms take hold.</div></div>
-      <div class="tl"><div class="tdate">Summer 2026</div><div class="ty">A petition qualifies</div><div class="td">The group Our City, Our Say submits about 23,000 signatures for single-member districts; the Board of Elections validates 15,945 &mdash; enough to reach the ballot.</div></div>
-      <div class="tl"><div class="tdate">Aug. 2026</div><div class="ty">No single compromise &mdash; but a cooperative turn</div><div class="td">The two sides don&rsquo;t reach a formal middle-ground deal in time. Rather than counter the petition, Council President Pro Tem Rob Dorans develops a second amendment &mdash; a 13-member hybrid council &mdash; that he says is meant to complement the citizen measure, not oppose it.</div></div>
-      <div class="tl now"><div class="tdate">Aug. 24, 2026</div><div class="ty">Both measures head to the ballot</div><div class="td">At its first meeting back from summer recess, City Council places both amendments on the November ballot. The Columbus Dispatch reports each passed 8&ndash;0, with Councilmember Melissa Green absent but on record supporting both.</div></div>
-      <div class="tl future"><div class="tdate">November 3, 2026</div><div class="ty">Columbus votes</div><div class="td">Voters decide each measure that appears on the certified ballot.</div></div>
+      <div class="tl"><div class="tdate">2025</div><div class="ty">A split result in District 7</div><div class="td">Districts 1, 3, 4, and 7 are up. In District 7, Tiara Ross wins the seat by 1,518 votes citywide, while challenger Jesse Vogel carries 61.8% in precincts mostly within the district, according to an <a href={u("abc60924", "timeline_2025")} target="_blank" rel="noopener">ABC6 analysis</a>. Our City, Our Say began pushing for reform after that race (<a href={u("wosu0923", "timeline_2025")} target="_blank" rel="noopener">WOSU</a>).</div></div>
+      <div class="tl"><div class="tdate">Summer 2026</div><div class="ty">A petition qualifies</div><div class="td">Our City, Our Say submits about <a href={u("wosu0716", "timeline_petition")} target="_blank" rel="noopener">23,000 signatures</a> for district-only elections; the Board of Elections validates 15,945 &mdash; enough to reach the ballot.</div></div>
+      <div class="tl"><div class="tdate">Aug. 2026</div><div class="ty">No single compromise &mdash; but a cooperative turn</div><div class="td">The two sides don&rsquo;t reach a formal deal. Council President Pro Tem Rob Dorans develops a second amendment, a 13-member council, that he says is meant to complement the citizen measure, not oppose it (<a href={u("wosu0821", "timeline_aug")} target="_blank" rel="noopener">WOSU</a>).</div></div>
+      <div class="tl"><div class="tdate">Aug. 24, 2026</div><div class="ty">Council sends both to voters</div><div class="td">At its first meeting back from summer recess, City Council votes to send both amendments to the November ballot. The <a href={u("dispatch0824", "timeline_aug24")} target="_blank" rel="noopener">Columbus Dispatch</a> reports each passed 8&ndash;0.</div></div>
+      <div class="tl"><div class="tdate">Aug. 31, 2026</div><div class="ty">Petition ordinance passes</div><div class="td">Council passes the ordinance formally submitting the citizen petition, according to the Board of Elections&rsquo; <a href={u("notice8", "timeline_aug31")} target="_blank" rel="noopener">official notice</a>.</div></div>
+      <div class="tl"><div class="tdate">Sept. 2026</div><div class="ty">Certified as Issues 8 and 9</div><div class="td">The Board of Elections certifies the <a href={u("cqi", "timeline_certified")} target="_blank" rel="noopener">November ballot</a> and assigns issue numbers. Its official notices of election, with the ballot language, are dated Sept.&nbsp;14.</div></div>
+      <div class="tl now"><div class="tdate">Sept. 22, 2026</div><div class="ty">County Democrats endorse both</div><div class="td">The Franklin County Democratic Party&rsquo;s central committee votes to endorse Issues 8 and 9 (<a href={u("wosu0923", "timeline_sept22")} target="_blank" rel="noopener">WOSU</a>).</div></div>
+      <div class="tl future"><div class="tdate">Oct. 5&ndash;6, 2026</div><div class="ty">Registration closes; early voting opens</div><div class="td">Register or update your registration by Oct.&nbsp;5. Early in-person voting begins Oct.&nbsp;6.</div></div>
+      <div class="tl future"><div class="tdate">November 3, 2026</div><div class="ty">Columbus votes</div><div class="td">Voters decide Issue&nbsp;8 and Issue&nbsp;9.</div></div>
     </div>
 
     <h2>What each side says</h2>
@@ -135,40 +241,101 @@ const faqLd = {
       <div class="pc for">
         <h3>Arguments made for the changes</h3>
         <ul>
-          <li>Supporters of Our City, Our Say say district-only elections give neighborhoods a representative who answers to them directly, and that running in one district costs less than a citywide campaign &mdash; lowering the barrier to run.</li>
-          <li>Council President Pro Tem Rob Dorans says the four at-large seats in No.&nbsp;2 preserve a citywide voice on issues that cross district lines, citing transit, housing, and workforce development; per the Columbus Dispatch, he also framed the citywide seats as a way to maintain broad, citywide representation on the council.</li>
-          <li>Council President Shannon Hardin and several members say they will encourage voters to support <strong>both</strong> amendments, and Dorans says No.&nbsp;2 was drafted with the City Attorney&rsquo;s office not to conflict with No.&nbsp;1. (Columbus Dispatch)</li>
+          <li>Supporters of Our City, Our Say say district-only elections give neighborhoods a representative who answers to them directly, and that running in one district costs less than a citywide campaign. &ldquo;Every resident will have their own city council member elected by the residents in each district directly accountable to them and to the communities within each district,&rdquo; organizer Will Petrik said (<a href={u("wosu0923", "procon")} target="_blank" rel="noopener">WOSU</a>).</li>
+          <li>Jesse Vogel, who carried District 7&rsquo;s precincts in 2025 but lost citywide, said of that result: &ldquo;It doesn&rsquo;t make sense to voters. It sows distrust and makes accountability hard&rdquo; (<a href={u("abc60924", "procon")} target="_blank" rel="noopener">ABC6</a>).</li>
+          <li>Dorans says Issue&nbsp;9&rsquo;s four at-large seats keep a citywide voice on issues that cross district lines, such as transit, housing, and workforce development (<a href={u("wosu0821", "procon")} target="_blank" rel="noopener">WOSU</a>). &ldquo;These two issues work in tandem together to complement one another,&rdquo; he told county Democrats (<a href={u("wosu0923", "procon_dorans")} target="_blank" rel="noopener">WOSU</a>).</li>
+          <li>&ldquo;As our city grows, we need to give more folks a seat at the table and make sure that every neighborhood has a champion,&rdquo; Council President Shannon Hardin said (<a href={u("abc60924", "procon_hardin")} target="_blank" rel="noopener">ABC6</a>).</li>
         </ul>
       </div>
       <div class="pc against">
         <h3>Concerns and open questions</h3>
         <ul>
-          <li>Some labor and Black community leaders have raised concerns about how the changes could affect representation on council. (WOSU, Aug.&nbsp;2026)</li>
-          <li>Adding four at-large seats and a 2028 map redraw makes No.&nbsp;2 a larger structural change than the petition &mdash; voters weigh a straightforward district-only switch against a broader expansion.</li>
-          <li>Because both measures can pass, how they would interact is set by the certified amendment text, not yet by any official summary &mdash; a reason organizers on both sides point voters to the final ballot language.</li>
+          <li>Some labor and Black community leaders have raised concerns about how the changes could affect representation on council (<a href={u("wosu0818", "procon")} target="_blank" rel="noopener">WOSU, Aug.&nbsp;18</a>). Issue&nbsp;9 does not require majority-minority districts, which some Black leaders had called for (<a href={u("wosu0821", "procon_mm")} target="_blank" rel="noopener">WOSU, Aug.&nbsp;21</a>).</li>
+          <li>Some Our City, Our Say supporters, including former mayoral candidate Joe Motil, back Issue&nbsp;8 but criticize Issue&nbsp;9 (<a href={u("wosu0923", "procon_motil")} target="_blank" rel="noopener">WOSU</a>). A coalition spokesperson said four at-large seats weren&rsquo;t preferable to many members, though the group isn&rsquo;t opposing Issue&nbsp;9 (<a href={u("wosu0821", "procon_ocos")} target="_blank" rel="noopener">WOSU, Aug.&nbsp;21</a>).</li>
+          <li>Council chief of staff John Tannous, arguing for citywide seats, said research shows that &ldquo;when cities move to a district-based council, they tend to see housing production drop dramatically.&rdquo; District 7 Councilmember Tiara Ross said a citywide perspective is needed on housing (<a href={u("abc60924", "procon_citywide")} target="_blank" rel="noopener">ABC6</a>).</li>
+          <li>With four new seats, a 2027 map redraw, and new council rules, Issue&nbsp;9 is a larger structural change than Issue&nbsp;8.</li>
         </ul>
       </div>
     </div>
-    <p style="font-size:.86rem;color:var(--ink-3);">Our City, Our Say organizers, including Maitland Neff and Jesse Vogel, have said they do not view Council&rsquo;s measure as contradictory and regard the effort as good-faith. The points above summarize positions publicly stated by the named parties; they are not endorsements. Columbus Districts is a nonpartisan reference and does not take a position on either measure.</p>
+    <p class="fine">Our City, Our Say organizers, including Maitland Neff and Jesse Vogel, have said they do not view Council&rsquo;s measure as contradictory and regard the effort as good-faith. <strong>Endorsements reported so far:</strong> Franklin County Democratic Party &mdash; Issue&nbsp;8 and Issue&nbsp;9 (Sept.&nbsp;22, 2026). The points above summarize positions publicly stated by the named parties; they are not endorsements. Columbus Districts is a nonpartisan reference and does not take a position on either issue.</p>
 
     <h2>Make your plan to vote</h2>
     <div class="vote-cta">
-      <div class="vc"><div class="vk">Step 1</div><div class="vv">Check your registration</div><a href="https://www.ohiosos.gov/elections/voters/" target="_blank" rel="noopener">Ohio Secretary of State &rarr;</a></div>
+      <div class="vc"><div class="vk">Step 1</div><div class="vv">Check your registration</div><a href={u("sosVoters", "plan_register")} target="_blank" rel="noopener">Ohio Secretary of State &rarr;</a></div>
       <div class="vc"><div class="vk">Step 2</div><div class="vv">Find your district</div><a href={`${b}all-districts/`}>Look up your address &rarr;</a></div>
       <div class="vc"><div class="vk">Step 3</div><div class="vv">Vote by Tue, Nov 3, 2026</div><a href={`${b}elections/`}>See all key dates &rarr;</a></div>
     </div>
 
     <h3 style="margin-top:1.6rem;">Key 2026 dates</h3>
-    <div class="keyfacts">
+    <div class="keyfacts k4">
       <div class="kf"><div class="kfl">Register or update by</div><div class="kfv">Mon, Oct&nbsp;5, 2026</div></div>
       <div class="kf"><div class="kfl">Early in-person voting begins</div><div class="kfv">Tue, Oct&nbsp;6, 2026</div></div>
       <div class="kf"><div class="kfl">Request a mail ballot by</div><div class="kfv">Tue, Oct&nbsp;27, 2026</div></div>
       <div class="kf"><div class="kfl">Election Day</div><div class="kfv">Tue, Nov&nbsp;3, 2026</div></div>
     </div>
-    <p style="font-size:.82rem;color:var(--ink-3);margin-top:.7rem;">Dates from the <a href="https://www.ohiosos.gov/assets/election-calendar-2026.pdf" target="_blank" rel="noopener">Ohio Secretary of State 2026 election calendar</a>; polls are open 6:30&nbsp;a.m.–7:30&nbsp;p.m. on Election Day. Confirm details with the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a>.</p>
+    <p class="fine">Dates from the <a href={u("sosCalendar", "key_dates")} target="_blank" rel="noopener">Ohio Secretary of State 2026 election calendar</a>; polls are open 6:30&nbsp;a.m.&ndash;7:30&nbsp;p.m. on Election Day. Confirm details with the <a href={u("boe2026", "key_dates")} target="_blank" rel="noopener">Franklin County Board of Elections</a>.</p>
 
-    <p class="datanote"><strong>Sources.</strong> City Council&rsquo;s Aug.&nbsp;24, 2026 votes and the &ldquo;encourage both&rdquo; and 8&ndash;0 details: <a href="https://www.dispatch.com/story/news/politics/2026/08/24/two-columbus-city-council-reform-amendments-headed-to-november-ballot/91389533007/" target="_blank" rel="noopener">Columbus Dispatch, Aug. 24, 2026</a>. The 13-member structure, 2027/2029 at-large phase-in, 2028 commission redraw, and 250&rarr;150 district-signature change: <a href="https://www.wosu.org/politics-government/2026-08-21/columbus-city-council-proposes-a-13-member-council-with-new-district-map-and-more-reforms" target="_blank" rel="noopener">WOSU Public Media, Aug. 21, 2026</a>. For the authoritative, certified ballot language and official issue numbers, see the <a href="https://boe.franklincountyohio.gov" target="_blank" rel="noopener">Franklin County Board of Elections</a> and the City Council legislative record.</p>
+    <div class="sources">
+      <div class="sh3">Sources</div>
+      <div class="sgroup">Official documents &middot; Franklin County Board of Elections</div>
+      <ul>
+        <li><a href={u("cqi", "sources")} target="_blank" rel="noopener">Certified Questions and Issues, Nov. 3, 2026 General Election</a> (PDF)</li>
+        <li><a href={u("notice8", "sources")} target="_blank" rel="noopener">Notice of Election: Issue 8, Columbus charter amendment by petition</a> (PDF, Sept. 14, 2026)</li>
+        <li><a href={u("notice9", "sources")} target="_blank" rel="noopener">Notice of Election: Issue 9, Columbus charter amendment by Council</a> (PDF, Sept. 14, 2026)</li>
+        <li><a href={u("full8", "sources")} target="_blank" rel="noopener">Full text of Issue 8</a> (PDF)</li>
+        <li><a href={u("full9", "sources")} target="_blank" rel="noopener">Full text of Issue 9</a> (PDF)</li>
+        <li><a href={u("boe2026", "sources")} target="_blank" rel="noopener">2026 election information</a></li>
+      </ul>
+      <div class="sgroup">News coverage</div>
+      <ul>
+        <li><a href={u("wosu0923", "sources")} target="_blank" rel="noopener">Franklin County Democrats endorse both ballot issues to reform Columbus City Council</a> &mdash; WOSU, Sept. 23, 2026</li>
+        <li><a href={u("abc60924", "sources")} target="_blank" rel="noopener">Issue 8 vs. Issue 9: what Columbus voters need to know before Election Day</a> &mdash; ABC6, Sept. 24, 2026</li>
+        <li><a href={u("dispatch0824", "sources")} target="_blank" rel="noopener">Two Columbus City Council reform amendments headed to November ballot</a> &mdash; Columbus Dispatch, Aug. 24, 2026</li>
+        <li><a href={u("wosu0824", "sources")} target="_blank" rel="noopener">Columbus City Council sends two council reform amendments to November ballot</a> &mdash; WOSU, Aug. 24, 2026</li>
+        <li><a href={u("wosu0821", "sources")} target="_blank" rel="noopener">Columbus City Council proposes a hybrid model of at-large and district voting</a> &mdash; WOSU, Aug. 21, 2026</li>
+        <li><a href={u("wosu0818", "sources")} target="_blank" rel="noopener">Labor and Black leaders raise concerns on Columbus City Council reform effort</a> &mdash; WOSU, Aug. 18, 2026</li>
+        <li><a href={u("wosu0716", "sources")} target="_blank" rel="noopener">Our City Our Say submits 23,000 signatures to force a vote on how Columbus elects city council</a> &mdash; WOSU, July 16, 2026</li>
+      </ul>
+      <div class="snote">Where news coverage differs from the certified documents, this page follows the certified documents. Every claim should be checked against a primary source.</div>
+    </div>
 
-    <p style="font-size:.82rem;color:var(--ink-3);margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);">Last reviewed: {reviewed}</p>
+    <p class="fine" style="margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);">Last updated: {updated}</p>
   </div></div>
 </Layout>
+
+<style>
+  /* Certified ballot language — verbatim text, set apart from our own copy. */
+  .ballot-lang{margin:1.4rem 0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);overflow:hidden;}
+  .ballot-lang .bh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.3rem 1rem;padding:.85rem 1.2rem;background:var(--sunk);border-bottom:1px solid var(--line);}
+  .ballot-lang .iss{font-family:var(--serif);font-size:1.35rem;color:var(--ink);line-height:1.2;}
+  .ballot-lang .who{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--ink-3);}
+  .ballot-lang blockquote{margin:1rem 1.2rem 0;padding:0 0 0 1rem;border-left:3px solid var(--brand-2);}
+  .article .ballot-lang blockquote p{font-family:var(--serif);font-size:1.02rem;line-height:1.6;color:var(--ink);margin:0 0 .8rem;}
+  .article .ballot-lang blockquote p.q{font-weight:600;}
+  .ballot-lang details{margin:0 1.2rem;}
+  .ballot-lang details blockquote{margin:0 0 .4rem;}
+  .ballot-lang summary{cursor:pointer;font-size:.86rem;font-weight:600;color:var(--accent-ink);padding:.1rem 0 .8rem;}
+  .ballot-lang .qwrap{margin-top:.2rem;}
+  .ballot-lang .docs{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;padding:.8rem 1.2rem .9rem;margin-top:.4rem;border-top:1px solid var(--line);font-size:.88rem;font-weight:600;}
+
+  /* Outcome matrix. */
+  .outcomes{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:1.4rem 0;}
+  @media(min-width:640px){.outcomes{grid-template-columns:1fr 1fr;}}
+  .oc{background:var(--surface);padding:1.1rem 1.2rem 1.2rem;}
+  .oc .ok{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--accent-ink);}
+  .oc .ov{font-family:var(--serif);font-size:1.18rem;color:var(--ink);margin:.2rem 0 .35rem;line-height:1.25;}
+  .article .oc p{font-size:.95rem;line-height:1.5;margin:0;color:var(--ink-2);}
+
+  /* Four key dates: 2x2 on phones, one row of four on wider screens (no empty grid cell). */
+  .keyfacts.k4{grid-template-columns:1fr 1fr;}
+  @media(min-width:640px){.keyfacts.k4{grid-template-columns:repeat(4,1fr);}}
+
+  /* Small print and the sources block. */
+  .article p.fine{font-size:.86rem;line-height:1.6;color:var(--ink-3);}
+  .sources{margin-top:2.2rem;padding-top:1.2rem;border-top:1px solid var(--line);font-size:.86rem;color:var(--ink-3);}
+  .sources .sh3{font-family:var(--serif);font-size:1.2rem;color:var(--ink);margin-bottom:.6rem;}
+  .sources .sgroup{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--ink-3);margin:1rem 0 .3rem;}
+  .sources ul{margin:0;padding-left:1.1rem;}
+  .sources li{margin:.3rem 0;line-height:1.5;}
+  .sources .snote{margin-top:1rem;}
+</style>

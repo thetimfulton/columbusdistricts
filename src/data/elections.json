@@ -132,18 +132,18 @@
       "date": "2026-11-03",
       "description": "No City Council seats are on the ballot. Columbus voters decide two proposed charter amendments on how City Council is elected.",
       "source": "Franklin County Board of Elections",
-      "source_url": "https://boe.franklincountyohio.gov",
+      "source_url": "https://vote.franklincountyohio.gov/election-info/2026",
       "measures": [
         {
-          "label": "Proposed Amendment No. 1",
+          "label": "Issue 8",
           "title": "Our City, Our Say — district-only elections",
-          "description": "A citizen-petition amendment that would switch to district-only City Council elections, keeping nine districts and the current map.",
+          "description": "A citizen-petition charter amendment that would switch to district-only City Council elections, keeping nine districts and the current map.",
           "path": "2026-ballot/"
         },
         {
-          "label": "Proposed Amendment No. 2",
-          "title": "A 13-member hybrid council",
-          "description": "A Council-referred amendment that would expand council to 13 members — the nine district seats plus four elected at-large — with a 2028 district-map redraw.",
+          "label": "Issue 9",
+          "title": "District-only elections plus four at-large seats",
+          "description": "A Council-referred charter amendment that would make the nine district seats district-only and add four members elected citywide (13 in all by 2030), with a district-map redraw in 2027.",
           "path": "2026-ballot/"
         }
       ]
@@ -153,8 +153,8 @@
     "year": 2027,
     "type": "General",
     "districts_on_ballot": [2, 5, 6, 8, 9],
-    "notes": "Districts 2, 5, 6, 8, 9 — members who drew 4-year terms in January 2024. All future terms are 4 years, staggered. Conditional: if Proposed Amendment No. 2 (Council's 13-member expansion) passes in November 2026, the 2027 ballot would also include the first two of four new at-large seats.",
-    "filing_info_url": "https://boe.franklincountyohio.gov",
+    "notes": "Districts 2, 5, 6, 8, 9 — members who drew 4-year terms in January 2024. All future terms are 4 years, staggered. Conditional: if Issue 8 or Issue 9 passes in November 2026, each district's race would be decided only by that district's voters; if Issue 9 passes, the 2027 ballot would also include the first two of four new at-large seats.",
+    "filing_info_url": "https://vote.franklincountyohio.gov/",
     "primary_typically": "May",
     "general_typically": "November"
   }

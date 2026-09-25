@@ -1,33 +1,39 @@
 # Columbus Districts — build context for Claude Code
 
-This repo is the Astro rebuild of **columbusdistricts.com**, an independent civic reference
-site for the nine Columbus City Council districts. It is a **sister project to CivicWorth** (parcel-resolved civic data),
-which supplies boundaries and data.
+This repo is the source of **columbusdistricts.com**, an independent civic reference site for
+the nine Columbus City Council districts. It is built with Astro and has been **live on
+Cloudflare Pages since Aug. 24, 2026**, replacing the old WordPress site. It is a **sister
+project to CivicWorth** (parcel-resolved civic data), which supplies boundaries and data.
 
-**Start here:** read `columbusdistricts_implementation_brief.md` (the full plan and
-file-by-file task list) and open `design-concepts/` (the approved visual system and page
-mockups). This file is the quick orientation.
+**Start here:** this file is the quick orientation. `columbusdistricts_implementation_brief.md`
+is the original build plan (now shipped), `design-concepts/` holds the approved visual system
+and page mockups, and `LAUNCH.md` is the launch record plus the remaining open items.
 
 ## Current state (important)
-- The **live site is still the old WordPress build** — the Astro rebuild here was built in
-  April 2026 and never launched.
-- It was wired to deploy to a **GitHub Pages subpath**, which is why it never went live and
-  why the forms don't work. See Deploy below for the corrected target.
-- The design has been **redesigned** (Aug 2026). The old `.astro` templates predate the new
-  look; rebuild them from `design-concepts/` rather than restyling in place.
+- **This repo is what's live.** Cloudflare Pages (project `columbusdistricts`) builds from this
+  GitHub repo: `main` deploys to production at columbusdistricts.com, and other branches get
+  preview URLs at `<branch>.columbusdistricts.pages.dev`. Verified 2026-09-25: the live homepage
+  matches a local build of `main` @ `676aa75`, apart from the analytics and Turnstile scripts
+  that only the Pages build injects from env vars.
+- **Treat every merge to `main` as a production change**, especially on `/2026-ballot/`, which
+  covers a live political topic.
+- **Cutover happened 2026-08-24:** nameservers moved from AWS Route 53 to Cloudflare. The bare
+  apex is canonical and `www` 301s to it via a Cloudflare Redirect Rule. The WordPress site is
+  retired. `DNS-ROLLBACK.local.md` is a break-glass reference only; never act on it without
+  Tim's explicit, written authorization.
+- The Aug 2026 redesign is built: all templates were rebuilt from `design-concepts/`. Keep new
+  pages consistent with that system.
 
-## The plan (phases)
-- **Phase A — Content/data integrity** (no external deps): fix the 8 wrong council emails,
-  refresh members/committees vs. the official directory, and add the new **2026 ballot
-  explainer** page.
-- **Phase B — CivicWorth build-time sync**: a script pulls CivicWorth (Supabase) and writes
-  `src/data/districts/*.json` (boundaries, members, population, enrichment) and **re-derives
-  demographics from real council polygons** — which fixes the D2 population and D3 Asian bugs.
-- **Phase C — Host + forms**: move to **Cloudflare Pages**, fix the base URL, wire the forms.
-- **Phase D — QA + launch**: port anything the old WordPress site still has, then cut over DNS.
-
-Phases A and C are the fall-window sprint (the ballot measure is on the Nov 2026 ballot);
-B and D make it durable. Full detail in the brief.
+## The plan (phases) — shipped
+All four phases shipped with the Aug. 24, 2026 launch (full detail in the brief). Open items
+are tracked in `LAUNCH.md`.
+- **Phase A — Content/data integrity:** council emails fixed, and the **2026 ballot
+  explainer** is live at `/2026-ballot/`.
+- **Phase B — CivicWorth build-time sync:** `scripts/sync_from_civicworth.py` pulls CivicWorth
+  (Supabase), writes `src/data/districts/*.json` (boundaries, members, population, enrichment)
+  and **re-derives demographics from real council polygons**.
+- **Phase C — Host + forms:** on Cloudflare Pages at the domain root; forms live (see Forms).
+- **Phase D — QA + launch:** QA passed and DNS was cut over 2026-08-24.
 
 ## Design system
 - **Source of truth:** `design-concepts/design-system.css` (design tokens + component styles).
@@ -42,7 +48,7 @@ B and D make it durable. Full detail in the brief.
 - **Concept → Astro page mapping:**
   - `design-concepts/district-one-concept.html` → `src/pages/districts/[district].astro`
   - `design-concepts/home.html` → `src/pages/index.astro`
-  - `design-concepts/ballot.html` → new `src/pages/2026-ballot.astro` (or `/how-it-works/` sibling)
+  - `design-concepts/ballot.html` → `src/pages/2026-ballot.astro`
   - `design-concepts/all-districts.html` → `src/pages/all-districts.astro`
   - `design-concepts/data.html` → `src/pages/data.astro`
   - `design-concepts/how-it-works.html` → `src/pages/how-it-works.astro`
@@ -66,33 +72,30 @@ B and D make it durable. Full detail in the brief.
   the hand-built spreadsheet crosswalk and fixes D2 (shows 143,899 ACS pop; true ≈ 100,572)
   and the D3 Asian count.
 
-## Known data bugs to fix
-- **Council emails:** 8 of 9 `contactEmail` values in `src/data/districts/*.json` are wrong
-  (aide addresses copy-pasted). Use the generic `ColumbusCouncil@columbus.gov` or verify each
-  against the official directory.
+## Data fixes (resolved at launch)
+- **Council emails:** all nine `contactEmail` values now use the generic
+  `ColumbusCouncil@columbus.gov` (the old values were copy-pasted aide addresses).
 - **D2 population / D3 Asian:** fixed by the Phase B re-derivation (see above).
-- **Crime:** `crimeRisk` blocks are `null`. Tim is supplying refreshed Applied Geographic
-  Solutions numbers (currently on the old live site, expressed as % vs. citywide average).
-  Populate per district; render as the below/above-city diverging bars in the district concept.
-- `README.md` is the default Astro starter — replace.
+- **Crime:** `crimeRisk` is populated for all nine districts from the prior site's Applied
+  Geographic Solutions figures (% vs. citywide average), rendered as below/above-city diverging
+  bars. Swap in refreshed AGS numbers when Tim supplies them.
+- `README.md` has been rewritten for this project.
 
-## Analytics (must be live before launch)
-The current WordPress site runs **Google Analytics** (via Site Kit). Carry the same GA4 property
-forward so traffic history is continuous through the relaunch — especially the fall 2026 ballot
-surge. Analytics is not optional here; it's the reason to get the cutover timing right.
-- **Primary — GA4:** load `gtag.js` site-wide from `Layout.astro`, Measurement ID from an env var
-  `PUBLIC_GA_MEASUREMENT_ID` (never hardcoded). **ID = `G-KEEV757MNS`** (the existing property, so
-  history stays continuous).
-- **Also — Cloudflare Web Analytics:** free, cookieless, privacy-first, native to the Cloudflare
-  Pages host; add its beacon in `Layout.astro`. Needs no cookie banner.
-- **Privacy:** it's a civic site — keep it privacy-respecting. Cloudflare's beacon is cookieless.
-  For GA, enable IP anonymization + Consent Mode (default denied) or gate the GA cookie behind a
-  lightweight consent notice. Confirm the approach with Tim.
-- **Events, not just pageviews:** track the civic actions that show the site working — "Find your
-  district" clicks, address lookups, ballot-explainer engagement, "Suggest an edit" / "Name the
-  district" submissions, and outbound clicks to columbus.gov / Franklin County BOE / voter reg.
-- **QA before cutover:** confirm pageviews + each event fire (GA DebugView) and the Cloudflare
-  beacon reports, on staging, BEFORE DNS cutover. Do not launch without analytics verified live.
+## Analytics (live)
+The site uses the same GA4 property the old WordPress site used (via Site Kit), so traffic
+history continues through the relaunch and the fall 2026 ballot surge.
+- **GA4:** `gtag.js` loads site-wide from `Layout.astro`, with the Measurement ID taken from the
+  env var `PUBLIC_GA_MEASUREMENT_ID` (never hardcoded). **ID = `G-KEEV757MNS`**.
+- **Cloudflare Web Analytics:** a cookieless beacon in `Layout.astro` (`PUBLIC_CF_BEACON_TOKEN`).
+- **Privacy: analytics default on (Tim's decision, 2026-09-25).** Consent Mode defaults
+  `analytics_storage` to `'granted'`, while `ad_storage`, `ad_user_data` and `ad_personalization`
+  stay `'denied'`. There is no consent banner. Don't switch GA to default-denied or add a
+  cookie gate without asking Tim.
+- **Events:** `find_district_click`, `ballot_engagement`, `form_submit` and `outbound_click`
+  (fired from `Layout.astro`, `index.astro` and `districts/[district].astro`).
+- **Open item:** both tags are present on live pages (checked 2026-09-25). Still to confirm in
+  GA DebugView/Realtime that pageviews and each event arrive from production, and that the
+  Cloudflare beacon reports (`LAUNCH.md` §4).
 
 ## Forms (shipped — Pages Functions → Formspree)
 Two forms: **Suggest an edit** (on every district page) and **Name the district**. They are live
@@ -114,12 +117,17 @@ and wired as follows — keep this pipeline, don't rebuild it:
 - Progressive enhancement: the form posts normally and shows the thank-you page; JS optional.
 
 ## Deploy
-- Target **Cloudflare Pages** (matches CivicWorth's Cloudflare stack). Set `astro.config.mjs`
-  `base: '/'` and `site` to the production domain; remove the GitHub Pages subpath config and
-  the `.github/workflows/deploy.yml` GH-Pages workflow.
-- **Forms** ("Suggest an edit", "Name the district"): Netlify Forms do NOT work here. Both run
-  through Cloudflare Pages Functions → Formspree (see Forms above).
-- Do not cut over DNS until Phase D QA passes; back up the old WordPress site first.
+- Hosted on **Cloudflare Pages** (matching CivicWorth's Cloudflare stack) and built from GitHub
+  (`thetimfulton/columbusdistricts`): `main` deploys to production, and other branches get
+  preview deploys. Build command `npm run build`, output `dist`. `astro.config.mjs` has
+  `base: '/'` and `site: 'https://columbusdistricts.com'`.
+- `PUBLIC_*` env vars are baked in at build time, so redeploy after changing one in the Pages
+  dashboard. A local `npm run build` won't include the analytics or Turnstile scripts unless
+  those vars are set locally.
+- **Forms** ("Suggest an edit", "Name the district") run through Cloudflare Pages Functions →
+  Formspree (see Forms above). Netlify Forms don't work here.
+- DNS lives on Cloudflare. Don't change nameservers or DNS records. `DNS-ROLLBACK.local.md` is
+  break-glass only.
 
 ## Conventions
 - All district content lives in `src/data/districts/district-N.json`; the demographics block

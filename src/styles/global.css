@@ -300,7 +300,7 @@
   .sys.today .sh{background:linear-gradient(150deg,var(--brand),#16283a);}
   .sys.prop .sh{background:linear-gradient(150deg,var(--accent),var(--accent-ink));}
   .sys .sh .lab{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;opacity:.85;}
-  .sys .sh .nm{font-family:var(--serif);font-size:1.4rem;margin-top:.15rem;}
+  .sys .sh .nm{font-family:var(--serif);font-size:1.4rem;line-height:1.15;margin-top:.15rem;}
   .sys .srow{padding:.9rem 1.2rem;border-top:1px solid var(--line);}
   .sys .srow:first-of-type{border-top:0;}
   .sys .sq{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;}

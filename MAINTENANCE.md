@@ -1,6 +1,6 @@
 # Columbus Districts — Maintenance Cadence
 
-Post-launch recurring tasks for keeping the site current. All content updates are JSON file edits followed by a `git push` — Netlify auto-deploys within ~60 seconds.
+Post-launch recurring tasks for keeping the site current. All content updates are JSON file edits followed by a `git push` to `main`. Cloudflare Pages rebuilds and deploys to production automatically; other branches get preview URLs at `<branch>.columbusdistricts.pages.dev`.
 
 ---
 
@@ -8,7 +8,7 @@ Post-launch recurring tasks for keeping the site current. All content updates ar
 
 - **Council member verification:** Check all nine council member names, committee assignments, and contact info against the [official directory](https://www.columbus.gov/Government/City-Council/Directory). Update `councilMember` objects in the relevant district JSON files.
 - **External link check:** Test all external links — area commission sites go down; council bio URLs change after reorganizations.
-- **Form submissions:** Review Suggest an Edit and Name the Districts submissions in the Netlify dashboard.
+- **Form submissions:** Review Suggest an Edit and Name the Districts submissions in Formspree (formspree.io → Forms → "Columbus Districts – …" → Submissions; check the Spam tab too) and in the info@columbusdistricts.com inbox.
 - **CrimeRisk data:** Check whether Applied Geographic Solutions has published updated CrimeRisk data. If so, update `crimeRisk` blocks and `pull_date` in each district JSON.
 
 ## Annually — December (ACS Release Month)
@@ -26,7 +26,7 @@ When new ACS data releases:
 7. Update `current_vintage` in all nine district JSON files to the new vintage string.
 8. Update the vintage history table on the `/data/` page (`src/pages/data.astro`).
 9. Commit: `git commit -m "Demographics update — ACS [vintage] — [date]"`
-10. Push to main — live within 60 seconds.
+10. Push to main. Cloudflare Pages deploys it to production.
 
 **Esri note:** Always take a fresh Esri export at the same time as the ACS pull. Do not reuse an old `Comparisons.xlsx` — Esri's numbers change on their own schedule.
 
