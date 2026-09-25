@@ -47,8 +47,10 @@ The GA4 tag (`G-KEEV757MNS`) and the Cloudflare beacon are both present on live 
 - [x] GA4 **Realtime** shows pageviews from columbusdistricts.com (2026-09-25)
 - [x] Events arrive in GA4 Realtime: `find_district_click`, `ballot_engagement`, `form_submit`,
       `outbound_click` (2026-09-25; `form_submit` tested with a synthetic submit, nothing sent to Formspree)
-- [ ] Cloudflare Web Analytics shows the production beacon reporting. The beacon's
-      `/cdn-cgi/rum` call returns 204 (accepted); the dashboard itself isn't checked yet.
+- [x] Cloudflare Web Analytics shows the production beacon reporting (2026-09-25: the
+      "columbusdistricts.com" site had 88 page views in the last 24 hours). Zone-level RUM was
+      auto-injecting a duplicate beacon into page loads, so it's now set to "Disable completely"
+      (Speed → Real user monitoring).
 - [ ] Double counting: GA's enhanced measurement also sends its own `form_submit` (plus
       `form_start`) and a generic `click` for outbound links, so `form_submit` counts each
       submission twice. Fix in GA → Admin → Data streams → Enhanced measurement: turn off

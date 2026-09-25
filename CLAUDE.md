@@ -14,8 +14,8 @@ and page mockups, and `LAUNCH.md` is the launch record plus the remaining open i
   GitHub repo: `main` deploys to production at columbusdistricts.com, and other branches get
   preview URLs at `<branch>.columbusdistricts.pages.dev`. Verified 2026-09-25: all 18 live pages
   match a local build of `main` @ `dffd3f1`. The only differences are the analytics and Turnstile
-  scripts (the Pages build adds them from env vars) and two Cloudflare edge rewrites: email
-  obfuscation of `mailto:` links, and an auto-injected second Web Analytics beacon.
+  scripts (the Pages build adds them from env vars) and Cloudflare's edge email obfuscation of
+  `mailto:` links.
 - **Treat every merge to `main` as a production change**, especially on `/2026-ballot/`, which
   covers a live political topic.
 - **Cutover happened 2026-08-24:** nameservers moved from AWS Route 53 to Cloudflare. The bare
@@ -87,7 +87,10 @@ The site uses the same GA4 property the old WordPress site used (via Site Kit), 
 history continues through the relaunch and the fall 2026 ballot surge.
 - **GA4:** `gtag.js` loads site-wide from `Layout.astro`, with the Measurement ID taken from the
   env var `PUBLIC_GA_MEASUREMENT_ID` (never hardcoded). **ID = `G-KEEV757MNS`**.
-- **Cloudflare Web Analytics:** a cookieless beacon in `Layout.astro` (`PUBLIC_CF_BEACON_TOKEN`).
+- **Cloudflare Web Analytics:** a cookieless beacon in `Layout.astro` (`PUBLIC_CF_BEACON_TOKEN`),
+  reporting to the "columbusdistricts.com" JS-snippet site. The zone's **Speed → Real user
+  monitoring is deliberately disabled** (2026-09-25): left unconfigured, it injected a second
+  beacon into page loads. Keep it off so visits aren't split across two beacons.
 - **Privacy: analytics default on (Tim's decision, 2026-09-25).** Consent Mode defaults
   `analytics_storage` to `'granted'`, while `ad_storage`, `ad_user_data` and `ad_personalization`
   stay `'denied'`. There is no consent banner. Don't switch GA to default-denied or add a
@@ -95,7 +98,7 @@ history continues through the relaunch and the fall 2026 ballot surge.
 - **Events:** `find_district_click`, `ballot_engagement`, `form_submit` and `outbound_click`
   (fired from `Layout.astro`, `index.astro` and `districts/[district].astro`).
 - **Verified 2026-09-25:** pageviews and all four events arrive in GA4 Realtime from production.
-  Still open (`LAUNCH.md` §4): check the Cloudflare Web Analytics dashboard, and GA's enhanced
+  The Cloudflare beacon reports to its Web Analytics site. Still open (`LAUNCH.md` §4): GA's enhanced
   measurement double-counts `form_submit` (and adds a generic `click` for outbound links) until
   "Form interactions" is turned off in the GA data stream settings.
 
